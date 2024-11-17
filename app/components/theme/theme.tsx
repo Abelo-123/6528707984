@@ -11,40 +11,6 @@ const TELEGRAM_BOT_TOKEN = "7670501487:AAE78RqFbU3dfODb8-LFWNLs7mxBpJ6XnPI"; // 
 // Create a new TypeScript declaration file (e.g., `telegram.d.ts`)
 // Or add this at the top of your `page.tsx` file
 
-declare global {
-    interface Window {
-        Telegram: {
-            WebApp: {
-                initDataUnsafe: {
-                    user: {
-                        id: number; // User ID
-                        username: string;
-                        first_name: string;
-                        last_name: string;
-                    };
-                };
-                hideHeader: () => void;
-                ready: () => void; // Add colorScheme to detect light/dark mode
-                themeParams: {
-                    bg_color?: string;
-                    text_color?: string;
-                    hint_color?: string;
-                    link_color?: string;
-                    button_color?: string;
-                    button_text_color?: string;
-                    secondary_bg_color?: string;
-                    header_bg_color?: string;
-                    bottom_bar_bg_color?: string;
-                    accent_text_color?: string;
-                    section_bg_color?: string;
-                    section_header_text_color?: string;
-                    subtitle_text_color?: string;
-                    destructive_text_color?: string;
-                };
-            };
-        };
-    }
-}
 
 
 const TelegramApp = () => {

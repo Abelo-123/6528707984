@@ -24,7 +24,7 @@ const Telegram = () => {
       if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         // Use type assertion to bypass the TypeScript error
-        (window.Telegram.WebApp as any).expand();
+        (window.Telegram.WebApp as TelegramWebApp).expand();
       }
     };
 
