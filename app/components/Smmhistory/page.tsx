@@ -20,8 +20,8 @@ const Smmhistory = () => {
                     <div style={{ width: '95%' }} className="  mx-auto">
 
                         <div style={{ borderRadius: '10px' }} className="bg-red-100 w-full overflow-x-auto">
-                            <table style={{ width: '100%', background: ' var(--tgui--section_bg_color)' }} className=" border  rounded-lg shadow-md">
-                                <thead style={{ background: 'var(--tgui--secondary_bg_color)' }}>
+                            <table style={{ width: '100%' }} className=" bg-white border border-gray-200 rounded-lg shadow-md">
+                                <thead className="bg-gray-100">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>
