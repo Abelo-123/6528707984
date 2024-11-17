@@ -107,8 +107,8 @@ const Deposit = () => {
                 )}
                 <Section header="Order History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '20PX' }} className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                            <thead className="bg-gray-100">
+                        <table style={{ background: 'var(--tgui--header_bg_color)' }} className="min-w-full   border  rounded-lg shadow-md">
+                            <thead style={{ background: 'var(--tgui--secondary_bg_color)' }}  >
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>

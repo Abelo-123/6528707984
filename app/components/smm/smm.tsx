@@ -24,7 +24,7 @@ const Smm = () => {
     return (
 
         <List>
-            <Section header="Promo Code">
+            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     <div className='common-styles' style={{ 'borderRadius': '10px', fontSize: '0.5rem' }}>
                         <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
@@ -106,7 +106,9 @@ const Smm = () => {
 
                 <Modal
                     style={{ height: '77%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
-                    header={<ModalHeader after={<ModalClose><button className=' text-white absolute m-2 right-4 top-0 px-3 py-2 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
+                    header={<ModalHeader after={(<ModalClose>
+                        <FontAwesomeIcon onClick={closeModal} icon={faClose} style={{}} size="2x" />
+                    </ModalClose>)}>Only iOS header</ModalHeader>}
                     trigger={<Cell style={{ padding: '0px 20px', borderBottom: '2px solid var(--tgui--bg_color)' }} before={<IconContainer>1</IconContainer>}>
                         Chat
                     </Cell>}
@@ -136,7 +138,11 @@ const Smm = () => {
                 </Modal>
                 <Modal
                     style={{ height: '77%', background: 'var(--tgui--bg_color)' }}
-                    header={<ModalHeader after={<ModalClose><button className=' text-white absolute m-2 right-4 top-2 px-4 py-3 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
+                    header={<ModalHeader after={(
+                        <ModalClose>
+                            <FontAwesomeIcon onClick={closeModal} icon={faClose} style={{}} size="2x" />
+
+                        </ModalClose>)}>Only iOS header</ModalHeader>}
                     trigger={<Cell style={{ padding: '0px 20px' }} before={<IconContainer>2</IconContainer>}>
                         Data and Storage
                     </Cell>}
@@ -185,7 +191,7 @@ const Smm = () => {
                             onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
                         >
                             <div
-                                className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                                className=" text-gray-500 absolute m-2 right-0  top-0 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
                                 <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
