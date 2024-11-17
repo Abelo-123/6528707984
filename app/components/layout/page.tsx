@@ -1,6 +1,5 @@
 "use client"
 import { Avatar, Text } from "@telegram-apps/telegram-ui";
-import { useNextTWA } from 'next-twa';
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -72,7 +71,6 @@ const Lays = () => {
         };
     }, []);
 
-    const { app } = useNextTWA();
 
     return (<>
         <div style={{ 'paddingTop': '20px', 'paddingLeft': '20px' }}>

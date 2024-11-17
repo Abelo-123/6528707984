@@ -1,6 +1,6 @@
 "use client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Section, List, Cell, IconContainer, Text, Input, Modal, Placeholder } from "@telegram-apps/telegram-ui";
+import { Button, Section, List, Cell, IconContainer, Text, Input, Modal } from "@telegram-apps/telegram-ui";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ModalHeader } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalHeader/ModalHeader";
 import { ModalClose } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalClose/ModalClose";
