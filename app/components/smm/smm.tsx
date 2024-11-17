@@ -104,57 +104,63 @@ const Smm = () => {
 
 
                 <Modal
-                    style={{ height: '90%', padding: '1rem', background: 'red' }}
-                    header={<ModalHeader after={<ModalClose><button className='bg-blue-500 text-white absolute m-2 right-4 top-0 px-3 py-2 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
+                    style={{ height: '77%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
+                    header={<ModalHeader after={<ModalClose><button className=' text-white absolute m-2 right-4 top-0 px-3 py-2 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
                     trigger={<Cell style={{ padding: '0px 20px', borderBottom: '2px solid var(--tgui--bg_color)' }} before={<IconContainer>1</IconContainer>}>
                         Chat
                     </Cell>}
                 >
 
-                    <DialogTitle>Modal Title</DialogTitle>
+                    <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>Modal Title</Text></DialogTitle>
                     <List>
-                        <Cell style={{ borderRadius: '10px', border: '1px solid blue' }}>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
-                        <Cell>One</Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
                     </List>
                 </Modal>
                 <Modal
-                    style={{ height: '80%', background: 'blue' }}
-                    header={<ModalHeader after={<ModalClose><button className='bg-blue-500 text-white absolute m-2 right-4 top-2 px-4 py-3 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
+                    style={{ height: '77%', background: 'var(--tgui--bg_color)' }}
+                    header={<ModalHeader after={<ModalClose><button className=' text-white absolute m-2 right-4 top-2 px-4 py-3 rounded-md'><i style={{ color: 'var(--tgui--plain_foreground)' }} >X</i></button></ModalClose>}>Only iOS header</ModalHeader>}
                     trigger={<Cell style={{ padding: '0px 20px' }} before={<IconContainer>2</IconContainer>}>
                         Data and Storage
                     </Cell>}
                 >
-                    <Placeholder
-                        description="Description"
-                        header="Title"
-                    >
-                        <DialogTitle>Modal Title</DialogTitle>
-                        <img
-                            alt="Telegram sticker"
-                            src="https://xelene.me/telegram.gif"
-                            style={{
-                                display: 'block',
-                                height: '144px',
-                                width: '144px'
-                            }}
-                        />
-                    </Placeholder>
+
+                    <DialogTitle>Modal Title</DialogTitle>
+                    <List>
+                        <Cell style={{ width: '100%', borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <div className='flex flex-row flex-wrap  relative w-screen place-items-center space-around'>
+                                <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto 0rem' }} size="2x" />
+                                <div style={{ display: 'inline', textAlign: 'center', margin: '0 1rem', fontSize: '1.6rem' }}>Twitc</div>
+                                <div className='p-4 bg-red-100 inline absolute right-16 p-12 '>lorem</div>
+                            </div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
+                        </Cell>
+                    </List>
                 </Modal>
 
                 <Button
