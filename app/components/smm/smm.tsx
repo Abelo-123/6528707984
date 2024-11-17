@@ -5,7 +5,8 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { ModalHeader } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalHeader/ModalHeader";
 import { ModalClose } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalClose/ModalClose";
 import { useState } from 'react';
-import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk, faXing } from '@fortawesome/free-brands-svg-icons';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const Smm = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -113,10 +114,12 @@ const Smm = () => {
 
                     <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>Modal Title</Text></DialogTitle>
                     <List>
-                        <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
-                            <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
-                        </Cell>
+                        <ModalClose>
+                            <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                                <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.3rem' }}>Twitc</div>
+                            </Cell>
+                        </ModalClose>
                         <Cell style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                             <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div style={{ display: 'inline', textAlign: 'center', marginLeft: '1rem', fontSize: '1.6rem' }}>Twitc</div>
@@ -185,7 +188,7 @@ const Smm = () => {
                                 className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
-                                X
+                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
                             <p className="mb-4 ml-4">Enter the amount you want to deposit:</p>

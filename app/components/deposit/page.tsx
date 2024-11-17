@@ -1,6 +1,8 @@
 "use client"
 import { List, Input, Button, Section } from "@telegram-apps/telegram-ui";
 import { useState } from "react";
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Deposit = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,7 +61,7 @@ const Deposit = () => {
                                 className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
-                                X
+                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
                             <p className="mb-4">Enter the amount you want to deposit:</p>
@@ -88,7 +90,7 @@ const Deposit = () => {
 
                                 className=" absolute right-8 text-gray-500 px-4 py-3 mx-auto rounded-md"
                             >
-                                X
+                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-bold mb-4">Confirm Action</h2>
 
@@ -103,42 +105,36 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
-                <div>
-
-
-                </div>
-                <div style={{ width: '100%' }} className=" mx-auto">
-                    <Section header="Order History">
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                                <thead className="bg-gray-100">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    <tr>
-                                        <td className="px-6 py-4 text-sm text-gray-900">John Doe</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">28</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">john@example.com</td>
-                                    </tr>
-                                    <tr className="bg-gray-50">
-                                        <td className="px-6 py-4 text-sm text-gray-900">Jane Smith</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">32</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">jane@example.com</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-6 py-4 text-sm text-gray-900">Sam Brown</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">24</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">sam@example.com</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </Section>
-                </div>
+                <Section header="Order History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
+                    <div style={{ borderRadius: '20PX' }} className="overflow-x-auto">
+                        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Email</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                <tr>
+                                    <td className="px-6 py-4 text-sm text-gray-900">John Doe</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">28</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">john@example.com</td>
+                                </tr>
+                                <tr className="bg-gray-50">
+                                    <td className="px-6 py-4 text-sm text-gray-900">Jane Smith</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">32</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">jane@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-6 py-4 text-sm text-gray-900">Sam Brown</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">24</td>
+                                    <td className="px-6 py-4 text-sm text-gray-900">sam@example.com</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </Section>
             </List >
         </>
     );
