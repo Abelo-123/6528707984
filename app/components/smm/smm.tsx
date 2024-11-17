@@ -167,7 +167,7 @@ const Smm = () => {
                 </Button>
                 {isModalOpen && (
                     <div
-                        className="fixed inset-0 absolute h-screen bg-gray-900 bg-opacity-75 flex items-center justify-center z-50"
+                        className="fixed inset-0 absolute h-screen bg-black bg-opacity-75 flex items-center justify-center z-50"
                         onClick={closeModal}
                     >
                         <div
@@ -175,19 +175,20 @@ const Smm = () => {
                             className=" modal-pop lg:w-4/12  px-2 py-8 rounded-lg relative w-96"
                             onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
                         >
-                            <button
-                                className="bg-blue-500 text-white absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                            <div
+                                className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
                                 X
-                            </button>
-                            <h2 className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
+                            </div>
+                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
                             <p className="mb-4 ml-4">Enter the amount you want to deposit:</p>
                             <Input header="Input" placeholder="Write and clean me" />
                             <Input header="Input" placeholder="Write and clean me" />
                             <div className="flex mt-6  justify-between">
                                 <button
-                                    className="bg-blue-500 w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
+                                    style={{ background: 'var(--tgui--button_color)' }}
+                                    className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
 
                                 >
                                     Make Deposit

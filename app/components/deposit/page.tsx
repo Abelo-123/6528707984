@@ -45,7 +45,7 @@ const Deposit = () => {
                 </Button>
                 {isModalOpen && (
                     <div
-                        className="fixed inset-0 absolute h-screen bg-gray-900 bg-opacity-75 flex items-center justify-center z-50"
+                        className="fixed inset-0 absolute h-screen bg-black bg-opacity-75 flex items-center justify-center z-50"
                         onClick={closeModal}
                     >
                         <div
@@ -54,19 +54,21 @@ const Deposit = () => {
                             style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
                         // Prevent clicking inside the modal from closing it
                         >
-                            <button
-                                className="bg-blue-500 text-white absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                            <div
+
+                                className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
                                 X
-                            </button>
-                            <h2 className="text-xl font-semibold mb-4">Make Deposit</h2>
+                            </div>
+                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
                             <p className="mb-4">Enter the amount you want to deposit:</p>
                             <Input header="Input" placeholder="Write and clean me" />
                             <Input header="Input" placeholder="Write and clean me" />
                             <div className="flex mt-6  justify-between">
                                 <button
-                                    className="bg-blue-500 w-full text-white px-6 py-4 rounded-md"
+                                    style={{ background: 'var(--tgui--button_color)' }}
+                                    className=" w-full text-white px-6 py-4 rounded-md"
                                     onClick={openModall}
                                 >
                                     Make Deposit
@@ -81,17 +83,18 @@ const Deposit = () => {
                         className="fixed  inset-0  bg-opacity-75 flex justify-center items-center z-50"
                     >
                         <div style={{ 'height': '80%', background: 'var(--tgui--bg_color)' }} className="modal-pop relative  p-6 rounded-lg w-11/12">
-                            <button
+                            <div
                                 onClick={() => closeModall()}
 
-                                className="bg-blue-500 absolute right-8 text-white px-4 py-3 mx-auto rounded-md"
+                                className=" absolute right-8 text-gray-500 px-4 py-3 mx-auto rounded-md"
                             >
                                 X
-                            </button>
-                            <h2 className="text-xl font-bold mb-4">Confirm Action</h2>
+                            </div>
+                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-bold mb-4">Confirm Action</h2>
 
                             <div className="flex absolute bottom-6 left-0 right-0   w-full justify-end space-x-4">
                                 <button
+                                    style={{ background: 'var(--tgui--button_color)' }}
                                     className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
                                 >
                                     Confirm

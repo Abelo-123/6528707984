@@ -12,7 +12,7 @@ const Smmhistory = () => {
             <List
                 style={{
 
-                    background: 'var(--tg-theme-hint-color)',
+                    background: 'var(--tgui--secondary_bg_color)',
                     padding: '20px 0px',
 
                 }}
