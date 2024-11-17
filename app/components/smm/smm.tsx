@@ -171,8 +171,8 @@ const Smm = () => {
                         onClick={closeModal}
                     >
                         <div
-                            style={{ width: '90%' }}
-                            className="bg-white modal-pop lg:w-4/12  px-2 py-8 rounded-lg relative w-96"
+                            style={{ width: '90%', background: 'var(--tgui--bg_color)' }}
+                            className=" modal-pop lg:w-4/12  px-2 py-8 rounded-lg relative w-96"
                             onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
                         >
                             <button

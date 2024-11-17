@@ -13,16 +13,16 @@ body {
 
 
 .modal-pop {
-  animation: popIn 0.07s ease-out forwards;
+  animation: popIn 0.05s ease-in forwards;
 }
 
 @keyframes popIn {
   0% {
-    transform: scale(0.5);
+    display: none;
     opacity: 0;
   }
   100% {
-    transform: scale(1);
+    display: block;
     opacity: 1;
   }
 }
