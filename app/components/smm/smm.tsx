@@ -183,7 +183,7 @@ const Smm = () => {
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
                             <p className="mb-4 ml-4">Enter the amount you want to deposit:</p>
-                            <Input header="Input" placeholder="Write and clean me" />
+                            <Input header="Input" placeholder="Write and clean me" autoFocus />
                             <Input header="Input" placeholder="Write and clean me" />
                             <div className="flex mt-6  justify-between">
                                 <button

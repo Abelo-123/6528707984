@@ -13,7 +13,7 @@ const Tab = () => {
 
         <>
 
-            <Tabbar style={{ background: 'var(--tgui--secondary_bg_color)', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <Tabbar style={{ background: 'none', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faClock} style={{ color: activePage === 1 ? 'blue' : 'black', fontSize: '1.6rem' }} />
