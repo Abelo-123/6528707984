@@ -11,9 +11,12 @@ body {
   @apply flex p-2 border-2 border-blue-200; /* Using Tailwind's @apply directive */
 }
 
+.modal-pops {
+  animation: popIn 0.02s linear forwards;
+}
 
 .modal-pop {
-  animation: popIn 0.08s ease-in forwards;
+  animation: popIn 0.05s ease-in forwards;
 }
 
 @keyframes popIn {
@@ -41,7 +44,7 @@ body {
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, var(--tgui--section_header_text_color), var(--tgui--secondary_bg_color)); /* Gradient thumb */
+  background:  var(--tgui--section_header_text_color);
   border-radius: 4px; /* Rounded corners */
 }
 

@@ -100,63 +100,64 @@ const Smm = () => {
     return (
 
         <List>
-            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
+            {ser}
+            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--secondary_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
-                    <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faTiktok} color="#ffffff" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Tiktok</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Telegram', '#0088cc', iconMap.telegram, 'Telegram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Telegram' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Telegram', '#0088cc', iconMap.telegram, 'Telegram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Telegram' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faTelegram} color="#0088cc" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Telegram</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Facebook', '#1877f2', iconMap.facebook, 'Facebook Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Facebook' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Facebook', '#1877f2', iconMap.facebook, 'Facebook Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Facebook' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faFacebook} color="#1877f2" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Facebook</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Instagram', '#c32aa3', iconMap.instagram, 'Instagram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Instagram' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Instagram', '#c32aa3', iconMap.instagram, 'Instagram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Instagram' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faInstagram} color="#c32aa3" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Instagram</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'Twitter Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'Twitter Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faXTwitter} color="#ffffff" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitter/X</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'Linkedin Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'Linkedin Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faLinkedin} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>LinkedIn</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Spotify', '#ffffff', iconMap.spotify, 'Spotify Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Spotify', '#ffffff', iconMap.spotify, 'Spotify Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'var(--tgui--header_bg_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'var(--tgui--hint_color)'}` }}>
                         <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitch</Text>
@@ -183,12 +184,12 @@ const Smm = () => {
 
                         {cat &&
                             (
-                                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '2rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--secondary_bg_color)' }}>
                                     <div className="w-11/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex bg-red-100  '>
                                             {ser && (<FontAwesomeIcon icon={icon.i} color={icon.c} className='my-auto' size="2x" />)}
-                                            <div className='mx-4 font-bold text-wrap  my-auto' style={{ fontSize: '1rem' }}>
+                                            <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
                                                 <div>{chosen?.name || `Select ${icon.n}`}</div>
                                             </div>
                                             <div className='my-4 ml-auto mx-4 justify-self-end'>
@@ -234,21 +235,25 @@ const Smm = () => {
                     ))}
                 </List>
             </Modal >
-            <div className='scrollable w-11/12 mx-auto p-2' style={{ height: '10rem', overflowY: 'scroll', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
-                ★ Romania Views<br />
-                ★ RAV™ - Real & Active Views<br />
-                ★ Traffic Sources: Direct Advertisement<br />
-                ★ 𝟏𝟎𝟎% 𝐖𝐚𝐭𝐜𝐡 𝐏𝐚𝐠𝐞 𝐕𝐢𝐞𝐰𝐬<br />
-                ⏱ Estimated Start: 10 Minutes<br />
-                ⚡ Speed ~200-1000+ Views Per Day<br />
-                ✔️ Views may include REAL User Engagements!<br />
-                ☔ 𝐏𝐫𝐢𝐨𝐫𝐢𝐭𝐲 𝐒𝐮𝐩𝐩𝐨𝐫𝐭 - 𝐂𝐚𝐧𝐜𝐞𝐥 𝐀𝐧𝐲𝐭𝐢𝐦𝐞!<br />
-                *ticket us for cancellation<br />
-                🔐 𝐒𝐚𝐟𝐞 & 𝐌𝐨𝐧𝐞𝐭𝐢𝐳𝐚𝐛𝐥𝐞 𝐕𝐢𝐞𝐰𝐬!<br />
-                • Random Retention<br />
-                • 100% Real Human Viewers!<br />
-                • Stable NON-DROP Views<br />
-            </div>
+
+            {chosen?.name && (
+                <div className='scrollable w-11/12 mx-auto p-2' style={{ height: '10rem', overflowY: 'scroll', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                    <Text style={{ fontSize: '0.8rem' }}>
+                        ★ Romania Views<br />
+                        ★ RAV™ - Real & Active Views<br />
+                        ★ Traffic Sources: Direct Advertisement<br />
+                        ★ 𝟏𝟎𝟎% 𝐖𝐚𝐭𝐜𝐡 𝐏𝐚𝐠𝐞 𝐕𝐢𝐞𝐰𝐬<br />
+                        ⏱ Estimated Start: 10 Minutes<br />
+                        ⚡ Speed ~200-1000+ Views Per Day<br />
+                        ✔️ Views may include REAL User Engagements!<br />
+                        ☔ 𝐏𝐫𝐢𝐨𝐫𝐢𝐭𝐲 𝐒𝐮𝐩𝐩𝐨𝐫𝐭 - 𝐂𝐚𝐧𝐜𝐞𝐥 𝐀𝐧𝐲𝐭𝐢𝐦𝐞!<br />
+                        *ticket us for cancellation<br />
+                        🔐 𝐒𝐚𝐟𝐞 & 𝐌𝐨𝐧𝐞𝐭𝐢𝐳𝐚𝐛𝐥𝐞 𝐕𝐢𝐞𝐰𝐬!<br />
+                        • Random Retention<br />
+                        • 100% Real Human Viewers!<br />
+                        • Stable NON-DROP Views<br />
+                    </Text>
+                </div>)}
             <Button
                 mode="filled"
                 size="l"
@@ -260,7 +265,7 @@ const Smm = () => {
             {
                 isModalOpen && (
                     <div
-                        className="fixed inset-0 modal-pop absolute h-screen bg-black bg-opacity-75 grid content-center  z-50"
+                        className="fixed inset-0 modal-pops absolute h-screen bg-black bg-opacity-75 grid content-center  z-50"
                         onClick={closeModal}
                     >
                         <div

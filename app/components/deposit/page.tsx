@@ -47,7 +47,7 @@ const Deposit = () => {
                 </Button>
                 {isModalOpen && (
                     <div
-                        className="fixed  modal-pop inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
+                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
                         onClick={closeModal}
                     >
                         <div
@@ -82,7 +82,7 @@ const Deposit = () => {
                 )}
                 {isModalOpenn && (
                     <div
-                        className="fixed grid content-center inset-0  bg-opacity-75 grid content-center z-50"
+                        className="fixed  modal-pops grid content-center inset-0  bg-opacity-75 grid content-center z-50"
                     >
                         <div style={{ height: '30rem', background: 'var(--tgui--bg_color)' }} className="mx-auto my-auto modal-pop relative  p-6 rounded-lg w-11/12">
                             <div
