@@ -29,7 +29,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        style={{ background: 'var(--tgui--secondary_bg_color)' }}
         className={`mt-14 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextTWAProvider >

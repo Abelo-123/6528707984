@@ -101,7 +101,7 @@ const Smm = () => {
     return (
 
         <List>
-            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--secondary_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                         <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
@@ -279,7 +279,7 @@ const Smm = () => {
                                 className=" text-gray-500 absolute m-2 right-0  top-0 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="1x" />
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
                                 {!cat && 'choose media' || !chosen?.name && `choose ${icon.n}` || cat && ser && (<>
