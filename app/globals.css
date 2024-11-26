@@ -57,3 +57,14 @@ body {
   border-radius: 4px; /* Rounded track corners */
 }
 
+thead {
+  background-color: var(--tgui--secondary_bg_color);
+  color: var(--tgui--text_color);
+}
+tbody tr:nth-child(odd) {
+  background-color: var(--tgui--bg_color); /* Odd rows have red background */
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--tgui--header_bg_color); /* Even rows have blue background */
+}
