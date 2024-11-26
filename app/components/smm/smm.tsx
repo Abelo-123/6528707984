@@ -104,7 +104,7 @@ const Smm = () => {
             <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ background: 'white', borderRadius: '50px', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
                         </div>
@@ -152,7 +152,7 @@ const Smm = () => {
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Spotify', '#ffffff', iconMap.spotify, 'Spotify Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'background': 'white', borderRadius: '50px', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                         </div>
@@ -188,7 +188,7 @@ const Smm = () => {
                                     <div className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
-                                            {ser && (<FontAwesomeIcon icon={icon.i} color={icon.c} style={{ background: 'white' }} className=' my-auto' size="2x" />)}
+                                            {ser && (<FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />)}
                                             <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
                                                 <div>{chosen?.name || `Select ${icon.n}`}</div>
                                             </div>
