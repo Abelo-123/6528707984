@@ -100,10 +100,9 @@ const Smm = () => {
     return (
 
         <List>
-            {ser}
-            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--secondary_bg_color)' }}>
+            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
-                    <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'var(--tgui--hint_color)'}` }}>
+                    <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                         <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
@@ -184,7 +183,7 @@ const Smm = () => {
 
                         {cat &&
                             (
-                                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--secondary_bg_color)' }}>
+                                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                                     <div className="w-11/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex bg-red-100  '>

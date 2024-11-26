@@ -13,7 +13,7 @@ const Tab = () => {
 
         <>
 
-            <Tabbar style={{ background: 'none', border: '1px solid var(--tgui--secondary_bg_color)', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <Tabbar style={{ background: 'none', border: '1px solid var(--tgui--section_bg_color)', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col'>
 
@@ -41,12 +41,12 @@ const Tab = () => {
                         <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>deposit</Text>
                     </div>
                 </Tabbar.Item>
-                <Tabbar.Item onClick={() => updateActivePage(5)}>
+                {/* <Tabbar.Item onClick={() => updateActivePage(5)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faCalendar} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.1rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>theme</Text>
                     </div>
-                </Tabbar.Item>
+                </Tabbar.Item> */}
             </Tabbar>
 
         </>
