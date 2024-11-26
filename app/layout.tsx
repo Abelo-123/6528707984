@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [normal, isNormal] = useState(null);
-  const [version, setVersion] = useState(null);
+  const [setVersion] = useState(null);
   useEffect(() => {
     // Load the Telegram Web App JavaScript SDK
     const script = document.createElement("script");
