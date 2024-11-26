@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={normal ? `mt-14  ${geistSans.variable} ${geistMono.variable} antialiased` : `${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={normal ? ` ${geistSans.variable} ${geistMono.variable} antialiased` : `${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextTWAProvider >
           <ActivePageProvider>
@@ -67,7 +67,6 @@ export default function RootLayout({
               <Lays />
 
               {children}
-              {version}
               <Tab />
 
             </AppRoot>
