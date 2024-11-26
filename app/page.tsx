@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
 import React from 'react';
@@ -13,6 +14,30 @@ import { useActivePage } from './components/ActivePageContext';
 const Telegram = () => {
   const { activePage } = useActivePage();
 
+
+  useEffect(() => {
+    // Load the Telegram Web App JavaScript SDK
+    const script = document.createElement("script");
+    script.src = "https://telegram.org/js/telegram-web-app.js?2";
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      const Telegram = window.Telegram;
+
+      if (window.Telegram && window.Telegram.WebApp) {
+        Telegram.WebApp.expand() // Get the app version
+
+      }
+
+    };
+
+
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
 
   return (
