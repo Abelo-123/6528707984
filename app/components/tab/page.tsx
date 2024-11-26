@@ -13,32 +13,32 @@ const Tab = () => {
 
         <>
 
-            <Tabbar style={{ background: 'none', border: '1px solid var(--tgui--secondary_bg_color)', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <Tabbar style={{ background: 'none', border: '2px solid transparent', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col'>
 
                         <FontAwesomeIcon icon={faClock} style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.1rem' }} />
-                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>orderhistory</Text>
+                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.75rem' }}>orderhistory</Text>
                     </div>
                 </Tabbar.Item>
                 <Tabbar.Item onClick={() => updateActivePage(2)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faFacebookMessenger} style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.1rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>smm</Text>
+                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.75rem' }}>smm</Text>
                     </div>
                 </Tabbar.Item>
 
                 <Tabbar.Item onClick={() => updateActivePage(3)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faUser} style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.1rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>account</Text>
+                        <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.75rem' }}>account</Text>
                     </div>
                 </Tabbar.Item>
 
                 <Tabbar.Item onClick={() => updateActivePage(4)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faUser} style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.1rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>deposit</Text>
+                        <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.75rem' }}>deposit</Text>
                     </div>
                 </Tabbar.Item>
                 {/* <Tabbar.Item onClick={() => updateActivePage(5)}>

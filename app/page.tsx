@@ -23,7 +23,7 @@ const Telegram = () => {
     // Remove the red background after 1 second
     const timer = setTimeout(() => {
       setIsRed(false);
-    }, 1000);
+    }, 500);
 
     // Cleanup the timer when the component unmounts
     return () => clearTimeout(timer);
