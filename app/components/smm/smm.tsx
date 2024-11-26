@@ -51,7 +51,7 @@ const Smm = () => {
 
         async function fetchService() {
             try {
-                const response = await axios.get('http://localhost:3000/api/smm/fetchService');
+                const response = await axios.get('/api/smm/fetchService');
 
                 setServices([response]);
             } catch (error) {
@@ -235,7 +235,21 @@ const Smm = () => {
                     ))}
                 </List>
             </Modal >
-
+            <div className='scrollable w-11/12 mx-auto p-2' style={{ height: '10rem', overflowY: 'scroll', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                ★ Romania Views<br />
+                ★ RAV™ - Real & Active Views<br />
+                ★ Traffic Sources: Direct Advertisement<br />
+                ★ 𝟏𝟎𝟎% 𝐖𝐚𝐭𝐜𝐡 𝐏𝐚𝐠𝐞 𝐕𝐢𝐞𝐰𝐬<br />
+                ⏱ Estimated Start: 10 Minutes<br />
+                ⚡ Speed ~200-1000+ Views Per Day<br />
+                ✔️ Views may include REAL User Engagements!<br />
+                ☔ 𝐏𝐫𝐢𝐨𝐫𝐢𝐭𝐲 𝐒𝐮𝐩𝐩𝐨𝐫𝐭 - 𝐂𝐚𝐧𝐜𝐞𝐥 𝐀𝐧𝐲𝐭𝐢𝐦𝐞!<br />
+                *ticket us for cancellation<br />
+                🔐 𝐒𝐚𝐟𝐞 & 𝐌𝐨𝐧𝐞𝐭𝐢𝐳𝐚𝐛𝐥𝐞 𝐕𝐢𝐞𝐰𝐬!<br />
+                • Random Retention<br />
+                • 100% Real Human Viewers!<br />
+                • Stable NON-DROP Views<br />
+            </div>
             <Button
                 mode="filled"
                 size="l"
