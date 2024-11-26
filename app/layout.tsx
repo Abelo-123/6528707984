@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`mt-5 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextTWAProvider>
           <ActivePageProvider>

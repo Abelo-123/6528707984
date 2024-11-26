@@ -184,7 +184,7 @@ const Smm = () => {
 
                     {cat &&
                         (
-                            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className='pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ color: ' : var(--tgui--bg_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '2rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                                 <div className="w-11/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex bg-red-100  '>
@@ -193,7 +193,7 @@ const Smm = () => {
                                             <div>{chosen?.name || `Select ${icon.n}`}</div>
                                         </div>
                                         <div className='my-4 ml-auto mx-4 justify-self-end'>
-                                            <FontAwesomeIcon icon={faAngleDown} color="#0088cc" style={{ 'margin': 'auto auto' }} size="2x" />
+                                            <FontAwesomeIcon icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
                                         </div>
                                     </div>
                                 </div>
