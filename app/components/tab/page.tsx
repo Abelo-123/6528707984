@@ -1,7 +1,7 @@
 "use client"
 import { Tabbar, Text } from "@telegram-apps/telegram-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faUser, faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faClock, faUser } from '@fortawesome/free-regular-svg-icons';
 import { useActivePage } from "../ActivePageContext";
 import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
 
