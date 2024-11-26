@@ -1,7 +1,7 @@
 "use client"
 import { Tabbar, Text } from "@telegram-apps/telegram-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faClock, faUser, faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { useActivePage } from "../ActivePageContext";
 import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
 
@@ -13,7 +13,7 @@ const Tab = () => {
 
         <>
 
-            <Tabbar style={{ background: 'none', border: '2px solid transparent', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <Tabbar style={{ padding: '2rem 0', background: 'none', border: '2px solid transparent', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col'>
 
@@ -41,12 +41,12 @@ const Tab = () => {
                         <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>deposit</Text>
                     </div>
                 </Tabbar.Item>
-                {/* <Tabbar.Item onClick={() => updateActivePage(5)}>
+                <Tabbar.Item onClick={() => updateActivePage(5)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faCalendar} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>theme</Text>
                     </div>
-                </Tabbar.Item> */}
+                </Tabbar.Item>
             </Tabbar>
 
         </>

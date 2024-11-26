@@ -37,6 +37,7 @@ export default function RootLayout({
               <Lays />
               {children}
               <Tab />
+
             </AppRoot>
           </ActivePageProvider>
         </NextTWAProvider>
