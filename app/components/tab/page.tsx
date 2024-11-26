@@ -13,7 +13,7 @@ const Tab = () => {
 
         <>
 
-            <Tabbar style={{ padding: '2rem 0', background: 'none', border: '2px solid transparent', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            <Tabbar style={{ background: 'none', border: '2px solid transparent', display: 'grid', margin: '0rem', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col'>
 
