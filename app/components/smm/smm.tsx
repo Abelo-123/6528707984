@@ -173,56 +173,55 @@ const Smm = () => {
 
 
             <Modal
-                style={{ height: '77%', background: 'var(--tgui--bg_color)' }}
+                style={{ height: '65%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
                 header={<ModalHeader >Only iOS header</ModalHeader>}
-                trigger={<Modal
-                    style={{ height: '77%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
-                    header={<ModalHeader after={(<ModalClose>
-                        <FontAwesomeIcon onClick={closeModal} icon={faClose} style={{}} size="2x" />
-                    </ModalClose>)}>Only iOS header</ModalHeader>}
-                    trigger=
+                trigger={
+                    <Modal
+                        style={{ height: '60%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
 
-                    {cat &&
-                        (
-                            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '2rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                                <div className="w-11/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+                        trigger=
 
-                                    <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex bg-red-100  '>
-                                        {ser && (<FontAwesomeIcon icon={icon.i} color={icon.c} className='my-auto' size="2x" />)}
-                                        <div className='mx-4 font-bold text-wrap  my-auto' style={{ fontSize: '1rem' }}>
-                                            <div>{chosen?.name || `Select ${icon.n}`}</div>
-                                        </div>
-                                        <div className='my-4 ml-auto mx-4 justify-self-end'>
-                                            <FontAwesomeIcon icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                        {cat &&
+                            (
+                                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>select</div>)} style={{ marginTop: '2rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                                    <div className="w-11/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+
+                                        <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex bg-red-100  '>
+                                            {ser && (<FontAwesomeIcon icon={icon.i} color={icon.c} className='my-auto' size="2x" />)}
+                                            <div className='mx-4 font-bold text-wrap  my-auto' style={{ fontSize: '1rem' }}>
+                                                <div>{chosen?.name || `Select ${icon.n}`}</div>
+                                            </div>
+                                            <div className='my-4 ml-auto mx-4 justify-self-end'>
+                                                <FontAwesomeIcon icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Section>
-                        )}
+                                </Section>
+                            )}
 
-                >
+                    >
 
-                    <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>1. Select category</Text></DialogTitle>
-                    <List>
-                        {category.map((datas, index) => (
-                            <ModalClose key={index} >
-                                <Cell onClick={() => getService(datas.category)} style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                                    <div className="   flex">
-                                        <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-                                        <div className='ml-4' style={{ fontSize: '0.8rem' }}>{datas.category}</div>
-                                    </div>
-                                </Cell>
-                            </ModalClose>
-                        ))}
-                    </List>
-                </Modal >}
+                        <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>1. Select category</Text></DialogTitle>
+                        <List>
+                            {category.map((datas, index) => (
+                                <ModalClose key={index} >
+                                    <Cell onClick={() => getService(datas.category)} style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                        <div className="   flex">
+                                            <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
+                                            <div className='ml-4' style={{ fontSize: '0.8rem' }}>{datas.category}</div>
+                                        </div>
+                                    </Cell>
+                                </ModalClose>
+                            ))}
+                        </List>
+                    </Modal >}
             >
 
                 <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>2. Select service</Text></DialogTitle>
                 <List>
                     {service.map((datas, index) => (
                         <ModalClose key={index} >
-                            <Cell onClick={() => setChose(datas)} style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <Cell onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                                 <div className="   flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
                                     <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem' }}>{datas.name}

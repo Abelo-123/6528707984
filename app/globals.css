@@ -32,7 +32,7 @@ body {
   border: 1px solid #ccc; /* Optional border for visibility */
   padding: 10px; /* Add some padding for content */
   scrollbar-width: thin; /* For Firefox: thin scrollbar */
-  scrollbar-color: var(--tgui--section_header_text_color) transparent; /* For Firefox: thumb and track color */
+  scrollbar-color: var(--tgui--section_header_text_color) var(--tgui--secondary_bg_color); /* For Firefox: thumb and track color */
 }
 
 /* Webkit Browsers (Chrome, Edge, Safari) */
@@ -41,16 +41,16 @@ body {
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #6b6b6b, #3a3a3a); /* Gradient thumb */
+  background: linear-gradient(45deg, var(--tgui--section_header_text_color), var(--tgui--secondary_bg_color)); /* Gradient thumb */
   border-radius: 4px; /* Rounded corners */
 }
 
 .scrollable::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker thumb on hover */
+  background: var(--tgui--section_header_text_color); /* Darker thumb on hover */
 }
 
 .scrollable::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track background */
+  background: var(--tgui--secondary_bg_color); /* Track background */
   border-radius: 4px; /* Rounded track corners */
 }
 
