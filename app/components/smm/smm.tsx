@@ -104,67 +104,67 @@ const Smm = () => {
             <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faTiktok} style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faTiktok} style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Tiktok</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Telegram', '#0088cc', iconMap.telegram, 'Telegram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Telegram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faTelegram} color="#0088cc" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faTelegram} color="#0088cc" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Telegram</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Facebook', '#1877f2', iconMap.facebook, 'Facebook Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Facebook' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faFacebook} color="#1877f2" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faFacebook} color="#1877f2" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Facebook</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Instagram', '#c32aa3', iconMap.instagram, 'Instagram Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Instagram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faInstagram} color="#c32aa3" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faInstagram} color="#c32aa3" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Instagram</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'Twitter Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faXTwitter} style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faXTwitter} style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitter/X</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'Linkedin Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faLinkedin} color="#0a66c2" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faLinkedin} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>LinkedIn</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'Tiktok Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Spotify', '#ffffff', iconMap.spotify, 'Spotify Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitch</Text>
                         </div>
                     </div>
                     <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.vk, 'VK service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faVk} color="#4a76a8" style={{ 'background': 'white', 'margin': 'auto auto' }} size="2x" />
+                        <FontAwesomeIcon icon={faVk} color="#4a76a8" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Vk</Text>
                         </div>
