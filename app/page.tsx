@@ -1,7 +1,7 @@
 "use client";
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Smm from './components/smm/smm';
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
