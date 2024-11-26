@@ -110,26 +110,26 @@ const Deposit = () => {
                         <table className="min-w-full  rounded-lg shadow-md">
                             <thead>
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Email</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Name</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Age</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Email</th>
                                 </tr>
                             </thead>
-                            <tbody className=" divide-y divide-gray-200">
+                            <tbody className=" divide-y ">
                                 <tr>
-                                    <td className="px-6 py-4 text-sm text-gray-900">John Doe</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">28</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">john@example.com</td>
+                                    <td className="px-6 py-4 text-sm ">John Doe</td>
+                                    <td className="px-6 py-4 text-sm">28</td>
+                                    <td className="px-6 py-4 text-sm ">john@example.com</td>
                                 </tr>
                                 <tr className="bg-gray-50">
-                                    <td className="px-6 py-4 text-sm text-gray-900">Jane Smith</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">32</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">jane@example.com</td>
+                                    <td className="px-6 py-4 text-sm">Jane Smith</td>
+                                    <td className="px-6 py-4 text-sm ">32</td>
+                                    <td className="px-6 py-4 text-sm ">jane@example.com</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-6 py-4 text-sm text-gray-900">Sam Brown</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">24</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">sam@example.com</td>
+                                    <td className="px-6 py-4 text-sm ">Sam Brown</td>
+                                    <td className="px-6 py-4 text-sm ">24</td>
+                                    <td className="px-6 py-4 text-sm ">sam@example.com</td>
                                 </tr>
                             </tbody>
                         </table>
