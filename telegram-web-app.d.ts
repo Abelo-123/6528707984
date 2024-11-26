@@ -1,5 +1,6 @@
 // telegram-web-app.d.ts
 interface TelegramWebApp {
+    version: any;
     initDataUnsafe: {
       user: {
         id: number;

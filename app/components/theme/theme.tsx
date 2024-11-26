@@ -42,7 +42,7 @@ const TelegramApp = () => {
         destructive_text_color?: string;
     }>({});
     const [isAppReady, setIsAppReady] = useState(false);
-
+    const [version, setVersion] = useState(null)
 
     useEffect(() => {
         // Load the Telegram Web App JavaScript SDK
@@ -55,8 +55,8 @@ const TelegramApp = () => {
             const Telegram = window.Telegram;
 
             if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-
+                const telegramVersion = Telegram.WebApp.version; // Get the app version
+                setVersion(telegramVersion)
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 const themeParams = window.Telegram.WebApp.themeParams;
                 setUserData({
@@ -115,6 +115,7 @@ const TelegramApp = () => {
             ) : (
                 // Main content of your mini app
                 <div>
+                    {version}
                     <p>section_bg Color: <div style={{ 'padding': '15px', 'backgroundColor': theme.section_bg_color }}>Lorem</div></p>
                     <p>Background Color: <div style={{ 'padding': '15px', 'backgroundColor': theme.bg_color }}>Lorem</div></p>
                     <p>Text Color: <div style={{ 'padding': '15px', 'backgroundColor': theme.text_color }}>Lorem</div></p>
