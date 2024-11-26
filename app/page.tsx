@@ -1,7 +1,7 @@
 "use client";
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Smm from './components/smm/smm';
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
@@ -14,17 +14,30 @@ const Telegram = () => {
   const { activePage } = useActivePage();
 
 
+  const [isRed, setIsRed] = useState(null); // State to toggle the red background
+
   useEffect(() => {
+    // Trigger the red background
+    setIsRed(true);
 
-  }, []);
+    // Remove the red background after 1 second
+    const timer = setTimeout(() => {
+      setIsRed(false);
+    }, 1000);
 
+    // Cleanup the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array ensures this runs once on component mount
 
 
   return (
     <>
 
       <AppRoot>
-        <div className='w-screen'>
+        <div className='w-screen' >
+          {isRed && (
+            <div style={{ background: 'var(--tgui--secondary_bg_color)', position: 'absolute', top: '0', zIndex: '99', bottom: '0', left: '0', right: '0', padding: '10px' }}></div>
+          )}
 
           <div
             id="1"
