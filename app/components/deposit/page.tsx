@@ -47,11 +47,11 @@ const Deposit = () => {
                 </Button>
                 {isModalOpen && (
                     <div
-                        className="fixed inset-0 absolute h-screen bg-black bg-opacity-75 flex items-center justify-center z-50"
+                        className="fixed  modal-pop inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
                         onClick={closeModal}
                     >
                         <div
-                            className="bg-white modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
+                            className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
                             onClick={(e) => e.stopPropagation()}
                             style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
                         // Prevent clicking inside the modal from closing it
@@ -82,9 +82,9 @@ const Deposit = () => {
                 )}
                 {isModalOpenn && (
                     <div
-                        className="fixed  inset-0  bg-opacity-75 flex justify-center items-center z-50"
+                        className="fixed grid content-center inset-0  bg-opacity-75 grid content-center z-50"
                     >
-                        <div style={{ 'height': '80%', background: 'var(--tgui--bg_color)' }} className="modal-pop relative  p-6 rounded-lg w-11/12">
+                        <div style={{ height: '30rem', background: 'var(--tgui--bg_color)' }} className="mx-auto my-auto modal-pop relative  p-6 rounded-lg w-11/12">
                             <div
                                 onClick={() => closeModall()}
 

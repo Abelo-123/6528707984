@@ -15,23 +15,7 @@ const Telegram = () => {
 
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://telegram.org/js/telegram-web-app.js?2";
-    script.async = true;
-    document.body.appendChild(script);
 
-    script.onload = () => {
-      if (window.Telegram && window.Telegram.WebApp) {
-        //window.Telegram.WebApp.ready();
-        // Use type assertion to bypass the TypeScript error
-        //(window.Telegram.WebApp as TelegramWebApp).expand();
-      }
-    };
-
-    // Cleanup: remove the script when the component is unmounted
-    return () => {
-      document.body.removeChild(script);
-    };
   }, []);
 
 
@@ -44,10 +28,10 @@ const Telegram = () => {
 
           <div
             id="1"
-            className={`w-screen ${activePage === 2 ? '' : 'hidden'}`}><Smm /></div>
+            className={`w-screen ${activePage === 1 ? '' : 'hidden'}`}><Smm /></div>
           <div
             id="3"
-            className={`w-screen ${activePage === 1 ? '' : 'hidden  '} px-2`}><Smmhistory />
+            className={`w-screen ${activePage === 2 ? '' : 'hidden  '} `}><Smmhistory />
           </div>
           <div
             id="4"

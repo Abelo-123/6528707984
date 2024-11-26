@@ -13,7 +13,7 @@ body {
 
 
 .modal-pop {
-  animation: popIn 0.09s ease-in forwards;
+  animation: popIn 0.08s ease-in forwards;
 }
 
 @keyframes popIn {
