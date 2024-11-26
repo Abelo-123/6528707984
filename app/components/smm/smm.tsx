@@ -151,22 +151,10 @@ const Smm = () => {
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                         </div>
                     </div>
-                    <div className='common-styles' onClick={() => getCategory('Spotify', '#ffffff', iconMap.spotify, 'Spotify Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faSpotify} color="#1ed760" style={{ 'margin': 'auto auto' }} size="2x" />
-                        <div className='my-auto mx-2'>
-                            <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
-                        </div>
-                    </div>
                     <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch Service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                         <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
                             <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitch</Text>
-                        </div>
-                    </div>
-                    <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.vk, 'VK service')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                        <FontAwesomeIcon icon={faVk} color="#4a76a8" style={{ 'margin': 'auto auto' }} size="2x" />
-                        <div className='my-auto mx-2'>
-                            <Text weight="2" style={{ fontSize: '0.9rem' }}>Vk</Text>
                         </div>
                     </div>
                 </div>
