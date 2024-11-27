@@ -1,6 +1,6 @@
 "use client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Section, List, Cell, Text, Input, Modal } from "@telegram-apps/telegram-ui";
+import { Button, Section, Spinner, List, Cell, Text, Input, Modal } from "@telegram-apps/telegram-ui";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ModalHeader } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalHeader/ModalHeader";
 import { ModalClose } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalClose/ModalClose";
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
 import { faAngleDown, faClose } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
+import { useUser } from '../UserContext'; // Adjust the path as necessary
 
 const iconMap = {
     youtube: faYoutube,
@@ -34,7 +35,13 @@ const Smm = () => {
     const [ser, setSer] = useState(false)
     const [bc, setBc] = useState('')
     const [bcfor, setBcfor] = useState('')
-
+    const [mediaload, setMediaload] = useState(true);
+    const [charge, setCharge] = useState(0.0);
+    const [theRate, settherate] = useState(0.0);
+    const [link, setLink] = useState(null);
+    const [quantity, setQuantity] = useState(null);
+    const { userData } = useUser();
+    const [checkname, setCheckname] = useState('')
 
 
     // Function to open the modal
@@ -47,7 +54,28 @@ const Smm = () => {
         setIsModalOpen(false);
     };
 
+    function setCookie(name, value) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + 10); // Set expiration to 10 years from now
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value};${expires};path=/`;
+    }
+
+    // Function to get a cookie by name
+    function getCookie(name) {
+        const nameEQ = `${name}=`;
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.indexOf(nameEQ) === 0) {
+                return cookie.substring(nameEQ.length);
+            }
+        }
+        return null;
+    }
+
     useEffect(() => {
+
 
 
         async function fetchService() {
@@ -55,12 +83,43 @@ const Smm = () => {
                 const response = await axios.get('/api/smm/fetchService');
 
                 setServices([response]);
+                if (response) {
+                    setMediaload(false)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        async function addUser() {
+
+            try {
+                const userNameCookie = getCookie('userdata_name');
+
+                if (userNameCookie) {
+                    console.log('Cookie already exists:', userNameCookie);
+                    return; // Do not call the API if the cookie is already set
+                }
+
+                const response = await axios.post('/api/smm/addUser', {
+                    id: userData.userId,
+                    name: userData.firstname + userData.lastname,
+                    username: userData.username,
+                    profile: userData.profile
+                });
+
+                const userName = response.data.userdata[0].name;
+
+                // Set the cookie with the response data
+                setCookie('userdata_name', userName); // Set cookie to expire in 7 days
+                setCheckname(userName)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
 
         fetchService()
+        addUser()
     }, [])
 
     function getCategory(name, color, faicon, names) {
@@ -88,7 +147,10 @@ const Smm = () => {
     }
 
     function getService(name) {
-        return setService(services[0].data.response.filter((datas) => datas.category.includes(name)))
+        const ser = services[0].data.response.filter((datas) => datas.category.includes(name))
+        console.log(ser)
+        settherate(ser[0].rate)
+        return setService(ser)
     }
 
     function setChose(data) {
@@ -97,12 +159,36 @@ const Smm = () => {
         return console.log(chosen)
     }
 
+    const handleInput = (e) => {
+        setQuantity(e.target.value)
+        const inputValue = e.target.value;
+        setCharge(inputValue * theRate); // Perform the calculation
+    };
+
+    const handleOrder = () => {
+        if (quantity % 10 !== 0) {
+            alert("multiple 10")
+        } else if (quantity > 10000) {
+            alert("to big")
+        } else if (link == null) {
+            alert("no link")
+        } else if (quantity == 0) {
+            alert("no quantity")
+        } else if (link == null && quantity == 0) {
+            alert("enter forms")
+        }
+
+    }
 
     return (
 
         <List>
+            {checkname}
             <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
-                <div className="gap-x-9  px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
+                <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
+                    {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-5 right-5'>
+                        <Spinner size="l" />
+                    </div>)}
                     <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                         <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                         <div className='my-auto mx-2'>
@@ -275,10 +361,12 @@ const Smm = () => {
                                 {!cat && 'choose media' || !chosen?.name && `choose ${icon.n}` || cat && ser && (<>
                                     <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
                                     <p className="mb-4 ml-4">Enter the amount you want to deposit:</p>
-                                    <Input header="Input" placeholder="Write and clean me" autoFocus />
-                                    <Input header="Input" placeholder="Write and clean me" />
+                                    <Input header="Input" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
+                                    <Input header="Input" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
+                                    {charge}
                                     <div className="flex mt-6  justify-between">
                                         <button
+                                            onClick={handleOrder}
                                             style={{ background: 'var(--tgui--button_color)' }}
                                             className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
 

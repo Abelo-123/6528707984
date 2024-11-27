@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ActivePageProvider } from "./components/ActivePageContext"
+import { UserProvider } from "./components/UserContext"
 import Tab from './components/tab/page';
 import Lays from './components/layout/page';
 import { AppRoot } from "@telegram-apps/telegram-ui";
@@ -63,13 +64,15 @@ export default function RootLayout({
       >
         <NextTWAProvider >
           <ActivePageProvider>
-            <AppRoot>
-              <Lays />
+            <UserProvider>
+              <AppRoot>
+                <Lays />
 
-              {children}
-              <Tab />
+                {children}
+                <Tab />
 
-            </AppRoot>
+              </AppRoot>
+            </UserProvider>
           </ActivePageProvider>
         </NextTWAProvider>
       </body>

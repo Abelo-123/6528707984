@@ -2,20 +2,18 @@
 import { Avatar, Text } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useUser } from '../UserContext'; // Adjust the path as necessary
 
 const Lays = () => {
 
     const TELEGRAM_BOT_TOKEN = "7670501487:AAE78RqFbU3dfODb8-LFWNLs7mxBpJ6XnPI"; // Replace with your bot token
 
     const [ph, setPh] = useState('')
-    const [userData, setUserData] = useState({
-        username: '',
-        firstName: '',
-        lastName: '',
-        userId: undefined, // Initialize userId
-    });
+    const { userData, setUserData } = useUser();
+
 
     useEffect(() => {
+
         // Load the Telegram Web App JavaScript SDK
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -57,6 +55,7 @@ const Lays = () => {
 
                     if (resp.data.ok) {
                         setPh(resp.data.result.file_path);
+                        setUserData((userData) => ({ ...userData, profile: resp.data.result.file_path }))
                     }
                     // Wrap it in an array to match the existing state structure
                 }
