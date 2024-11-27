@@ -3,7 +3,10 @@ import { Pool } from "pg";
 
 // Set up the connection pool using your connection string
 const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL
+    connectionString: process.env.POSTGRES_URL,
+    ssl: {
+        rejectUnauthorized: false,  // Disable certificate validation
+    },
 });
 
 export async function POST(req) {
