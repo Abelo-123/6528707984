@@ -40,8 +40,71 @@ const Smm = () => {
     const [theRate, settherate] = useState(0.0);
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
-    const { userData } = useUser();
-    const [checkname, setCheckname] = useState('')
+    const TELEGRAM_BOT_TOKEN = "7670501487:AAE78RqFbU3dfODb8-LFWNLs7mxBpJ6XnPI"; // Replace with your bot token
+    const { setUserData } = useUser();
+
+
+    useEffect(() => {
+
+        // Load the Telegram Web App JavaScript SDK
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = () => {
+            const Telegram = window.Telegram;
+
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                setUserData({
+                    username: user.username,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    userId: user.id, // Store user ID
+
+                });
+
+                fetchUserProfilePhotos(user.id);
+            } else {
+                console.error("Telegram Web App API not loaded");
+            } // Adjust timeout as necessary
+
+
+        };
+
+
+        const fetchUserProfilePhotos = async (userid) => {
+            try {
+                const response = await axios.get(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userid}`);
+
+                if (response.data.ok) {
+                    const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
+
+                    const resp = await axios.get(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
+
+                    if (resp.data.ok) {
+
+                        setUserData((userData) => ({ ...userData, profile: "resp.data.result.file_path" }))
+
+                    }
+                    // Wrap it in an array to match the existing state structure
+                }
+
+            } catch (error) {
+                console.error("Error fetching user profile photos:", error);
+            }
+        };
+
+        return () => {
+
+            document.body.removeChild(script);
+        };
+    }, []);
+
+
 
 
     // Function to open the modal
@@ -54,25 +117,7 @@ const Smm = () => {
         setIsModalOpen(false);
     };
 
-    function setCookie(name, value) {
-        const date = new Date();
-        date.setFullYear(date.getFullYear() + 10); // Set expiration to 10 years from now
-        const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value};${expires};path=/`;
-    }
 
-    // Function to get a cookie by name
-    function getCookie(name) {
-        const nameEQ = `${name}=`;
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.indexOf(nameEQ) === 0) {
-                return cookie.substring(nameEQ.length);
-            }
-        }
-        return null;
-    }
 
     useEffect(() => {
 
@@ -91,35 +136,9 @@ const Smm = () => {
             }
         }
 
-        async function addUser() {
 
-            try {
-                const userNameCookie = getCookie('userdata_name');
-
-                if (userNameCookie) {
-                    console.log('Cookie already exists:', userNameCookie);
-                    return; // Do not call the API if the cookie is already set
-                }
-
-                const response = await axios.post('/api/smm/addUser', {
-                    id: userData.userId,
-                    name: userData.firstname + userData.lastname,
-                    username: userData.username,
-                    profile: userData.profile
-                });
-
-                const userName = response.data.userdata[0].name;
-
-                // Set the cookie with the response data
-                setCookie('userdata_name', userName); // Set cookie to expire in 7 days
-                setCheckname(userName)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
 
         fetchService()
-        addUser()
     }, [])
 
     function getCategory(name, color, faicon, names) {
@@ -183,10 +202,10 @@ const Smm = () => {
     return (
 
         <List>
-            {checkname}
+
             <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
-                    {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-5 right-5'>
+                    {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                         <Spinner size="l" />
                     </div>)}
                     <div className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Yooutube Service')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
