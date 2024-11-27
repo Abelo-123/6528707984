@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { Pool } from "pg";
 // Set up the connection pool using your connection string
 const pool = new Pool({
-    connectionString: "postgresql://postgres.bihqharjyezzxhsghell:newPass12311220yU@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require",
-    ssl: {
-        rejectUnauthorized: false,  // Disable certificate validation
-    }
+    connectionString: "postgresql://postgres.bihqharjyezzxhsghell:newPass12311220yU@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
 });
 
 export async function POST(req) {
