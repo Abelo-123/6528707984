@@ -40,7 +40,7 @@ const Smm = () => {
     const [theRate, settherate] = useState(0.0);
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
-    const TELEGRAM_BOT_TOKEN = "7670501487:AAE78RqFbU3dfODb8-LFWNLs7mxBpJ6XnPI"; // Replace with your bot token
+    // Replace with your bot token
     const { userData, setUserData } = useUser();
     const [checkname, setCheckname] = useState('')
 
@@ -79,16 +79,16 @@ const Smm = () => {
 
         const fetchUserProfilePhotos = async (userid) => {
             try {
-                const response = await axios.get(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userid}`);
+                const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userid}`);
 
                 if (response.data.ok) {
                     const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
 
-                    const resp = await axios.get(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
+                    const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
 
                     if (resp.data.ok) {
 
-                        setUserData((userData) => ({ ...userData, profile: `https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}` }))
+                        setUserData((userData) => ({ ...userData, profile: `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}` }))
 
                     }
                     // Wrap it in an array to match the existing state structure
@@ -152,7 +152,7 @@ const Smm = () => {
                     profile: userData.profile
                 });
 
-                const userName = response.data.userdata[0].name;
+                const userName = response.data.userdata[0];
 
                 // Set user data in localStorage
                 localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
