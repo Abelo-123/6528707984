@@ -147,10 +147,9 @@ const Smm = () => {
 
                 // Make API call to add user
                 const response = await axios.post('/api/smm/addUser', {
-                    id: userData.userId,
-                    name: userData.firstname,
-                    username: userData.username,
-                    profile: userData.profile
+                    name: "userData.firstname",
+                    username: " userData.username",
+                    profile: "userData.profile"
                 });
 
                 const userName = response.data.userdata[0].name;

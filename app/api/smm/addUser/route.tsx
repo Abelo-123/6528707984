@@ -10,18 +10,18 @@ const pool = new Pool({
 export async function POST(req) {
     try {
         // Parse the incoming JSON request
-        const { id, name, username, profile } = await req.json();
+        const { name, username, profile } = await req.json();
 
         // Create a client from the connection pool
         const client = await pool.connect();
 
         // Insert data into the users table
         const queryText = `
-      INSERT INTO users (id, name, username, profile)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, name, username, profile;
+      INSERT INTO users (name, username, profile)
+VALUES ($1, $2, $3) RETURNING *;
+
     `;
-        const values = [id, name, username, profile];
+        const values = [name, username, profile];
 
         // Execute the query
         await client.query(queryText, values);
@@ -30,7 +30,7 @@ export async function POST(req) {
         client.release();
 
         // Return the inserted user data
-        return NextResponse.json({ userdata: [{ id, name, username, profile }] });
+        return NextResponse.json({ userdata: [{ name, username, profile }] });
     } catch (error) {
         console.error('Error inserting data:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
