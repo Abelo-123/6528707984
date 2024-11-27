@@ -1,6 +1,5 @@
 "use client"
 import { Avatar, Text } from "@telegram-apps/telegram-ui";
-import { useState } from "react";
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 
 const Lays = () => {
