@@ -24,7 +24,7 @@ export async function POST(req) {
         const values = [id, name, username, profile];
 
         // Execute the query
-        const res = await client.query(queryText, values);
+        await client.query(queryText, values);
 
         // Release the client back to the pool
         client.release();
