@@ -41,7 +41,8 @@ const Smm = () => {
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
     const TELEGRAM_BOT_TOKEN = "7670501487:AAE78RqFbU3dfODb8-LFWNLs7mxBpJ6XnPI"; // Replace with your bot token
-    const { setUserData } = useUser();
+    const { userData, setUserData } = useUser();
+    const [checkname, setCheckname] = useState('')
 
 
     useEffect(() => {
@@ -104,8 +105,25 @@ const Smm = () => {
         };
     }, []);
 
+    function setCookie(name, value) {
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + 10); // Set expiration to 10 years from now
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value};${expires};path=/`;
+    }
 
-
+    // Function to get a cookie by name
+    function getCookie(name) {
+        const nameEQ = `${name}=`;
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.indexOf(nameEQ) === 0) {
+                return cookie.substring(nameEQ.length);
+            }
+        }
+        return null;
+    }
 
     // Function to open the modal
     const openModal = () => {
@@ -136,8 +154,34 @@ const Smm = () => {
             }
         }
 
+        async function addUser() {
 
+            try {
+                const userNameCookie = getCookie('userdata_name');
 
+                if (userNameCookie) {
+                    console.log('Cookie already exists:', userNameCookie);
+                    return; // Do not call the API if the cookie is already set
+                }
+
+                const response = await axios.post('/api/smm/addUser', {
+                    id: userData.userId,
+                    name: userData.firstname,
+                    username: userData.username,
+                    profile: userData.profile
+                });
+
+                const userName = response.data.userdata[0].name;
+
+                // Set the cookie with the response data
+                setCookie('userdata_name', userName); // Set cookie to expire in 7 days
+                setCheckname(userName)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        addUser()
         fetchService()
     }, [])
 
@@ -202,7 +246,7 @@ const Smm = () => {
     return (
 
         <List>
-
+            {checkname}
             <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
