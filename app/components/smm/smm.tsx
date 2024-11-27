@@ -87,7 +87,7 @@ const Smm = () => {
 
                     if (resp.data.ok) {
 
-                        setUserData((userData) => ({ ...userData, profile: "resp.data.result.file_path" }))
+                        setUserData((userData) => ({ ...userData, profile: `https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}` }))
 
                     }
                     // Wrap it in an array to match the existing state structure
