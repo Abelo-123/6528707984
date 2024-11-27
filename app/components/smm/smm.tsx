@@ -105,25 +105,6 @@ const Smm = () => {
         };
     }, []);
 
-    function setCookie(name, value) {
-        const date = new Date();
-        date.setFullYear(date.getFullYear() + 10); // Set expiration to 10 years from now
-        const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value};${expires};path=/`;
-    }
-
-    // Function to get a cookie by name
-    function getCookie(name) {
-        const nameEQ = `${name}=`;
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.indexOf(nameEQ) === 0) {
-                return cookie.substring(nameEQ.length);
-            }
-        }
-        return null;
-    }
 
     // Function to open the modal
     const openModal = () => {
@@ -155,15 +136,16 @@ const Smm = () => {
         }
 
         async function addUser() {
-
             try {
-                const userNameCookie = getCookie('userdata_name');
+                // Check if userdata_name is already stored in localStorage
+                const userNameFromStorage = localStorage.getItem('userdata_name');
 
-                if (userNameCookie) {
-                    console.log('Cookie already exists:', userNameCookie);
-                    return; // Do not call the API if the cookie is already set
+                if (userNameFromStorage) {
+                    console.log('User data already exists in localStorage:', userNameFromStorage);
+                    return; // Do not call the API if the data is already set
                 }
 
+                // Make API call to add user
                 const response = await axios.post('/api/smm/addUser', {
                     id: userData.userId,
                     name: userData.firstname,
@@ -173,13 +155,15 @@ const Smm = () => {
 
                 const userName = response.data.userdata[0].name;
 
-                // Set the cookie with the response data
-                setCookie('userdata_name', userName); // Set cookie to expire in 7 days
-                setCheckname(userName)
+                // Set user data in localStorage
+                localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
+
+                setCheckname(userName); // Use the name from the response
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
+
 
         addUser()
         fetchService()
