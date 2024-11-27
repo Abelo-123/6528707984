@@ -131,7 +131,7 @@ const Smm = () => {
                     setMediaload(false)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error feching data:', error);
             }
         }
 
