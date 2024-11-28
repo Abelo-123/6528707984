@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Pool } from "pg";
 // Set up the connection pool using your connection string
 const pool = new Pool({
-    connectionString: "postgresql://postgres.bihqharjyezzxhsghell:newPass12311220yU@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
+    connectionString: process.env.DATABASE_URL,
 });
 
 export async function POST(req) {
