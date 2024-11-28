@@ -149,7 +149,7 @@ const Smm = () => {
                 const response = await axios.post('/api/smm/addUser', {
                     name: userData.firstname,
                     username: userData.username,
-                    profile: userData.profile
+                    profile: "profile"
                 });
 
                 const userName = response.data.userdata.name;
