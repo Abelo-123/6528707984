@@ -138,12 +138,12 @@ const Smm = () => {
         async function addUser() {
             try {
                 // Check if userdata_name is already stored in localStorage
-                const userNameFromStorage = localStorage.getItem('userdata_name');
+                // const userNameFromStorage = localStorage.getItem('userdata_name');
 
-                if (userNameFromStorage) {
-                    console.log('User data already exists in localStorage:', userNameFromStorage);
-                    return; // Do not call the API if the data is already set
-                }
+                // if (userNameFromStorage) {
+                //     console.log('User data already exists in localStorage:', userNameFromStorage);
+                //     return; // Do not call the API if the data is already set
+                // }
 
                 // Make API call to add user
                 const response = await axios.post('/api/smm/addUser', {
@@ -155,7 +155,7 @@ const Smm = () => {
                 const userName = response.data.userdata.name;
 
                 // Set user data in localStorage
-                localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
+                //localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
 
                 setCheckname(userName); // Use the name from the response
             } catch (error) {
