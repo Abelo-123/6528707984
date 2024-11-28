@@ -41,7 +41,7 @@ const Smm = () => {
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
-    const { setUserData } = useUser();
+    const { userData, setUserData } = useUser();
     const [checkname, setCheckname] = useState('')
 
 
@@ -147,9 +147,9 @@ const Smm = () => {
 
                 // Make API call to add user
                 const response = await axios.post('/api/smm/addUser', {
-                    name: "userDatas.firstname",
-                    username: "usadserData.username",
-                    profile: "saduserData.profile"
+                    name: userData.firstname,
+                    username: userData.username,
+                    profile: userData.profile
                 });
 
                 const userName = response.data.userdata.name;
