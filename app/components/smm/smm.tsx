@@ -147,9 +147,11 @@ const Smm = () => {
                 if (window.Telegram && window.Telegram.WebApp) {
                     const { user } = Telegram.WebApp.initDataUnsafe;
 
-                    // Store user ID
-                    // Check if userdata_name is already stored in localStorage
-                    const userNameFromStorage = localStorage.getItem('userdata_name');
+                    // Generate a unique key based on the user ID or app context
+                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+
+                    // Check if userdata_name is already stored in localStorage for this user
+                    const userNameFromStorage = localStorage.getItem(storageKey);
 
                     if (userNameFromStorage) {
                         console.log('User data already exists in localStorage:', userNameFromStorage);
@@ -157,20 +159,24 @@ const Smm = () => {
                     }
 
                     // Make API call to add user
-                    const response = await axios.post('/api/smm/addUser', {
-                        name: user.first_name,
-                        username: user.username,
-                        profile: "profile"
-                    });
+                    try {
+                        const response = await axios.post('/api/smm/addUser', {
+                            name: user.first_name,
+                            username: user.username,
+                            profile: "profile"
+                        });
 
+                        const userName = response.data.userdata.name;
 
-                    const userName = response.data.userdata.name;
+                        // Set user data in localStorage with a unique key
+                        localStorage.setItem(storageKey, userName);  // Store the name with a unique key
 
-                    // Set user data in localStorage
-                    localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
-
-                    setCheckname(userName); // Use the name from the response
+                        setCheckname(userName); // Use the name from the response
+                    } catch (error) {
+                        console.error("Error adding user:", error);
+                    }
                 }
+
 
             }
         }
