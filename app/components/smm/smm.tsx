@@ -136,30 +136,42 @@ const Smm = () => {
         }
 
         async function addUser() {
-            try {
-                // Check if userdata_name is already stored in localStorage
-                // const userNameFromStorage = localStorage.getItem('userdata_name');
+            const script = document.createElement("script");
+            script.src = "https://telegram.org/js/telegram-web-app.js?2";
+            script.async = true;
+            document.body.appendChild(script);
 
-                // if (userNameFromStorage) {
-                //     console.log('User data already exists in localStorage:', userNameFromStorage);
-                //     return; // Do not call the API if the data is already set
-                // }
+            script.onload = async () => {
+                const Telegram = window.Telegram;
 
-                // Make API call to add user
-                const response = await axios.post('/api/smm/addUser', {
-                    name: userData.firstname,
-                    username: userData.username,
-                    profile: "profile"
-                });
+                if (window.Telegram && window.Telegram.WebApp) {
+                    const { user } = Telegram.WebApp.initDataUnsafe;
 
-                const userName = response.data.userdata.name;
+                    // Store user ID
+                    // Check if userdata_name is already stored in localStorage
+                    // const userNameFromStorage = localStorage.getItem('userdata_name');
 
-                // Set user data in localStorage
-                //localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
+                    // if (userNameFromStorage) {
+                    //     console.log('User data already exists in localStorage:', userNameFromStorage);
+                    //     return; // Do not call the API if the data is already set
+                    // }
 
-                setCheckname(userName); // Use the name from the response
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                    // Make API call to add user
+                    const response = await axios.post('/api/smm/addUser', {
+                        name: user.first_name,
+                        username: user.username,
+                        profile: "profile"
+                    });
+
+
+                    const userName = response.data.userdata.name;
+
+                    // Set user data in localStorage
+                    //localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
+
+                    setCheckname(userName); // Use the name from the response
+                }
+
             }
         }
 
