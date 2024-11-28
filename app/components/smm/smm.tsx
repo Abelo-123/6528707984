@@ -152,7 +152,7 @@ const Smm = () => {
                     profile: "saduserData.profile"
                 });
 
-                const userName = response.data.userdata[0];
+                const userName = response.data.userdata.name;
 
                 // Set user data in localStorage
                 localStorage.setItem('userdata_name', userName);  // Store the name in localStorage
