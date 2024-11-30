@@ -170,7 +170,7 @@ const Smm = () => {
             document.body.appendChild(script);
 
             script.onload = async () => {
-                const Telegram = window.Telegram;
+                //const Telegram = window.Telegram;
 
                 if (window.Telegram && window.Telegram.WebApp) {
                     //const { user } = Telegram.WebApp.initDataUnsafe;
