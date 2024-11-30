@@ -173,7 +173,7 @@ const Smm = () => {
                 const Telegram = window.Telegram;
 
                 if (window.Telegram && window.Telegram.WebApp) {
-                    const { user } = Telegram.WebApp.initDataUnsafe;
+                    //const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
                     const storageKey = "userdata_name_${user.id}"; // Unique key for each user (or mini-app)
