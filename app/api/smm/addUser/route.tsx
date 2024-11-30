@@ -13,9 +13,9 @@ export async function POST(req) {
         const { name, username, profile } = await req.json();
 
         const queryText = `
-      INSERT INTO users (name, username, profile)
+      INSERT INTO users (id, name, username, profile)
       VALUES ($1, $2, $3)
-      RETURNING name, username, profile;
+      RETURNING  name, username, profile;
     `;
         const values = [name, username, profile];
 

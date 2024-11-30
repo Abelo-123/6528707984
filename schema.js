@@ -8,3 +8,14 @@ export const users = pgTable('users', {
     profile: varchar('profile', { length: 255 }),
     status: varchar('status', { length: 255 }),
 });
+export const orders = pgTable('orders', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    uid: uuid('uid'),
+    service: integer('service'),
+    quantity: integer('quantity'),
+    charge: real('charge'),
+    refill: varchar('refill', { length: 255 }),
+    clicked: real('clicked'),
+    panel: varchar('panel', { length: 255 }),
+    status: varchar('status', { length: 255 }),
+});

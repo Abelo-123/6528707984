@@ -22,6 +22,13 @@
       "when": 1731938053944,
       "tag": "0002_open_lady_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732802933250,
+      "tag": "0003_smart_hiroim",
+      "breakpoints": true
     }
   ]
 }

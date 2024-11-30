@@ -70,3 +70,30 @@ tbody tr:nth-child(even) {
   color: white;
   background-color: var(--tgui--header_bg_color); /* Even rows have blue background */
 }
+
+.fa-lock {
+	animation: lock 1.5s cubic-bezier(.36,.07,.57,.99) infinite;
+}
+
+@keyframes lock {
+	0% {
+		transform: translateY(0);
+    color: 'var(--tgui--subtitle_text_color)';
+	}
+	20% {
+		transform:  translateY(-3px);
+	}
+	30% {
+		transform: translateY(3px);
+	}
+	50% {
+		transform:  translateY(-3px);
+	}
+	60% {
+		transform:  translateY(3px);
+	}
+	100% {
+		transform:  translateY(0);
+    color: 'var(--tgui--section_header_text_color)';
+	}
+}

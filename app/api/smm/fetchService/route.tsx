@@ -5,7 +5,7 @@ export async function GET() {
     try {
 
         // Fetch the data using axios
-        const response = await axios.get('https://n1panel.com/api/v2?key=48b115b489551892c3e861bc6eeb96b4&action=services');
+        const response = await axios.get('https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=services');
 
         // The data is in response.data
         const data = response.data;
