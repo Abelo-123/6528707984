@@ -41,7 +41,7 @@ const Smm = () => {
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
-    const { setUserData } = useUser();
+    const { setUserData, userData } = useUser();
     const [checkname, setCheckname] = useState('')
     const [id, setId] = useState('')
     const [ls, setLs] = useState('')
@@ -170,10 +170,10 @@ const Smm = () => {
             document.body.appendChild(script);
 
             script.onload = async () => {
-                //const Telegram = window.Telegram;
+                const Telegram = window.Telegram;
 
                 if (window.Telegram && window.Telegram.WebApp) {
-                    //const { user } = Telegram.WebApp.initDataUnsafe;
+                    const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
                     const storageKey = "userdata_name_userid"; // Unique key for each user (or mini-app)
@@ -192,33 +192,14 @@ const Smm = () => {
 
                     try {
 
-                        let profile = "";
-                        try {
-                            const responses = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=5928771903`);
-
-                            if (responses.data.ok) {
-                                const file_id = responses.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
-
-                                const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
-
-                                if (resp.data.ok) {
-
-                                    profile = `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}`
-                                }
-                                //     // Wrap it in an array to match the existing state structure
-                            }
-                        } catch (e) {
-                            console.error(e.message)
-                        }
-
 
 
 
                         const response = await axios.post('/api/smm/addUser', {
-                            name: "user.first_name",
-                            username: "user.username",
-                            profile: profile,
-                            id: "user.idd"
+                            name: user.first_name,
+                            username: user.username,
+                            profile: "profile",
+                            id: user.id
 
                         });
 
@@ -513,7 +494,7 @@ const Smm = () => {
                             <div style={{ paddingLeft: '1rem' }}>
                                 {!cat && 'choose media' || !chosen?.name && `choose ${icon.n} category and service` || (chosen.name && !id) && `choose ${icon.n} service` || cat && ser && (<>
                                     <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
-                                    <p className="mb-4 ml-4">Enter the amount you want to deposit:</p>
+                                    <p className="mb-4 ml-4">Enter the amount you want to deposit:{userData.userId}</p>
                                     <Input header="Input" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
                                     <Input header="Input" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
                                     {charge}
