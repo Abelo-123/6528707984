@@ -193,21 +193,23 @@ const Smm = () => {
                     try {
 
                         let profile = "";
+                        try {
+                            const responses = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=5928771903`);
 
-                        const responses = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=5928771903`);
+                            if (responses.data.ok) {
+                                const file_id = responses.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
 
-                        if (responses.data.ok) {
-                            const file_id = responses.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
+                                const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
 
-                            const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
+                                if (resp.data.ok) {
 
-                            if (resp.data.ok) {
-
-                                profile = `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}`
+                                    profile = `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}`
+                                }
+                                //     // Wrap it in an array to match the existing state structure
                             }
-                            //     // Wrap it in an array to match the existing state structure
+                        } catch (e) {
+                            console.error(e.message)
                         }
-
 
 
 
