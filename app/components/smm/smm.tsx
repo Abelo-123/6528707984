@@ -41,7 +41,7 @@ const Smm = () => {
     const [link, setLink] = useState(null);
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
-    const { setUserData, userData } = useUser();
+    const { setUserData } = useUser();
     const [checkname, setCheckname] = useState('')
     const [id, setId] = useState('')
     const [ls, setLs] = useState('')
