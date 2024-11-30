@@ -62,10 +62,10 @@ const Smm = () => {
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 setUserData({
-                    username: "user.username",
-                    firstName: "user.first_name",
-                    lastName: "user.last_name",
-                    userId: 89, // Store user ID
+                    username: user.username,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    userId: user.id, // Store user ID
 
                 });
 
@@ -176,7 +176,7 @@ const Smm = () => {
                     const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
-                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+                    const storageKey = "userdata_name_${user.id}"; // Unique key for each user (or mini-app)
 
                     const storedData = localStorage.getItem(storageKey);
 
@@ -185,12 +185,13 @@ const Smm = () => {
                     const userNameFromStorage = localStorage.getItem(storageKey);
 
                     let profile = "";
+
                     if (userNameFromStorage) {
                         console.log('User data already exists in localStorage:', userNameFromStorage);
                         return; // Do not call the API if the data is already set
                     } else {
                         try {
-                            const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${user.id}`);
+                            const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=5928771903`);
 
                             if (response.data.ok) {
                                 const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
@@ -201,11 +202,12 @@ const Smm = () => {
 
                                     profile = `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}`
                                 }
-                                // Wrap it in an array to match the existing state structure
+                                //     // Wrap it in an array to match the existing state structure
                             }
+                        }
 
 
-                        } catch (e) {
+                        catch (e) {
                             console.error(e.message)
                         }
                     }
@@ -213,10 +215,10 @@ const Smm = () => {
                     try {
 
                         const response = await axios.post('/api/smm/addUser', {
-                            name: user.first_name,
-                            username: user.username,
+                            name: "user.first_name",
+                            username: "user.username",
                             profile: profile,
-                            id: user.id
+                            id: "user.idd"
 
                         });
 
