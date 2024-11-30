@@ -176,7 +176,7 @@ const Smm = () => {
                     //const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
-                    const storageKey = "userdata_name_${user.id}"; // Unique key for each user (or mini-app)
+                    const storageKey = "userdata_name_userid"; // Unique key for each user (or mini-app)
 
                     const storedData = localStorage.getItem(storageKey);
 
