@@ -44,7 +44,7 @@ const Smm = () => {
     const { setUserData, userData } = useUser();
     const [checkname, setCheckname] = useState('')
     const [id, setId] = useState('')
-
+    const [ls, setLs] = useState('')
 
 
     useEffect(() => {
@@ -176,8 +176,11 @@ const Smm = () => {
                     const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
-                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+                    // const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+                    const storageKey = `userdata_name_${user.id}`;
+                    const storedData = localStorage.getItem(storageKey);
 
+                    setLs(storedData)
                     // Check if userdata_name is already stored in localStorage for this user
                     const userNameFromStorage = localStorage.getItem(storageKey);
 
@@ -284,7 +287,7 @@ const Smm = () => {
     return (
 
         <List>
-            {checkname}
+            {checkname} or {ls}
             <button onClick={() => {
                 localStorage.clear();
 
