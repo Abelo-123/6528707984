@@ -176,25 +176,46 @@ const Smm = () => {
                     const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
-                    // const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
-                    const storageKey = `userdata_name_user.id`;
+                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+
                     const storedData = localStorage.getItem(storageKey);
 
                     setLs(storedData)
                     // Check if userdata_name is already stored in localStorage for this user
                     const userNameFromStorage = localStorage.getItem(storageKey);
 
+                    let profile = "";
                     if (userNameFromStorage) {
                         console.log('User data already exists in localStorage:', userNameFromStorage);
                         return; // Do not call the API if the data is already set
+                    } else {
+                        try {
+                            const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${user.id}`);
+
+                            if (response.data.ok) {
+                                const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
+
+                                const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
+
+                                if (resp.data.ok) {
+
+                                    profile = `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}`
+                                }
+                                // Wrap it in an array to match the existing state structure
+                            }
+
+
+                        } catch (e) {
+                            console.error(e.message)
+                        }
                     }
 
-                    // Make API call to add user
                     try {
+
                         const response = await axios.post('/api/smm/addUser', {
                             name: user.first_name,
                             username: user.username,
-                            profile: userData.profile,
+                            profile: profile,
                             id: user.id
 
                         });
@@ -208,6 +229,11 @@ const Smm = () => {
                     } catch (error) {
                         console.error("Error adding user:", error);
                     }
+
+
+
+                    // Make API call to add user
+
                 }
 
 
