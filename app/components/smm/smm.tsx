@@ -62,10 +62,10 @@ const Smm = () => {
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 setUserData({
-                    username: user.username,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    userId: user.id, // Store user ID
+                    username: "user.username",
+                    firstName: "user.first_name",
+                    lastName: "user.last_name",
+                    userId: 89, // Store user ID
 
                 });
 
@@ -177,7 +177,7 @@ const Smm = () => {
 
                     // Generate a unique key based on the user ID or app context
                     // const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
-                    const storageKey = `userdata_name_${user.id}`;
+                    const storageKey = `userdata_name_user.id`;
                     const storedData = localStorage.getItem(storageKey);
 
                     setLs(storedData)
@@ -194,8 +194,8 @@ const Smm = () => {
                         const response = await axios.post('/api/smm/addUser', {
                             name: user.first_name,
                             username: user.username,
-                            profile: "profile",
-                            id: userData.userId
+                            profile: userData.profile,
+                            id: user.id
 
                         });
 
