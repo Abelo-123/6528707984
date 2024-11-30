@@ -10,14 +10,14 @@ const pool = new Pool({
 
 export async function POST(req) {
     try {
-        const { name, username, profile } = await req.json();
+        const { id, name, username, profile } = await req.json();
 
         const queryText = `
       INSERT INTO users (id, name, username, profile)
-      VALUES ($1, $2, $3)
+      VALUES ($1, $2, $3, $4)
       RETURNING  name, username, profile;
     `;
-        const values = [name, username, profile];
+        const values = [id, name, username, profile];
 
         const { rows } = await pool.query(queryText, values);
 
