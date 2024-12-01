@@ -435,14 +435,16 @@ const Smm = () => {
 
 
             {modalA &&
-                <div style={{ 'zIndex': '90' }} className='scrollable modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0  bg-red-100 p-2'>
-                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '50rem' }} className='my-auto mx-auto p-8 bg-blue-100'>
-                        <div onClick={() => showModalA(false)} className='absolute top-0 right-0 m-6 bg-blue-100 p-3'>X</div>
+                <div style={{ 'zIndex': '90', 'background': 'rgba(0, 0, 0, 0.8)' }} className=' modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--secondary_bg_color)', 'color': ' var(--tgui--text_color)' }} className='scrollable my-auto mx-auto p-8 '>
+                        <div onClick={() => showModalA(false)} className='absolute top-0 right-0 m-6 text-white p-3'>
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
                         {category.map((datas, index) => (
-                            <div key={index} className="p-2 py-4" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                            <div key={index} className="px-1 py-3" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                                 <div className=" text-wrap flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-                                    <div className='ml-4' style={{ fontSize: '0.8rem' }}>{datas.category}</div>
+                                    <div className='ml-4' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.category}</div>
                                 </div>
                             </div>
                         ))}
@@ -466,22 +468,24 @@ const Smm = () => {
             </Section>
 
             {modalB &&
-                <div style={{ 'zIndex': '90' }} className='scrollable modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0  bg-red-100 p-2'>
-                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '50rem' }} className='my-auto mx-auto p-8 bg-blue-100'>
-                        <div onClick={() => showModalB(false)} className='absolute top-0 right-0 m-6 bg-blue-100 p-3'>X</div>
+                <div style={{ 'zIndex': '90', 'background': 'rgba(0, 0, 0, 0.8)' }} className=' modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--secondary_bg_color)', 'color': ' var(--tgui--text_color)' }} className='scrollable my-auto mx-auto p-8 '>
+                        <div onClick={() => showModalB(false)} className='absolute top-0 text-white right-0 m-6 b p-3'>
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
 
-                        {service.map((datas, index) => (
+                        {ser ? service.map((datas, index) => (
 
                             <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                                 <div className="text-wrap flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-                                    <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem' }}>{datas.name}
+                                    <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.name}
                                         <div className='bg-red-100 m-2 rounded-lg  p-2 inline'>ola</div>
                                     </div>
 
                                 </div>
                             </div>
-                        ))}
+                        )) : <Text>Choose Category</Text>}
                     </div>
                 </div>}
 
