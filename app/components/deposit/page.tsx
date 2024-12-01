@@ -1,17 +1,23 @@
 "use client"
-import { List, Input, Button, Section } from "@telegram-apps/telegram-ui";
+import { List, Select, Input, Button, Section } from "@telegram-apps/telegram-ui";
 import { useState } from "react";
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios"
+import { useUser } from '../UserContext';
 
 const Deposit = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenn, setIsModalOpenn] = useState(false);
-
+    const [pm, setPm] = useState(null)
+    const [name, setName] = useState('')
+    const [amount, setAmount] = useState('')
+    const [inputColor, setInputColor] = useState(''); // State for dynamic color
 
     // Function to open the modal
     const openModal = () => {
         setIsModalOpen(true);
+
     };
 
     // Function to close the modal
@@ -25,7 +31,46 @@ const Deposit = () => {
 
     const openModall = () => {
         setIsModalOpenn(true);
+        if (inputColor == 'blue') {
+            window.alert("150")
+            setIsModalOpenn(false);
+        }
     };
+    const handleChange = (event) => {
+        const value = event.target.value;
+        setPm(value);   // Call the setPm() function
+    };
+
+    const handleDeposit = (e) => {
+        const value = e.target.value;
+        setAmount(value);
+
+        // Change the color based on the value of the input
+        if (value < 150) {
+
+
+            setInputColor('black');  // Set the color to black when amount is less than 150
+        } else {
+
+
+            setInputColor('blue');  // Set the color back to blue otherwise
+        }
+    };
+    const handleConfirm = async (e) => {
+        const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
+        const { userId } = useUser();  // Destructure userId from useUser hook
+
+
+        e.preventDefault()
+        const responsed = await axios.post('/api/smm/addDeposit', {
+            did: did,
+            uid: userId,
+            pm: pm,
+            amount: amount,
+            name: name
+        });
+        console.log(responsed.data.data)
+    }
 
     return (
         <>
@@ -65,10 +110,17 @@ const Deposit = () => {
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
                             <p className="mb-4">Enter the amount you want to deposit:</p>
-                            <Input header="Input" placeholder="Write and clean me" autoFocus />
-                            <Input header="Input" placeholder="Write and clean me" />
+                            <Select header="Select" value={pm} onChange={handleChange}>
+                                <option value="">Select an option</option>
+                                <option>Hello</option>
+                                <option>Okay</option>
+                            </Select>
+                            <Input header="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Write and clean me" autoFocus />
+                            <Input type="number" style={{ color: inputColor }} header="Amount" value={amount} onInput={(e) => handleDeposit(e)} placeholder="Write and clean me" />
                             <div className="flex mt-6  justify-between">
                                 <button
+                                    disabled={inputColor == "blue" ? true : false}
+                                    id="deposit"
                                     style={{ background: 'var(--tgui--button_color)' }}
                                     className=" w-full text-white px-6 py-4 rounded-md"
                                     onClick={openModall}
@@ -93,9 +145,10 @@ const Deposit = () => {
                                 <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-bold mb-4">Confirm Action</h2>
-
+                            {amount} {pm} {name}
                             <div className="flex absolute bottom-6 left-0 right-0   w-full justify-end space-x-4">
                                 <button
+                                    onClick={handleConfirm}
                                     style={{ background: 'var(--tgui--button_color)' }}
                                     className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
                                 >

@@ -1,14 +1,13 @@
 "use client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Cell, Text, Input, Modal } from "@telegram-apps/telegram-ui";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { ModalHeader } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalHeader/ModalHeader";
-import { ModalClose } from "@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalClose/ModalClose";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
 import { faAngleDown, faClose } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
+import { supabase } from '../../lib/supabaseClient'
+
 
 const iconMap = {
     youtube: faYoutube,
@@ -45,6 +44,41 @@ const Smm = () => {
     const [checkname, setCheckname] = useState('')
     const [id, setId] = useState('')
     const [ls, setLs] = useState('')
+    const [balance, setBalance] = useState(0.0)
+    const [modalA, showModalA] = useState(false)
+    const [modalB, showModalB] = useState(false)
+
+    interface UserBalance {
+        id: number;
+        balance: number;
+        // Include other fields that may exist in the `users` table
+    }
+    useEffect(() => {
+        const auth = async () => {
+            // Fetch the initial balance from the database
+            const { data, error } = await supabase
+                .from('users')
+                .select('balance')
+                .eq('id', 100)
+                .single(); // Get a single row
+
+            if (error) {
+                console.error('Error fetching initial balance:', error);
+            } else {
+                setBalance(data.balance); // Set initial balance
+            }
+
+            // Subscribe to real-time changes
+            supabase
+                .channel('users:id=eq.100')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'users', filter: 'id=eq.100' }, (payload) => {
+                    setBalance((payload.new as { balance: number }).balance); // Update balance on real-time changes
+                })
+                .subscribe();
+        };
+
+        auth();
+    }, []);
 
 
     useEffect(() => {
@@ -260,6 +294,7 @@ const Smm = () => {
         setChosen(data)
         setSer(true)
 
+        showModalA(false)
         const ser = services[0].data.response.filter((datas) => datas.category.includes(name))
         settherate(ser[0].rate)
         return setService(ser)
@@ -269,7 +304,7 @@ const Smm = () => {
         setId(data.name)
         setSer(true)
         setChosen(data)
-
+        showModalB(false)
     }
 
     const handleInput = (e) => {
@@ -278,7 +313,7 @@ const Smm = () => {
         setCharge(inputValue * theRate); // Perform the calculation
     };
 
-    const handleOrder = () => {
+    const handleOrder = async () => {
         if (quantity % 10 !== 0) {
             alert("multiple 10")
         } else if (quantity > 10000) {
@@ -290,6 +325,25 @@ const Smm = () => {
         } else if (link == null && quantity == 0) {
             alert("enter forms")
         }
+        try {
+
+            const response = await axios.post('/api/smm/addOrder', {
+                username: "userData.firstName",
+                service: chosen.service,
+                link: link,
+                quantity: quantity,
+                charge: charge,
+                refill: chosen.refill,
+                panel: 'smm',
+                category: chosen.category,
+                id: 100
+            });
+            if (response) {
+                alert(response.data.success)
+            }
+        } catch (e) {
+
+        }
 
     }
 
@@ -297,6 +351,7 @@ const Smm = () => {
 
         <List>
             {checkname} or {ls}
+            and blanace: {balance}
             <button onClick={() => {
                 localStorage.clear();
 
@@ -365,83 +420,75 @@ const Smm = () => {
                 </div>
             </Section>
 
-            <Modal
-                header={<ModalHeader after={<ModalClose>X</ModalClose>}>Only iOS header</ModalHeader>}
-                style={{ height: '80%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
-                trigger={(
-                    <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                        <div className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
-                            <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
-                                <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
-                                <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
-                                    <div style={{ color: (cat && !ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{chosen?.category || `Select ${icon.n} category`}</div>
-                                </div>
-                                <div className='my-4  ml-auto mx-4 justify-self-end'>
-                                    <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
-                                </div>
-                            </div>
+
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                <div onClick={() => showModalA(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+
+                    <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
+                        <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
+                        <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
+                            <div style={{ color: (cat && !ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{chosen?.category || `Select ${icon.n} category`}</div>
                         </div>
-                    </Section>
-                )}
+                        <div className='my-4  ml-auto mx-4 justify-self-end'>
+                            <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+                    </div>
+                </div>
+            </Section>
 
-            >
 
-                <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>{cat ? "" : "Please Select social media"}</Text></DialogTitle>
-                <List>
-                    {category.map((datas, index) => (
-                        <ModalClose key={index} >
-                            <Cell onClick={() => getService(datas.category, datas)} style={{ borderRadius: '10px', borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                                <div className="   flex">
+            {modalA &&
+                <div style={{ 'zIndex': '90' }} className='scrollable modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0  bg-red-100 p-2'>
+                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '50rem' }} className='my-auto mx-auto p-8 bg-blue-100'>
+                        <div onClick={() => showModalA(false)} className='absolute top-0 right-0 m-6 bg-blue-100 p-3'>X</div>
+                        {category.map((datas, index) => (
+                            <div key={index} className="p-2 py-4" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                <div className=" text-wrap flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
                                     <div className='ml-4' style={{ fontSize: '0.8rem' }}>{datas.category}</div>
                                 </div>
-                            </Cell>
-                        </ModalClose>
-                    ))}
-                </List>
-            </Modal >
-
-
-
-
-            <Modal
-                header={<ModalHeader after={<ModalClose>X</ModalClose>}>Only iOS header</ModalHeader>}
-                style={{ height: '80%', padding: '1rem', background: 'var(--tgui--bg_color)' }}
-                trigger={(
-                    <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>3. service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                        <div className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
-
-                            <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
-                                <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
-                                <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
-                                    <div style={{ color: (!id && ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{!id ? `Select ${icon.n} service` : id}</div>
-                                </div>
-                                <div className='my-4 ml-auto mx-4 justify-self-end'>
-                                    <FontAwesomeIcon className={(cat && !id && chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
-                                </div>
                             </div>
+                        ))}
+                    </div>
+                </div>}
+
+
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>3. service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                <div onClick={() => showModalB(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+
+                    <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
+                        <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
+                        <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
+                            <div style={{ color: (!id && ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{!id ? `Select ${icon.n} service` : id}</div>
                         </div>
-                    </Section>
-                )}
-            >
-                <DialogTitle style={{ color: 'var(--tgui--section_header_text_color)' }}><Text>{ser ? "" : `Please elect ${icon.n} category`}</Text></DialogTitle>
-                <List>
-                    {service.map((datas, index) => (
-                        <ModalClose key={index} >
-                            {ser ? <Cell onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                                <div className="   flex">
+                        <div className='my-4 ml-auto mx-4 justify-self-end'>
+                            <FontAwesomeIcon className={(cat && !id && chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+                    </div>
+                </div>
+            </Section>
+
+            {modalB &&
+                <div style={{ 'zIndex': '90' }} className='scrollable modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0  bg-red-100 p-2'>
+                    <div style={{ 'overflow': 'auto', 'height': '80%', 'width': '50rem' }} className='my-auto mx-auto p-8 bg-blue-100'>
+                        <div onClick={() => showModalB(false)} className='absolute top-0 right-0 m-6 bg-blue-100 p-3'>X</div>
+
+                        {service.map((datas, index) => (
+
+                            <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                <div className="text-wrap flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
                                     <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem' }}>{datas.name}
                                         <div className='bg-red-100 m-2 rounded-lg  p-2 inline'>ola</div>
                                     </div>
 
                                 </div>
-                            </Cell> : ""}
-                        </ModalClose>
-                    ))}
-                </List>
-            </Modal>
+                            </div>
+                        ))}
+                    </div>
+                </div>}
+
             <Button
                 mode="filled"
                 size="l"
@@ -453,7 +500,7 @@ const Smm = () => {
 
             {
                 id && (
-                    <div className='scrollable w-11/12 mx-auto p-2' style={{ height: '10rem', overflowY: 'scroll', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                    <div className=' w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
                         <Text style={{ fontSize: '0.8rem' }}>
                             ★ Romania Views<br />
                             ★ RAV™ - Real & Active Views<br />
