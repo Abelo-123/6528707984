@@ -1,6 +1,6 @@
 "use client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Section, Spinner, List, Cell, Text, Input, Modal } from "@telegram-apps/telegram-ui";
+import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
 import { faAngleDown, faClose } from '@fortawesome/free-solid-svg-icons';
@@ -48,11 +48,7 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
 
-    interface UserBalance {
-        id: number;
-        balance: number;
-        // Include other fields that may exist in the `users` table
-    }
+
     useEffect(() => {
         const auth = async () => {
             // Fetch the initial balance from the database
@@ -342,7 +338,7 @@ const Smm = () => {
                 alert(response.data.success)
             }
         } catch (e) {
-
+            console.error(e.message)
         }
 
     }

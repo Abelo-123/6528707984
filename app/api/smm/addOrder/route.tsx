@@ -53,7 +53,7 @@ export async function POST(req) {
         }
 
         // Parse the response from the API
-        const apiData = await apiResponse.json();
+        // const apiData = await apiResponse.json();
 
         const updateUserQuery = `
       UPDATE users

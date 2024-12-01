@@ -7,6 +7,8 @@ import axios from "axios"
 import { useUser } from '../UserContext';
 
 const Deposit = () => {
+    const { userId } = useUser();  // Destructure userId from useUser hook
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenn, setIsModalOpenn] = useState(false);
     const [pm, setPm] = useState(null)
@@ -58,7 +60,6 @@ const Deposit = () => {
     };
     const handleConfirm = async (e) => {
         const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
-        const { userId } = useUser();  // Destructure userId from useUser hook
 
 
         e.preventDefault()
