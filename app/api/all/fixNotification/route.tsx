@@ -8,17 +8,23 @@ const pool = new Pool({
     },
 });
 
+
 export async function POST(req) {
+
+    const { orderId } = await req.json();
+
+
     try {
-        const { did, uid, pm, amount, name } = await req.json();
 
-        const queryText = `
-      INSERT INTO deposit (did, uid, pm, amount, name)
-      VALUES ($1, $2, $3, $4, $5)
+        const updateUserQuery = `
+        UPDATE orders
+        SET panel = $1
+        RETURNING oid, status;
     `;
-        const values = [did, uid, pm, amount, name];
 
-        await pool.query(queryText, values);
+        const values = ["fixed", orderId];
+
+        await pool.query(updateUserQuery, values);
 
         return NextResponse.json({ success: "success" });
     } catch (error) {

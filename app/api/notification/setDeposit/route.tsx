@@ -8,19 +8,24 @@ const pool = new Pool({
     },
 });
 
+
 export async function POST(req) {
+
+    const { bool } = await req.json();
+
+
     try {
-        const { did, uid, pm, amount, name } = await req.json();
 
-        const queryText = `
-      INSERT INTO deposit (did, uid, pm, amount, name)
-      VALUES ($1, $2, $3, $4, $5)
+        const updateUserQuery = `
+        UPDATE deposit
+        SET seen = $1;
     `;
-        const values = [did, uid, pm, amount, name];
 
-        await pool.query(queryText, values);
+        const values = [bool];
 
-        return NextResponse.json({ success: "success" });
+        await pool.query(updateUserQuery, values);
+
+        return NextResponse.json({ success: `setted ${bool}` });
     } catch (error) {
         console.error("Error inserting data:", error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });

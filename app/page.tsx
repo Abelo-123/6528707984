@@ -4,6 +4,7 @@ import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
 import React from 'react';
 import Smm from './components/smm/smm';
+import Admin from "./components/admin/page";
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
 import Account from './components/Account/account';
@@ -61,6 +62,8 @@ const Telegram = () => {
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Account /></div>
           <div id="6"
             className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><TelegramApp /></div>
+          <div id="7"
+            className={`w-screen ${activePage === 6 ? '' : 'hidden'}`}><Admin /></div>
         </div>
 
       </AppRoot >

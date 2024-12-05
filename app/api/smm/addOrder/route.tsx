@@ -13,14 +13,36 @@ export async function POST(req) {
         // Destructure the data from the request body
         const { id, category, username, service, link, quantity, charge, refill, panel } = await req.json();
 
+        // Construct the URL for the external API call
+        const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
+
+        // Make the API request to the external service
+        const apiResponse = await fetch(apiUrl, {
+            method: 'GET', // Use GET method for the request
+        });
+
+        const apiData = await apiResponse.json(); // Parse the JSON response from the API
+
+        // Check if the API was successful
+        if (!apiData.order) {
+            // If the API did not return an order, return an error
+            return NextResponse.json({
+                success: false,
+                error: 'Failed to fetch order from API',
+            });
+        }
+
+        // Extract the 'order' ID from the API response
+        const order = apiData.order;  // Extract the 'order' field
+
         // Prepare the SQL query to insert data into the 'orders' table
         const queryText = `
-        INSERT INTO orders (category, service, quantity, link, charge, refill, panel, status, username, chat, uid)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        INSERT INTO orders (category, service, quantity, link, charge, refill, panel, status, username, chat, uid, oid)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         RETURNING id;
       `;
 
-        // Prepare the values for the query
+        // Prepare the values for the query (including the 'oid' from the API response)
         const values = [
             category,
             service,
@@ -32,29 +54,15 @@ export async function POST(req) {
             'Pending', // Set status to 'Pending'
             username,
             `https://t.me/${username}`,
-            id,// Telegram chat link
+            id, // Telegram chat link
+            order, // OID from the API response
         ];
 
         // Insert data into the 'orders' table and get the inserted row's 'id'
         const { rows } = await pool.query(queryText, values);
         const orderId = rows[0].id;  // Get the 'id' of the inserted order
 
-        // Construct the URL for the external API call
-        const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
-
-        // Make the API request to the external service
-        const apiResponse = await fetch(apiUrl, {
-            method: 'GET', // Use GET method for the request
-        });
-
-        // Check if the API request was successful
-        if (!apiResponse.ok) {
-            throw new Error(`API request failed with status: ${apiResponse.status}`);
-        }
-
-        // Parse the response from the API
-        // const apiData = await apiResponse.json();
-
+        // Prepare the update query for the user balance (we don't need to update orders anymore)
         const updateUserQuery = `
       UPDATE users
       SET balance = balance - $1
@@ -70,16 +78,15 @@ export async function POST(req) {
         const updatedUser = updatedUserRows[0];
         if (!updatedUser) {
             return NextResponse.json({
-                // 'id' from the database
-                success: 'false'
+                success: 'false',
             });
         }
 
-
-        // Return both the 'id' from the database and the 'order' data from the API
+        // If everything was successful, return the order details
         return NextResponse.json({
-            // 'id' from the database
-            success: 'true'
+            success: true,
+            orderId: orderId,
+            orderOid: order,
         });
 
     } catch (error) {
@@ -88,4 +95,3 @@ export async function POST(req) {
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }
-

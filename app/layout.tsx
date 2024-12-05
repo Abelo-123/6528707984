@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ActivePageProvider } from "./components/ActivePageContext"
 import { UserProvider } from "./components/UserContext"
+import { UserNotProvider } from "./components/StatusContext"
 import Tab from './components/tab/page';
 import Lays from './components/layout/page';
 import { AppRoot } from "@telegram-apps/telegram-ui";
@@ -65,13 +66,15 @@ export default function RootLayout({
         <NextTWAProvider >
           <ActivePageProvider>
             <UserProvider>
-              <AppRoot>
-                <Lays />
+              <UserNotProvider>
+                <AppRoot>
+                  <Lays />
 
-                {children}
-                <Tab />
+                  {children}
+                  <Tab />
 
-              </AppRoot>
+                </AppRoot>
+              </UserNotProvider>
             </UserProvider>
           </ActivePageProvider>
         </NextTWAProvider>

@@ -1,13 +1,16 @@
 "use client"
 import { List, Select, Input, Button, Section } from "@telegram-apps/telegram-ui";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios"
-import { useUser } from '../UserContext';
-
+import { useNot } from '../StatusContext';
+import { supabase } from "@/app/lib/supabaseClient";
 const Deposit = () => {
-    const { userId } = useUser();  // Destructure userId from useUser hook
+
+    //const { userId } = useUser();  // Destructure userId from useUser hook
+
+    const { setNotification } = useNot();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenn, setIsModalOpenn] = useState(false);
@@ -15,6 +18,9 @@ const Deposit = () => {
     const [name, setName] = useState('')
     const [amount, setAmount] = useState('')
     const [inputColor, setInputColor] = useState(''); // State for dynamic color
+
+    const [data, setData] = useState<any[]>([]);  // Adjust the type based on your data structure
+
 
     // Function to open the modal
     const openModal = () => {
@@ -65,13 +71,74 @@ const Deposit = () => {
         e.preventDefault()
         const responsed = await axios.post('/api/smm/addDeposit', {
             did: did,
-            uid: userId,
+            uid: 100, //userId,
             pm: pm,
             amount: amount,
             name: name
         });
-        console.log(responsed.data.data)
+        if (responsed) {
+            alert(responsed.data.success)
+        }
     }
+
+
+    useEffect(() => {
+        const auth = async () => {
+            // Fetch the initial balance from the database
+            const { data: initialData, error } = await supabase
+                .from('deposit')
+                .select('*')
+                .eq('uid', 100);
+
+            if (error) {
+                console.log(error);
+            } else {
+                setData(initialData);  // Set the initial data
+            }
+
+            // Subscribe to real-time changes
+            supabase
+                .channel('deposit:uid=eq.100')
+                .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
+                    //console.log("New order inserted:", payload.new);
+                    // Add the new order to the state
+                    setData((prevData) => [...prevData, payload.new]);
+
+
+                })
+                .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
+                    //console.log("New order inserted:", payload.new);
+                    // Add the new order to the state
+                    //console.log(payload.new)
+
+                    const updatedItem = payload.new;
+
+                    //console.log(payload.new)
+                    if (payload.new.seen === true) {
+                        setNotification((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            notificationLight: true
+                            // Update the `deposit` field
+                        }));
+                    }
+
+                    setData((prevData) => {
+                        return prevData.map((item) => {
+                            if (item.did === updatedItem.did) {
+                                // If the IDs match, update the status
+                                return { ...item, status: "Done" };
+                            }
+                            return item;
+                        });
+                    });
+
+                })
+                .subscribe();
+        };
+
+        auth();
+    }, []);
+
 
     return (
         <>
@@ -164,27 +231,24 @@ const Deposit = () => {
                         <table className="min-w-full  rounded-lg shadow-md">
                             <thead>
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Age</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Email</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Order Id</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Payment Methof</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
                                 </tr>
                             </thead>
                             <tbody className=" divide-y ">
-                                <tr>
-                                    <td className="px-6 py-4 text-sm ">John Doe</td>
-                                    <td className="px-6 py-4 text-sm">28</td>
-                                    <td className="px-6 py-4 text-sm ">john@example.com</td>
-                                </tr>
-                                <tr className="bg-gray-50">
-                                    <td className="px-6 py-4 text-sm">Jane Smith</td>
-                                    <td className="px-6 py-4 text-sm ">32</td>
-                                    <td className="px-6 py-4 text-sm ">jane@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td className="px-6 py-4 text-sm ">Sam Brown</td>
-                                    <td className="px-6 py-4 text-sm ">24</td>
-                                    <td className="px-6 py-4 text-sm ">sam@example.com</td>
-                                </tr>
+                                {data.map((items, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.did}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.pm}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.amount}</td>
+                                    </tr>
+                                ))}
+
                             </tbody>
                         </table>
                     </div>
