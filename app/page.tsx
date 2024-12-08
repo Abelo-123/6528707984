@@ -8,7 +8,7 @@ import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
 import Account from './components/Account/account';
 import TelegramApp from './components/theme/theme';
-import React, { Suspense } from "react";
+import React from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useActivePage } from './components/ActivePageContext';
@@ -55,9 +55,7 @@ const Telegram = () => {
       <AppRoot>
         <div className='w-screen' >
 
-          <Suspense fallback={<p>Loading data...</p>}>
-            <Content />
-          </Suspense>
+          <Content />
           <div
             id="1"
             className={`w-screen ${activePage === 1 ? '' : 'hidden'}`}><Smm /></div>
