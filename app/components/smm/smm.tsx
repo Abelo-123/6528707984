@@ -379,6 +379,7 @@ const Smm = () => {
     function getCategory(name, color, faicon, names) {
         setSer(false)
         setId(null)
+        setChosen(null)
         setDescription(null)
         setBcfor(name)
         setBc('var(--tgui--section_header_text_color)')
