@@ -18,7 +18,7 @@ const WEBHOOK_URL = `https://paxyo-tg-mini.vercel.app/ap/bot`;
 bot.setWebHook(WEBHOOK_URL);
 
 // Handle incoming updates from Telegram
-app.post('/api/bot', (req, res) => {
+app.post('/ap/bot', (req, res) => {
     bot.processUpdate(req.body);
     res.sendStatus(200);
 });
