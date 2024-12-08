@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // Replace '<YOUR_BOT_TOKEN>' with your bot's token
-const BOT_TOKEN = '7990081216:AAHDJ9rdWehJYM4iAakEub3O2082DsQla_M';
+const BOT_TOKEN = '7990081216:AAHrDqwYVx7y4VHSSdAZotfhuLUBi3wVtCc';
 const bot = new TelegramBot(BOT_TOKEN);
 
 // Mini App URL
