@@ -1,6 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 // curl -F "url=https://paxyo-tg-mini.vercel.app/api/bot" https://api.telegram.org/bot7990081216:AAHrDqwYVx7y4VHSSdAZotfhuLUBi3wVtCc/setWebhook
+//cloudflared tunnel --url http://localhost:3000
+// curl -F "url=https://davis-proteins-attempt-super.trycloudflare.com/api/tg" https://api.telegram.org/bot7766724477:AAHp0r8SvGJIIO9l02VsY6FuZisWFX3YvAg/setWebhook
 const app = express();
 app.use(express.json());
 
