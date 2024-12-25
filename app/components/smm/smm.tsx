@@ -666,27 +666,25 @@ const Smm = () => {
             console.log("User status updated:");
         }
     }
-    useEffect(() => {
-
-        // Ensure this code runs only in the browser
-        if (typeof window !== 'undefined') {
-            window.document.addEventListener('visibilitychange', function () {
-                if (document.visibilityState === 'visible') {
-                    // User is active, update online status
-                    setUserOnlineStatus(userData.userId, true);
-                } else {
-                    // User is inactive, update offline status
-                    setUserOnlineStatus(userData.userId, false);
-                }
-            });
+    function handleVisibilityChange() {
+        if (document.visibilityState === 'visible') {
+            setUserOnlineStatus(userData.userId, true);
+        } else {
+            setUserOnlineStatus(userData.userId, false);
         }
-        // Clean up the event listener on component unmount
+    }
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.document.addEventListener('visibilitychange', handleVisibilityChange);
+        }
+
         return () => {
             if (typeof window !== 'undefined') {
-                window.document.removeEventListener('visibilitychange', () => { });
+                window.document.removeEventListener('visibilitychange', handleVisibilityChange);
             }
         };
-    }, []); // Empty dependency array ensures this runs once on component mount
+    }, []);
 
     return (
 
