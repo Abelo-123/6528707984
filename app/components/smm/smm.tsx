@@ -224,7 +224,7 @@ const Smm = () => {
         script.async = true;
         document.body.appendChild(script);
 
-        script.onload = () => {
+        script.onload = async () => {
             const Telegram = window.Telegram;
 
             if (window.Telegram && window.Telegram.WebApp) {
@@ -239,7 +239,46 @@ const Smm = () => {
                     profile: "https://png.pngtree.com/png-clipart/20230511/ourmid/pngtree-isolated-cat-on-white-background-png-image_7094927.png"
 
                 });
+                const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
 
+                const userNameFromStorage = localStorage.getItem(storageKey);
+
+
+                if (userNameFromStorage) {
+                    setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
+                    console.log('User data already exists in localStorage:', userNameFromStorage)
+                    return; // Do not call the API if the data is already set
+                } else {
+                    if (user) {
+
+
+                        try {
+
+
+                            const { error } = await supabase
+                                .from('users')
+                                .insert([
+                                    { name: user.first_name, username: user.username, id: user.id }
+                                ]);
+
+                            if (error) {
+                                console.error(error.message)
+                            }
+
+                            const userName = user.username;
+
+                            // Set user data in localStorage with a unique key
+                            localStorage.setItem(storageKey, userName);
+                            // Store the name with a unique key
+                            const storedData = localStorage.getItem(`userdata_name_${user.id}`);
+
+                            setLs(`new set ${storedData}`)
+                            // Use the name from the response
+                        } catch (error) {
+                            console.error("Error adding user:", error);
+                        }
+                    }
+                }
 
             } else {
                 console.error("Telegram Web App API not loaded");
@@ -349,65 +388,12 @@ const Smm = () => {
             }
         }
 
-        async function addUser() {
-
-
-
-            // Generate a unique key based on the user ID or app context
-            const storageKey = `userdata_name_${userData.userId}`; // Unique key for each user (or mini-app)
-
-
-            // Check if userdata_name is already stored in localStorage for this user
-            const userNameFromStorage = localStorage.getItem(storageKey);
-
-
-            if (userNameFromStorage) {
-                setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
-                console.log('User data already exists in localStorage:', userNameFromStorage)
-                return; // Do not call the API if the data is already set
-            }
-
-            try {
-
-
-                const { error } = await supabase
-                    .from('users')
-                    .insert([
-                        { name: userData.firstName, username: userData.username, profile: userData.profile, id: userData.userId }
-                    ]);
-
-                if (error) {
-                    console.error(error.message)
-                }
-
-                const userName = userData.username;
-
-                // Set user data in localStorage with a unique key
-                localStorage.setItem(storageKey, userName);
-                // Store the name with a unique key
-                const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
-
-                setLs(`new set ${storedData}`)
-                // Use the name from the response
-            } catch (error) {
-                console.error("Error adding user:", error);
-            }
-
-
-
-            // Make API call to add user
-
-
-
-
-        }
-
 
         const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
 
         setLs(storedData)
 
-        addUser()
+
         fetchService()
     }, [])
 
