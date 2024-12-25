@@ -60,6 +60,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* <Script
+          src="https://js.chapa.co/v1/inline.js"
+          strategy="beforeInteractive"
+        /> */}
+      </head>
       <body
         className={normal ? ` ${geistSans.variable} ${geistMono.variable} antialiased` : `${geistSans.variable} ${geistMono.variable} antialiased`}
       >

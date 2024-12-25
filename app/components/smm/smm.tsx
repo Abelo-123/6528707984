@@ -8,6 +8,10 @@ import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
 import { useNot } from '../StatusContext';
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import Swal from 'sweetalert2'; // Import SweetAlert2
+import MyLoader from '../Loader/page';
+
 const iconMap = {
     youtube: faYoutube,
     facebook: faFacebook,
@@ -43,10 +47,10 @@ const Smm = () => {
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
     const { setUserData, userData } = useUser();
-    const [checkname, setCheckname] = useState('')
+    const [setCheckname] = useState('')
+    const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
-    const [ls, setLs] = useState('')
-    const [balance, setBalance] = useState(0.0)
+    const [setLs] = useState('')
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
@@ -55,13 +59,57 @@ const Smm = () => {
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
     const [description, setDescription] = useState("")
-    const [notificationMessage, setNotificationMessage] = useState([])
 
-    const [notificationModal, seeNotificationModal] = useState(false)
     const [promoModal, setpromoModal] = useState(false)
 
     const [promoCode, setPromoCode] = useState('')
 
+    const [disable, setDisable] = useState(false)
+    const [loader, showLoad] = useState(false)
+    const [marq, setMarq] = useState('')
+
+    useEffect(() => {
+        const fetchMarq = async () => {
+
+            const { data: setNotify, error: setError } = await supabase
+                .from('adminmessage')
+                .select('message')
+                .eq('for', 'all')
+                .single()
+
+            if (setError) {
+                console.error('Error fetching initial balance:', setError)
+            } else {
+                setMarq(setNotify.message)
+            }
+        }
+        fetchMarq();
+    }, [])
+
+    useEffect(() => {
+        const fetchDepo = async () => {
+            const { data: seeDataa, error: seeErora } = await supabase
+                .from('adminmessage')
+                .select('seen')
+                .eq('seen', true);
+
+            if (seeErora) {
+                console.error('Error fetching initial balance:', seeErora);
+            } else {
+                if (seeDataa.length >= 1) {
+                    setNotification((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        notificationLight: true,
+                        // Update the `deposit` field
+                    }));
+                    console.log("there admin")
+                } else {
+                    console.log("no admin message")
+                }
+            }
+        }
+        fetchDepo()
+    }, [])
     useEffect(() => {
         const auth = async () => {
             // Fetch the initial balance from the database
@@ -71,7 +119,7 @@ const Smm = () => {
             const { data, error } = await supabase
                 .from('users')
                 .select('balance')
-                .eq('id', 100)
+                .eq('id', userData.userId)
                 .single(); // Get a single row
 
             if (error) {
@@ -83,7 +131,7 @@ const Smm = () => {
             const { data: seeData, error: seeEror } = await supabase
                 .from('deposit')
                 .select('seen')
-                .eq('uid', 100)
+                .eq('uid', userData.userId)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -99,21 +147,32 @@ const Smm = () => {
                     console.log("not")
                 }
             }
+            //const forCondition = userData?.userId || "for";
+
+
+
+
+
+            // } 31013959
+
+
 
             // Subscribe to real-time changes
-            supabase
-                .channel('users:id=eq.100')
-                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: 'id=eq.100' }, (payload) => {
-                    setBalance((payload.new as { balance: number }).balance); // Update balance on real-time changes
-                    console.log("balance updated")
-                })
-            supabase
-                .channel('adminmessage:for=eq.100')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'adminmessage', filter: 'for=eq.100' }, (payload) => {
 
-                    setNotificationMessage((prevData) => [...prevData, payload.new]);
-                    // Update balance on real-time changes
-                    console.log(notificationMessage)
+            supabase
+                .channel('adminmessage')
+                .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
+                    //console.log("New order inserted:", payload.new);
+                    // Add the new order to the state
+
+                    if (payload.new.seen === true) {
+                        setNotification((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            notificationLight: true
+                            // Update the `deposit` field
+                        }));
+                        console.log(payload.new)
+                    }
                 })
                 .subscribe();
         };
@@ -127,22 +186,12 @@ const Smm = () => {
 
 
 
-            const { data, error } = await supabase
-                .from('users')
-                .select('balance')
-                .eq('id', 100)
-                .single(); // Get a single row
 
-            if (error) {
-                console.error('Error fetching initial balance:', error);
-            } else {
-                setBalance(data.balance); // Set initial balance
-            }
 
             const { data: seeData, error: seeEror } = await supabase
                 .from('deposit')
                 .select('seen')
-                .eq('uid', 100)
+                .eq('uid', userData.userId)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -160,21 +209,8 @@ const Smm = () => {
             }
 
             // Subscribe to real-time changes
-            supabase
-                .channel('users:id=eq.100')
-                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: 'id=eq.100' }, (payload) => {
-                    setBalance((payload.new as { balance: number }).balance); // Update balance on real-time changes
-                    console.log("balance updated")
-                })
-            supabase
-                .channel('adminmessage:for=eq.100')
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'adminmessage', filter: 'for=eq.100' }, (payload) => {
 
-                    setNotificationMessage((prevData) => [...prevData, payload.new]);
-                    // Update balance on real-time changes
-                    console.log(notificationMessage)
-                })
-                .subscribe();
+
         };
 
         auth();
@@ -199,7 +235,8 @@ const Smm = () => {
                     username: user.username,
                     firstName: user.first_name,
                     lastName: user.last_name,
-                    userId: user.id, // Store user ID
+                    userId: user.id,
+                    profile: "https://png.pngtree.com/png-clipart/20230511/ourmid/pngtree-isolated-cat-on-white-background-png-image_7094927.png"
 
                 });
 
@@ -245,12 +282,16 @@ const Smm = () => {
         const fetchDescc = async () => {
 
             const ser = chosen.service;
-
-            const response = await axios.post('/api/all/getDescription', {
-                service: ser
-            });
+            showLoad(true)
+            const { data, error } = await supabase.from('desc').select('description').eq('service', ser);
             // setDescription([response.data.success[0]])
-            setDescription(response.data.success[0].description)
+            if (error) {
+                console.error(error.message)
+            } else {
+                showLoad(false)
+                setDescription(data[0].description)
+            }
+
         }
         fetchDescc()
     }, [id]); // Effect depends on both chose and chose
@@ -261,9 +302,7 @@ const Smm = () => {
     };
 
     // Function to close the modal
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+
 
 
 
@@ -323,7 +362,7 @@ const Smm = () => {
                     const { user } = Telegram.WebApp.initDataUnsafe;
 
                     // Generate a unique key based on the user ID or app context
-                    const storageKey = "userdata_name_userid"; // Unique key for each user (or mini-app)
+                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
 
                     const storedData = localStorage.getItem(storageKey);
 
@@ -333,24 +372,25 @@ const Smm = () => {
 
 
                     if (userNameFromStorage) {
-                        console.log('User data already exists in localStorage:', userNameFromStorage);
+                        setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
+                        console.log('User data already exists in localStorage:', userNameFromStorage)
                         return; // Do not call the API if the data is already set
                     }
 
                     try {
 
 
+                        const { error } = await supabase
+                            .from('users')
+                            .insert([
+                                { name: user.first_name, username: user.username, profile: 'Profile', id: user.id }
+                            ]);
 
+                        if (error) {
+                            console.error(error.message)
+                        }
 
-                        const response = await axios.post('/api/smm/addUser', {
-                            name: user.first_name,
-                            username: user.username,
-                            profile: "profile",
-                            id: user.id
-
-                        });
-
-                        const userName = response.data.userdata.name;
+                        const userName = user.first_name;
 
                         // Set user data in localStorage with a unique key
                         localStorage.setItem(storageKey, userName);  // Store the name with a unique key
@@ -438,7 +478,9 @@ const Smm = () => {
         } else if (link == null && quantity == 0) {
             alert("enter forms")
         }
+
         try {
+            setDisable(true)
 
             const response = await axios.post('/api/smm/addOrder', {
                 username: "userData.firstName",
@@ -449,10 +491,23 @@ const Smm = () => {
                 refill: chosen.refill,
                 panel: 'smm',
                 category: chosen.category,
-                id: 100
+                id: userData.userId
             });
             if (response) {
-                alert(response.data.success)
+                setIsModalOpen(false);
+                setDisable(false)
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'The operation was successful.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        popup: 'swal2-popup',    // Apply the custom class to the popup
+                        title: 'swal2-title',    // Apply the custom class to the title
+                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                    }
+                });
             }
         } catch (e) {
             console.error(e.message)
@@ -518,117 +573,121 @@ const Smm = () => {
         })
     }
 
+    const closeModal = () => {
+        setIsModalOpen(false);
 
+    };
     const { useNotification } = useNot();
-
-    const seeNotification = async () => {
-
-
-        seeNotificationModal(true)
-        setNotification((prevNotification) => ({
-            ...prevNotification, // Spread the previous state
-            notificationLight: false,
-            // Update the `deposit` field
-        }));
-
-        const { data: setNotify, error: setError } = await supabase
-            .from('adminmessage')
-            .select('*')
-            .in('for', [100, 'all'])
-
-        if (setError) {
-            console.error('Error fetching initial balance:', setError);
-        } else {
-            console.log(setNotify)
-            setNotificationMessage(setNotify); // Set initial balance
-        }
-
-        await axios.post('/api/notification/setDeposit', {
-            bool: false,
-        });
-
-    }
 
     const checkPromo = async () => {
         try {
-            const { data, error } = await supabase
+            const { data: balance, error } = await supabase
                 .from('promo')
-                .select('*')
+                .select('balance')
                 .eq('code', promoCode)
-                .ilike('users', '%100%'); // Check if '100' exists surrounded by commas
+                .single();
 
             if (error) {
                 window.alert("invalid code")
-            }
-
-            if (data.length > 0) {
-                window.alert("contained")
             } else {
-                // Update the "balance" column in the "users" table
-                const { data: rows, error: fetchError } = await supabase
+                const pb = balance.balance
+                const { data, error } = await supabase
                     .from('promo')
-                    .select('users')
+                    .select('*')
                     .eq('code', promoCode)
-                    .single();  // Increment balance by 200
+                    .ilike('users', `%${userData.userId}%`); // Check if '100' exists surrounded by commas
 
-                if (fetchError) {
+                if (error) {
                     window.alert("invalid code")
                 }
 
-                const currentArray = rows.users || [];
-
-                // Step 2: Append the new value ('sd') to the array
-                const updatedArray = `${currentArray}, 100`;
-
-                // Update the "users" column in the "promo" table
-                const { error: updateError } = await supabase
-                    .from('promo')
-                    .update({ users: updatedArray })
-                    .eq('code', promoCode);
-
-                if (updateError) {
-                    throw new Error(`Error updating array: ${updateError.message}`);
+                if (data.length > 0) {
+                    window.alert("contained")
                 } else {
-                    const { error } = await supabase
+                    // Update the "balance" column in the "users" table
+                    const { data: rowss, error: fetchErrore } = await supabase
                         .from('users')
-                        .update({ balance: balance + 200 }) // Increment balance
-                        .eq('id', 100); // Add WHERE clause for id = 100
-                    if (error) {
-                        console.error('Error updating balance:', error.message);
+                        .select('balance')
+                        .eq('id', 100)
+                        .single();  // Increment balance by 200
+
+                    if (fetchErrore) {
+                        console.error(fetchErrore.message)
+                    } else {
+                        const bala = rowss.balance;
+
+                        const { data: rows, error: fetchError } = await supabase
+                            .from('promo')
+                            .select('users')
+                            .eq('code', promoCode)
+                            .single();  // Increment balance by 200
+
+                        if (fetchError) {
+                            window.alert("invalid code")
+                        }
+
+                        const currentArray = rows.users || [];
+
+                        // Step 2: Append the new value ('sd') to the array
+                        const updatedArray = `${currentArray}, ${userData.userId}`;
+
+                        // Update the "users" column in the "promo" table
+                        const { error: updateError } = await supabase
+                            .from('promo')
+                            .update({ users: updatedArray })
+                            .eq('code', promoCode);
+
+                        if (updateError) {
+                            throw new Error(`Error updating array: ${updateError.message}`);
+                        } else {
+                            const { error } = await supabase
+                                .from('users')
+                                .update({ balance: Number(Number(bala) + Number(pb)) }) // Increment balance
+                                .eq('id', userData.userId); // Add WHERE clause for id = 100
+                            if (error) {
+                                console.error('Error updating balance:', error.message);
+                            }
+                        }
                     }
+
+
                 }
             }
+
+
+
+
 
 
         } catch (err) {
             console.error('Error:', err.message);
         }
     }
+
+
     return (
 
         <List>
-            {checkname} or {ls}
-            and blanace: {balance}
-            <button onClick={() => {
+            {authmessage}
+            {<button onClick={() => {
                 localStorage.clear();
 
             }}>
                 Clean
-            </button>
-            <button onClick={() => readySearch(true)}>search</button>
-            {useNotification.notificationLight === true ? 'on' : "off"}
-            <button className="p-2 bg-red-100" onClick={seeNotification}>
+            </button>}
 
-                see</button>
-            <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
+            {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
 
-                see promo</button>
+                promo</button> */}
             {
                 searchh && (<>
                     <div style={{ zIndex: 900 }} className="absolute top-0 bottom-0 w-screen bg-red-100">
-                        <div onClick={() => readySearch(false)} className="absolute top-2 right-2 p-3 bg-red-300">X</div>
-                        <div className="p-3 bg-red-200 gap-5 pt-24 grid content-start w-screen h-screen">
-                            <div className="bg-red-500 p-2">
+                        <div onClick={() => readySearch(false)} className="absolute top-2 right-2  ">
+                            <FontAwesomeIcon icon={faClose} color="white" style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+
+                        <div className="p-3 bg-red-200 gap-5 pt-24 grid content-start w-full h-auto ">
+                            <div className="bg-red-500 p-2 ">
                                 <input
                                     id="search"
                                     type="text"
@@ -638,16 +697,16 @@ const Smm = () => {
                                     className="w-full p-2"
                                 />
                             </div>
-                            <div className="bg-red-600 p-2">
+                            <div className="bg-red-600 w-full p-2">
                                 <div id="result">
                                     {/* Display filtered services here */}
-                                    {filteredServices.length > 0 ? (
+                                    {search && filteredServices.length > 0 ? (
                                         filteredServices.map((service) => (
                                             <div key={service.service} onClick={() => clickedSearch(service)} className="p-2 mb-2 bg-white text-black rounded-md">
                                                 <h4 className="font-bold">{service.name}</h4>
-                                                <p>Category: {service.category}</p>
-                                                <p>Rate: ${service.rate}</p>
-                                                <p>Min: {service.min} - Max: {service.max}</p>
+                                                <p><strong>Category</strong> {service.category}</p>
+                                                <p><strong>Rate</strong> {service.rate}</p>
+                                                <p><strong>Min</strong> {service.min} <strong> Max</strong> {service.max}</p>
                                             </div>
                                         ))
                                     ) : (
@@ -659,12 +718,22 @@ const Smm = () => {
                     </div>
                 </>)
             }
+
             {
-                notificationModal && (
+                useNotification.notificationModal && (
                     <div style={{ zIndex: 900 }} className="absolute top-0 bottom-0 w-screen bg-red-100">
-                        <div onClick={() => seeNotificationModal(false)} className="absolute top-2 right-2 p-3 bg-red-300">X</div>
-                        {notificationMessage && notificationMessage.map((items, index) => (
-                            <div key={index} className="p-3 bg-red-200 gap-5 grid content-start w-screen ">
+                        <div onClick={() => {
+                            setNotification((prevNotification) => ({
+                                ...prevNotification, // Spread the previous state
+                                notificationModal: false,
+                                notificationData: [],
+                                notificationLoader: true,
+                                // Update the `deposit` field
+                            }));
+                        }} className="absolute top-2 right-2 p-3 bg-red-300">X</div>
+                        {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
+                        {!useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+                            <div key={index} className="p-3 bg-red-200 gap-5 grid content-start w-screen " >
                                 <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                     <div className="block w-full px-2">
                                         <div className="text-right ml-auto"> {items.from}</div>
@@ -673,6 +742,7 @@ const Smm = () => {
                                 </li>
                             </div>
                         ))}
+
 
                     </div>
                 )
@@ -687,7 +757,12 @@ const Smm = () => {
                 )
             }
 
-            <Section header="Promo Code" style={{ border: '1px solid var(--tgui--section_bg_color)' }}>
+            <marquee style={{ margin: '1px' }}>{marq}</marquee>
+
+            <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
+                <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
+                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto' }} size="1x" />
+                </div>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                         <Spinner size="l" />
@@ -839,14 +914,15 @@ const Smm = () => {
             >
                 Action
             </Button>
-
             {
-                id && description && (
-                    <div className=' w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
-                        <Text style={{ fontSize: '0.8rem' }}>
-                            <div dangerouslySetInnerHTML={{ __html: description }} />
-                        </Text>
-                    </div>)
+                loader ? <MyLoader /> :
+                    id && description && (
+                        <div className=' w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                            <Text style={{ fontSize: '0.8rem' }}>
+                                <div dangerouslySetInnerHTML={{ __html: description }} />
+                            </Text>
+                        </div>
+                    )
             }
 
             {
@@ -878,13 +954,20 @@ const Smm = () => {
                                     {charge}
                                     <div className="flex mt-6  justify-between">
                                         <button
+                                            disabled={disable === true}
                                             onClick={handleOrder}
                                             style={{ background: 'var(--tgui--button_color)' }}
                                             className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
-
                                         >
-                                            Make Deposit
-                                        </button>
+                                            {disable == true ? (
+                                                <>
+                                                    <button className="buttonload">
+                                                        <FontAwesomeIcon icon={faRefresh} className="spin" /> Loading
+                                                    </button>
+
+
+                                                </>
+                                            ) : "Order"}</button>
 
                                     </div>
                                 </>)}

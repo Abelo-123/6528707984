@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import axios from "axios";
 import { useNot } from '../StatusContext';
+import { useUser } from "../UserContext";
+import MyLoader from "../Loader/page";
 
 const Smmhistory = () => {
 
+    const [loader, setLoader] = useState(false)
+    const { userData } = useUser();
     const delay = (ms: number) => new Promise(resolve => {
         const interval = setInterval(() => {
             clearInterval(interval);
@@ -68,28 +72,29 @@ const Smmhistory = () => {
 
     useEffect(() => {
         const auth = async () => {
+            setLoader(true)
             // Fetch the initial data (orders) from Supabase or any other source
             const { data: initialData, error } = await supabase
                 .from("orders")
                 .select("*")
-                .eq("uid", 100); // Filter by user id or another parameter as needed
+                .eq("uid", userData.userId); // Filter by user id or another parameter as needed
 
             if (error) {
                 console.log(error);
             } else {
                 setData(initialData); // Set the initial data
-
+                setLoader(false)
                 // Immediately call fetchOrderStatus for each order to fetch the initial status
                 initialData.forEach((item) => {
                     // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                    if (item.status !== "Completed" && item.status !== "Cancelled") {
+                    if (item.status !== "Completed" && item.status !== "Canceled") {
                         fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
                     }
                 });
 
                 // Create intervals for polling, only for non-completed or non-cancelled orders
                 const intervals = initialData
-                    .filter((item) => item.status !== "Completed" && item.status !== "Cancelled") // Filter out completed/cancelled orders
+                    .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
                     .map((item) => {
 
                         return setInterval(() => fetchOrderStatus(item.oid), 2000000); // Polling only for non-completed orders every 2 seconds
@@ -169,46 +174,53 @@ const Smmhistory = () => {
             >
                 <Section header="Order History" style={{ border: "1px solid var(--tgui--section_bg_color)" }}>
                     <div style={{ width: "95%" }} className="mx-auto">
+                        {loader && <MyLoader />}
                         <div style={{ borderRadius: "10px" }} className="bg-red-100 w-full overflow-x-auto">
-                            <table style={{ width: "100%" }} className="bg-white border border-gray-200 rounded-lg shadow-md">
-                                <thead className="bg-gray-100">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Starting From
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Remains</th>
+                            <ul>
+                                {!loader &&
+                                    <table style={{ width: "100%" }} className="bg-white border border-gray-200 rounded-lg shadow-md">
+                                        <thead className="bg-gray-100">
+                                            <tr>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                    Status
+                                                </th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                    Starting From
+                                                </th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Remains</th>
 
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Quantity
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Link</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Charge (ETB)
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Service</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {data.map((items, index) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.oid}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.start_count}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.remains}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.quantity}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.link}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.charge}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.service}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                    Quantity
+                                                </th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Link</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                    Charge (ETB)
+                                                </th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Service</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200">
+                                            {data.map((items, index) => (
+                                                <tr key={index}>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.oid}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.start_count}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.remains}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.link}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.charge}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.service}</td>
+                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                }
+                            </ul>
+
+
                         </div>
                     </div>
                 </Section>

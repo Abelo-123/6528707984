@@ -97,3 +97,51 @@ tbody tr:nth-child(even) {
     color: 'var(--tgui--section_header_text_color)';
 	}
 }
+
+.buttonload {
+  color: white; /* White text */
+}
+
+/* Add a right margin to each icon */
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
+}
+
+.spin {
+  display: inline-block; /* Ensure it respects block-level properties */
+  animation: spin 1s linear infinite; /* Infinite spinning animation */
+}
+
+@keyframes spin {
+  from {
+      transform: rotate(0deg); /* Start at 0 degrees */
+  }
+  to {
+      transform: rotate(360deg); /* End at 360 degrees */
+  }
+}
+button:disabled {
+  cursor: not-allowed; /* Show a not-allowed cursor */
+  opacity: 0.7; /* Slightly transparent */
+}
+
+/* Custom SweetAlert2 Modal Style */
+.swal2-popup {
+  background-color: #333; /* Set background color */
+  color: #fff;            /* Set text color */
+}
+
+.swal2-title {
+  color: #ffcc00;          /* Set title color */
+}
+
+.swal2-confirm {
+  background-color: #007bff; /* Button color */
+  color: white;              /* Button text color */
+}
+
+.swal2-cancel {
+  background-color: #dc3545; /* Cancel button color */
+  color: white;              /* Cancel button text color */
+}

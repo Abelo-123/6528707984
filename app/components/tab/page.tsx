@@ -5,8 +5,8 @@ import { faClock, faUser, faCalendar } from '@fortawesome/free-regular-svg-icons
 import { useActivePage } from "../ActivePageContext";
 import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
 import { useNot } from '../StatusContext';
-import axios from "axios";
 import { useState } from "react";
+import { supabase } from "@/app/lib/supabaseClient";
 
 const Tab = () => {
 
@@ -41,16 +41,19 @@ const Tab = () => {
             try {
                 await delay(3000); // Wait for 2 seconds
 
-                const response = await axios.post('/api/all/fixNotification', {
-                    orderId: useNotification.id
-                })
+
+                const { error } = await supabase.from('orders').update({ panel: 'fixed' });
+                // setDescription([response.data.success[0]])
+                if (error) {
+                    console.error(error.message)
+                }
+
                 setNotification((prevNotification) => ({
                     ...prevNotification, // Spread the previous state
                     order: false,
                     id: 0
                 }));
                 setDisplay(true)
-                console.log(response.data)
 
             } catch (e) {
                 console.error(e.message)
@@ -79,6 +82,7 @@ const Tab = () => {
                         }
                         <FontAwesomeIcon icon={faFacebookMessenger} style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>smm</Text>
+
                     </div>
                 </Tabbar.Item>
 
