@@ -39,7 +39,7 @@ const Smm = () => {
     const [cat, setCat] = useState(false)
     const [ser, setSer] = useState(false)
     const [bc, setBc] = useState('')
-    // const [status, ] = useState('')
+    //const [status, setStatus] = useState('')
     const [bcfor, setBcfor] = useState('')
     const [mediaload, setMediaload] = useState(true);
     const [charge, setCharge] = useState(0.0);
@@ -690,7 +690,6 @@ const Smm = () => {
     return (
 
         <List>
-            {status}
             {authmessage}<br />
             {<button onClick={() => {
                 localStorage.clear();
