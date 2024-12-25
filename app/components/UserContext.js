@@ -9,10 +9,10 @@ export const useUser = () => useContext(UserContext);
 // Create a provider component
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({
-        username: '',
-        firstName: '',
-        lastName: '',
-        userId: 0, //userId: undefined,
+        username: 'username',
+        firstName: 'firstanme',
+        lastName: 'lastname',
+        userId: 1000, //userId: undefined,
         profile: "https://png.pngtree.com/png-clipart/20230511/ourmid/pngtree-isolated-cat-on-white-background-png-image_7094927.png"
 
     });

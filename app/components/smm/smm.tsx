@@ -47,10 +47,10 @@ const Smm = () => {
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
     const { setUserData, userData } = useUser();
-    const [setCheckname] = useState('')
+    const [checkname, setCheckname] = useState('')
     const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
-    const [setLs] = useState('')
+    const [ls, setLs] = useState('')
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
@@ -240,7 +240,7 @@ const Smm = () => {
 
                 });
 
-                fetchUserProfilePhotos(user.id);
+
             } else {
                 console.error("Telegram Web App API not loaded");
             } // Adjust timeout as necessary
@@ -350,67 +350,62 @@ const Smm = () => {
         }
 
         async function addUser() {
-            const script = document.createElement("script");
-            script.src = "https://telegram.org/js/telegram-web-app.js?2";
-            script.async = true;
-            document.body.appendChild(script);
-
-            script.onload = async () => {
-                const Telegram = window.Telegram;
-
-                if (window.Telegram && window.Telegram.WebApp) {
-                    const { user } = Telegram.WebApp.initDataUnsafe;
-
-                    // Generate a unique key based on the user ID or app context
-                    const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
-
-                    const storedData = localStorage.getItem(storageKey);
-
-                    setLs(storedData)
-                    // Check if userdata_name is already stored in localStorage for this user
-                    const userNameFromStorage = localStorage.getItem(storageKey);
-
-
-                    if (userNameFromStorage) {
-                        setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
-                        console.log('User data already exists in localStorage:', userNameFromStorage)
-                        return; // Do not call the API if the data is already set
-                    }
-
-                    try {
-
-
-                        const { error } = await supabase
-                            .from('users')
-                            .insert([
-                                { name: user.first_name, username: user.username, profile: 'Profile', id: user.id }
-                            ]);
-
-                        if (error) {
-                            console.error(error.message)
-                        }
-
-                        const userName = user.first_name;
-
-                        // Set user data in localStorage with a unique key
-                        localStorage.setItem(storageKey, userName);  // Store the name with a unique key
-
-                        setCheckname(userName); // Use the name from the response
-                    } catch (error) {
-                        console.error("Error adding user:", error);
-                    }
 
 
 
-                    // Make API call to add user
+            // Generate a unique key based on the user ID or app context
+            const storageKey = `userdata_name_${userData.userId}`; // Unique key for each user (or mini-app)
 
+
+            // Check if userdata_name is already stored in localStorage for this user
+            const userNameFromStorage = localStorage.getItem(storageKey);
+
+
+            if (userNameFromStorage) {
+                setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
+                console.log('User data already exists in localStorage:', userNameFromStorage)
+                return; // Do not call the API if the data is already set
+            }
+
+            try {
+
+
+                const { error } = await supabase
+                    .from('users')
+                    .insert([
+                        { name: userData.firstName, username: userData.username, profile: userData.profile, id: userData.userId }
+                    ]);
+
+                if (error) {
+                    console.error(error.message)
                 }
 
+                const userName = userData.username;
 
+                // Set user data in localStorage with a unique key
+                localStorage.setItem(storageKey, userName);
+                // Store the name with a unique key
+                const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
+
+                setLs(`new set ${storedData}`)
+                // Use the name from the response
+            } catch (error) {
+                console.error("Error adding user:", error);
             }
+
+
+
+            // Make API call to add user
+
+
+
+
         }
 
 
+        const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
+
+        setLs(storedData)
 
         addUser()
         fetchService()
@@ -668,14 +663,14 @@ const Smm = () => {
     return (
 
         <List>
-            {authmessage}
+            {authmessage}<br />
             {<button onClick={() => {
                 localStorage.clear();
 
             }}>
                 Clean
-            </button>}
-
+            </button>}<br />
+            local data:{ls}<br />
             {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
 
                 promo</button> */}
