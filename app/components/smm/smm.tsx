@@ -47,7 +47,7 @@ const Smm = () => {
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
     const { setUserData, userData } = useUser();
-    const [checkname, setCheckname] = useState('')
+    //const [checkname, setCheckname] = useState('')
     const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
     const [ls, setLs] = useState('')
@@ -249,27 +249,27 @@ const Smm = () => {
         };
 
 
-        const fetchUserProfilePhotos = async (userid) => {
-            try {
-                const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userid}`);
+        // const fetchUserProfilePhotos = async (userid) => {
+        //     try {
+        //         const response = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getUserProfilePhotos?user_id=${userid}`);
 
-                if (response.data.ok) {
-                    const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
+        //         if (response.data.ok) {
+        //             const file_id = response.data.result.photos[0]?.[0].file_id; // Access the first photo in the first array
 
-                    const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
+        //             const resp = await axios.get(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${file_id}`);
 
-                    if (resp.data.ok) {
+        //             if (resp.data.ok) {
 
-                        setUserData((userData) => ({ ...userData, profile: `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}` }))
+        //                 setUserData((userData) => ({ ...userData, profile: `https://api.telegram.org/file/bot${process.env.TELEGRAM_BOT_TOKEN}/${resp.data.result.file_path}` }))
 
-                    }
-                    // Wrap it in an array to match the existing state structure
-                }
+        //             }
+        //             // Wrap it in an array to match the existing state structure
+        //         }
 
-            } catch (error) {
-                console.error("Error fetching user profile photos:", error);
-            }
-        };
+        //     } catch (error) {
+        //         console.error("Error fetching user profile photos:", error);
+        //     }
+        // };
 
         return () => {
 
