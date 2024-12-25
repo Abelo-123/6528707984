@@ -665,10 +665,10 @@ const Smm = () => {
         }
     }
     useEffect(() => {
-
         // Ensure this code runs only in the browser
         if (typeof window !== 'undefined') {
-            window.document.addEventListener('visibilitychange', function () {
+            // Define the event handler as a named function
+            const handleVisibilityChange = () => {
                 if (document.visibilityState === 'visible') {
                     // User is active, update online status
                     setUserOnlineStatus(userData.userId, true);
@@ -676,15 +676,17 @@ const Smm = () => {
                     // User is inactive, update offline status
                     setUserOnlineStatus(userData.userId, false);
                 }
-            });
+            };
+
+            // Add the event listener
+            window.document.addEventListener('visibilitychange', handleVisibilityChange);
+
+            // Clean up the event listener on component unmount
+            return () => {
+                window.document.removeEventListener('visibilitychange', handleVisibilityChange);
+            };
         }
-        // Clean up the event listener on component unmount
-        return () => {
-            if (typeof window !== 'undefined') {
-                window.document.removeEventListener('visibilitychange', () => { });
-            }
-        };
-    }, []); // Empty dependency array ensures this runs once on component mount
+    }, [userData.userId]); // Include dependencies for the effect
 
 
     return (
