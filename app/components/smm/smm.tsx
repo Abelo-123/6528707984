@@ -649,14 +649,14 @@ const Smm = () => {
     return (
 
         <List>
-            {/* {authmessage}<br />
+            {authmessage}<br />
             {<button onClick={() => {
                 localStorage.clear();
 
             }}>
                 Clean
             </button>}<br />
-            local data:{ls}<br /> */}
+            local data:{ls}<br />
             {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
 
                 promo</button> */}
