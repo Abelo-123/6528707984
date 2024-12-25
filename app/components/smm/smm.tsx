@@ -39,6 +39,7 @@ const Smm = () => {
     const [cat, setCat] = useState(false)
     const [ser, setSer] = useState(false)
     const [bc, setBc] = useState('')
+    const [status, setStatus] = useState('')
     const [bcfor, setBcfor] = useState('')
     const [mediaload, setMediaload] = useState(true);
     const [charge, setCharge] = useState(0.0);
@@ -67,6 +68,8 @@ const Smm = () => {
     const [disable, setDisable] = useState(false)
     const [loader, showLoad] = useState(false)
     const [marq, setMarq] = useState('')
+
+
 
     useEffect(() => {
         const fetchMarq = async () => {
@@ -644,11 +647,50 @@ const Smm = () => {
             console.error('Error:', err.message);
         }
     }
+    async function setUserOnlineStatus(userId, status) {
+        const { error } = await supabase
+            .from('users')
+            .update({
+                is_online: status,
+                last_activity: new Date(),
+            })
+            .eq('id', userId)
+
+        if (error) {
+
+            console.error("Error updating user status:", error);
+        } else {
+
+            console.log("User status updated:");
+        }
+    }
+    useEffect(() => {
+
+        // Ensure this code runs only in the browser
+        if (typeof window !== 'undefined') {
+            window.document.addEventListener('visibilitychange', function () {
+                if (document.visibilityState === 'visible') {
+                    // User is active, update online status
+                    setUserOnlineStatus(userData.userId, true);
+                } else {
+                    // User is inactive, update offline status
+                    setUserOnlineStatus(userData.userId, false);
+                }
+            });
+        }
+        // Clean up the event listener on component unmount
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.document.removeEventListener('visibilitychange', () => { });
+            }
+        };
+    }, []); // Empty dependency array ensures this runs once on component mount
 
 
     return (
 
         <List>
+            {status}
             {authmessage}<br />
             {<button onClick={() => {
                 localStorage.clear();

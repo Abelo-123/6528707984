@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import localFont from "next/font/local";
+import { useUser } from "./components/UserContext";
 import "./globals.css";
 import { ActivePageProvider } from "./components/ActivePageContext"
 import { UserProvider } from "./components/UserContext"
@@ -9,19 +9,10 @@ import Tab from './components/tab/page';
 import Lays from './components/layout/page';
 import { AppRoot } from "@telegram-apps/telegram-ui";
 import { NextTWAProvider } from 'next-twa';
+import { supabase } from "./lib/supabaseClient";
 
 
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 
 
@@ -33,6 +24,7 @@ export default function RootLayout({
 }>) {
   const [normal, isNormal] = useState(null);
   const [setVersion] = useState(null);
+  const userData = useUser()
   useEffect(() => {
     // Load the Telegram Web App JavaScript SDK
     const script = document.createElement("script");
@@ -58,6 +50,7 @@ export default function RootLayout({
     };
   })
 
+
   return (
     <html lang="en">
       <head>
@@ -66,9 +59,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         /> */}
       </head>
-      <body
-        className={normal ? ` ${geistSans.variable} ${geistMono.variable} antialiased` : `${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body >
         <NextTWAProvider >
           <ActivePageProvider>
             <UserProvider>
