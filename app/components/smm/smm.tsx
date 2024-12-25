@@ -60,7 +60,6 @@ const Smm = () => {
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
     const [description, setDescription] = useState("")
-    //  const [onlineUsers, setOnlineUsers] = useState([]);
 
     const [promoModal, setpromoModal] = useState(false)
 
@@ -783,11 +782,7 @@ const Smm = () => {
 
             <marquee style={{ margin: '1px' }}>{marq}</marquee>
             {userData.userId}
-            <ul>
-                {onlineUsers.map((user) => (
-                    <li key={user.id}>{user.username}</li>
-                ))}
-            </ul>
+
             <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
                     <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto' }} size="1x" />
