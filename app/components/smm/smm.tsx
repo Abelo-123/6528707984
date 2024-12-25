@@ -236,7 +236,7 @@ const Smm = () => {
                     firstName: user.first_name,
                     lastName: user.last_name,
                     userId: user.id,
-                    profile: "https://png.pngtree.com/png-clipart/20230511/ourmid/pngtree-isolated-cat-on-white-background-png-image_7094927.png"
+                    profile: user.photo_url,
 
                 });
                 const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
@@ -258,7 +258,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, id: user.id }
+                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id }
                                 ]);
 
                             if (error) {
@@ -649,14 +649,14 @@ const Smm = () => {
     return (
 
         <List>
-            {authmessage}<br />
+            {/* {authmessage}<br />
             {<button onClick={() => {
                 localStorage.clear();
 
             }}>
                 Clean
             </button>}<br />
-            local data:{ls}<br />
+            local data:{ls}<br /> */}
             {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
 
                 promo</button> */}
