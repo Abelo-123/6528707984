@@ -60,7 +60,7 @@ const Smm = () => {
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
     const [description, setDescription] = useState("")
-    const [onlineUsers, setOnlineUsers] = useState([]);
+    //  const [onlineUsers, setOnlineUsers] = useState([]);
 
     const [promoModal, setpromoModal] = useState(false)
 
