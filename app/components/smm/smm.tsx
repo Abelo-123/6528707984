@@ -60,6 +60,7 @@ const Smm = () => {
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
     const [description, setDescription] = useState("")
+    const [onlineUsers, setOnlineUsers] = useState([]);
 
     const [promoModal, setpromoModal] = useState(false)
 
@@ -647,6 +648,8 @@ const Smm = () => {
             console.error('Error:', err.message);
         }
     }
+
+
     async function setUserOnlineStatus(userId, status) {
         const { error } = await supabase
             .from('users')
@@ -665,10 +668,10 @@ const Smm = () => {
         }
     }
     useEffect(() => {
+
         // Ensure this code runs only in the browser
         if (typeof window !== 'undefined') {
-            // Define the event handler as a named function
-            const handleVisibilityChange = () => {
+            window.document.addEventListener('visibilitychange', function () {
                 if (document.visibilityState === 'visible') {
                     // User is active, update online status
                     setUserOnlineStatus(userData.userId, true);
@@ -676,18 +679,15 @@ const Smm = () => {
                     // User is inactive, update offline status
                     setUserOnlineStatus(userData.userId, false);
                 }
-            };
-
-            // Add the event listener
-            window.document.addEventListener('visibilitychange', handleVisibilityChange);
-
-            // Clean up the event listener on component unmount
-            return () => {
-                window.document.removeEventListener('visibilitychange', handleVisibilityChange);
-            };
+            });
         }
-    }, [userData.userId]); // Include dependencies for the effect
-
+        // Clean up the event listener on component unmount
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.document.removeEventListener('visibilitychange', () => { });
+            }
+        };
+    }, []); // Empty dependency array ensures this runs once on component mount
 
     return (
 
@@ -782,7 +782,12 @@ const Smm = () => {
             }
 
             <marquee style={{ margin: '1px' }}>{marq}</marquee>
-
+            {userData.userId}
+            <ul>
+                {onlineUsers.map((user) => (
+                    <li key={user.id}>{user.username}</li>
+                ))}
+            </ul>
             <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
                     <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto' }} size="1x" />
