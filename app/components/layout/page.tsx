@@ -11,10 +11,30 @@ const Lays = () => {
     // const [notificationModal, seeNotificationModal] = useState(false)
     const { userData } = useUser();
     // const [notificationMessage, setNotificationMessage] = useState([])
+    const [marq, setMarq] = useState('')
+
 
     const { setNotification } = useNot();
 
     const [balance, setBalance] = useState(0.0)
+
+    useEffect(() => {
+        const fetchMarq = async () => {
+
+            const { data: setNotify, error: setError } = await supabase
+                .from('adminmessage')
+                .select('message')
+                .eq('for', 'all')
+                .single()
+
+            if (setError) {
+                console.error('Error fetching initial balance:', setError)
+            } else {
+                setMarq(setNotify.message)
+            }
+        }
+        fetchMarq();
+    }, [])
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -87,6 +107,7 @@ const Lays = () => {
 
 
     return (<>
+
         <div className="flex ">
             <div className="flex w-full " style={{ 'paddingTop': '20px', 'paddingLeft': '20px' }}>
                 <div className='flex'>
@@ -111,6 +132,8 @@ const Lays = () => {
             </div>
 
         </div>
+        <marquee style={{ marginTop: '0.5rem' }}>
+            <Text style={{ color: 'var(--tgui--hint_color)' }}>{marq}</Text></marquee>
 
     </>);
 }

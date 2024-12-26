@@ -51,6 +51,7 @@ const Smm = () => {
     //const [checkname, setCheckname] = useState('')
     //const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
+    const [labelel, setLabel] = useState('')
     //const [ls, setLs] = useState('')
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
@@ -67,27 +68,14 @@ const Smm = () => {
 
     const [disable, setDisable] = useState(false)
     const [loader, showLoad] = useState(false)
-    const [marq, setMarq] = useState('')
+
+    const [minn, setMin] = useState(0)
+    const [maxx, setMax] = useState(0)
+    // const [marq, setMarq] = useState('')
 
 
 
-    useEffect(() => {
-        const fetchMarq = async () => {
 
-            const { data: setNotify, error: setError } = await supabase
-                .from('adminmessage')
-                .select('message')
-                .eq('for', 'all')
-                .single()
-
-            if (setError) {
-                console.error('Error fetching initial balance:', setError)
-            } else {
-                setMarq(setNotify.message)
-            }
-        }
-        fetchMarq();
-    }, [])
 
     useEffect(() => {
         const fetchDepo = async () => {
@@ -432,8 +420,10 @@ const Smm = () => {
         setSer(true)
         setDescription(null)
         showModalA(false)
+
         const ser = services[0].data.response.filter((datas) => datas.category.includes(name))
         settherate(ser[0].rate)
+
         return setService(ser)
     }
 
@@ -442,6 +432,9 @@ const Smm = () => {
         setSer(true)
         setChosen(data)
         showModalB(false)
+        setMin(data.min)
+        setMax(data.max)
+        setLabel(`Min: ${data.min} Max: ${data.max}`)
     }
 
     const handleInput = (e) => {
@@ -461,41 +454,47 @@ const Smm = () => {
             alert("no quantity")
         } else if (link == null && quantity == 0) {
             alert("enter forms")
+        } else if (minn > quantity) {
+            alert(`min is ${minn} and max is${maxx}`)
         }
+        else {
+            try {
+                setDisable(true)
 
-        try {
-            setDisable(true)
-
-            const response = await axios.post('/api/smm/addOrder', {
-                username: "userData.firstName",
-                service: chosen.service,
-                link: link,
-                quantity: quantity,
-                charge: charge,
-                refill: chosen.refill,
-                panel: 'smm',
-                category: chosen.category,
-                id: userData.userId
-            });
-            if (response) {
-                setIsModalOpen(false);
-                setDisable(false)
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'The operation was successful.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    customClass: {
-                        popup: 'swal2-popup',    // Apply the custom class to the popup
-                        title: 'swal2-title',    // Apply the custom class to the title
-                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                    }
+                const response = await axios.post('/api/smm/addOrder', {
+                    username: "userData.firstName",
+                    service: chosen.service,
+                    link: link,
+                    quantity: quantity,
+                    charge: charge,
+                    refill: chosen.refill,
+                    panel: 'smm',
+                    name: id,
+                    category: chosen.category,
+                    id: userData.userId
                 });
+                if (response) {
+                    setIsModalOpen(false);
+                    setDisable(false)
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'The operation was successful.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error(e.message)
             }
-        } catch (e) {
-            console.error(e.message)
+
         }
+
 
     }
 
@@ -564,12 +563,10 @@ const Smm = () => {
         });
     };
 
-
-
     const closeModal = () => {
         setIsModalOpen(false);
-
     };
+
     const { useNotification } = useNot();
 
     const checkPromo = async () => {
@@ -656,7 +653,6 @@ const Smm = () => {
             console.error('Error:', err.message);
         }
     }
-
 
     async function setUserOnlineStatus(userId, status) {
         const { error } = await supabase
@@ -747,7 +743,7 @@ const Smm = () => {
                                     filteredServices.map((service) => (
                                         <div
                                             key={service.service}
-                                            style={{ color: 'var(--tgui--text_color)', background: 'var(--tgui--bg_color)' }}
+                                            style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
                                             onClick={() => clickedSearch(service)}
                                             className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
                                         >
@@ -798,7 +794,7 @@ const Smm = () => {
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
                         {
                             !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                                <div key={index} className=" grid content-start w-screen " >
+                                <div key={index} className=" grid mt-20 content-start w-screen " >
                                     <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                         <div className="block w-full px-2">
                                             <div className="text-right ml-auto"> {items.from}</div>
@@ -823,12 +819,10 @@ const Smm = () => {
                 )
             }
 
-            <marquee>
-                <Text style={{ color: 'var(--tgui--hint_color)' }}>{marq}</Text></marquee>
 
             <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
-                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -911,8 +905,8 @@ const Smm = () => {
 
             {
                 modalA &&
-                <div style={{ 'zIndex': '90' }} className=' modal-pop  bg-opacity-75 bg-black  h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)' }} className='scrollable my-auto mx-auto p-8 '>
+                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', border: '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
                         <div onClick={() => showModalA(false)} className='absolute top-0 right-0 m-6 text-white p-3'>
                             <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                         </div>
@@ -951,8 +945,8 @@ const Smm = () => {
 
             {
                 modalB &&
-                <div style={{ 'zIndex': '90' }} className=' bg-opacity-75 bg-black modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)' }} className='scrollable my-auto mx-auto p-8 '>
+                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
                         <div onClick={() => showModalB(false)} className='absolute top-0 text-white right-0 m-6 b p-3'>
                             <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                         </div>
@@ -1010,15 +1004,18 @@ const Smm = () => {
                                 className=" text-gray-500 absolute m-2 right-0  top-0 px-4 py-3 rounded-md"
                                 onClick={closeModal}
                             >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="1x" />
+                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
                             </div>
                             <div style={{ paddingLeft: '1rem' }}>
                                 {!cat && 'choose media' || !chosen?.name && `choose ${icon.n} category and service` || (chosen.name && !id) && `choose ${icon.n} service` || cat && ser && (<>
                                     <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
                                     <p className="mb-4 ml-4">Enter the amount you want to deposit:{userData.userId}</p>
-                                    <Input header="Input" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
-                                    <Input header="Input" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
-                                    {charge}
+                                    <Input header="quantity" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
+                                    <Input header="link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
+
+                                    <div className='p-2 ml-4'> minmax: {labelel}</div>
+                                    <div className='p-2 ml-4'> Charge: {charge}</div>
+                                    <div className='p-2 ml-4'> service: {id}</div>
                                     <div className="flex mt-6  justify-between">
                                         <button
                                             disabled={disable === true}

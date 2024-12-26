@@ -13,12 +13,7 @@ import { useSearchParams } from "next/navigation";
 
 import { useActivePage } from './components/ActivePageContext';
 
-function Content() {
-  const searchParams = useSearchParams();
-  const data = searchParams.get("data"); // Fetch the "data" parameter from the URL
 
-  return <p>Data: {data}</p>; // Display the data
-}
 
 const Telegram = () => {
   const { activePage } = useActivePage();
@@ -55,9 +50,6 @@ const Telegram = () => {
       <AppRoot>
         <div className='w-screen' >
 
-          <Suspense fallback={<p>Loading data...</p>}>
-            <Content />
-          </Suspense>
           <div
             id="1"
             className={`w-screen ${activePage === 1 ? '' : 'hidden'}`}><Smm /></div>
