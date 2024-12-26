@@ -49,7 +49,7 @@ const Smm = () => {
     // Replace with your bot token
     const { setUserData, userData } = useUser();
     //const [checkname, setCheckname] = useState('')
-    const [authmessage, setAuthMsg] = useState('')
+    //const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
     //const [ls, setLs] = useState('')
     const [modalA, showModalA] = useState(false)
@@ -248,7 +248,7 @@ const Smm = () => {
 
 
                 if (userNameFromStorage) {
-                    setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
+                    //setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
                     console.log('User data already exists in localStorage:', userNameFromStorage)
                     return; // Do not call the API if the data is already set
                 } else {
