@@ -51,7 +51,7 @@ const Smm = () => {
     //const [checkname, setCheckname] = useState('')
     const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
-    const [ls, setLs] = useState('')
+    //const [ls, setLs] = useState('')
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
@@ -275,7 +275,7 @@ const Smm = () => {
                             // Store the name with a unique key
                             const storedData = localStorage.getItem(`userdata_name_${user.id}`);
 
-                            setLs(`new set ${storedData}`)
+                            //setLs(`new set ${storedData}`)
                             // Use the name from the response
                         } catch (error) {
                             console.error("Error adding user:", error);
@@ -394,7 +394,7 @@ const Smm = () => {
 
         const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
 
-        setLs(storedData)
+        //setLs(storedData)
 
 
         fetchService()
