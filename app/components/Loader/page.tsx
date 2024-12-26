@@ -11,10 +11,10 @@ const MyLoader = (props) => (
         foregroundColor="#ecebeb"
         {...props}
     >
-        <rect x="-1" y="100" rx="3" ry="3" width="357" height="17" />
-        <rect x="-2" y="46" rx="3" ry="3" width="403" height="14" />
-        <rect x="0" y="21" rx="3" ry="3" width="403" height="14" />
-        <rect x="0" y="73" rx="3" ry="3" width="403" height="14" />
+        <rect x="-1" y="105" rx="3" ry="3" width="357" height="12" />
+        <rect x="-2" y="46" rx="3" ry="3" width="373" height="12" />
+        <rect x="0" y="75" rx="3" ry="3" width="363" height="13" />
+        <rect x="0" y="16" rx="3" ry="3" width="380" height="12" />
     </ContentLoader>
 )
 

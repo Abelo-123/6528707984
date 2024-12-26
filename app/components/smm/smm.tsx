@@ -560,7 +560,7 @@ const Smm = () => {
         readySearch(false);
         settherate(service.rate);
         setIcon(() => {
-            return { i: iconMap.search, c: "black", n: search };
+            return { i: iconMap.search, c: "white", n: search };
         });
     };
 
@@ -700,7 +700,7 @@ const Smm = () => {
     return (
 
         <List>
-            {authmessage}<br />
+            {/* {authmessage}<br /> */}
             {/* {<button onClick={() => {
                 localStorage.clear();
 
@@ -747,7 +747,7 @@ const Smm = () => {
                                     filteredServices.map((service) => (
                                         <div
                                             key={service.service}
-                                            style={{ background: 'var(--tgui--bg_color)' }}
+                                            style={{ color: 'var(--tgui--text_color)', background: 'var(--tgui--bg_color)' }}
                                             onClick={() => clickedSearch(service)}
                                             className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
                                         >
@@ -798,7 +798,7 @@ const Smm = () => {
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
                         {
                             !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                                <div key={index} style={{ background: 'var(--tgui--bg_color)', marginTop: '7rem' }} className="p-3  gap-5 grid content-start w-screen " >
+                                <div key={index} className=" grid content-start w-screen " >
                                     <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                         <div className="block w-full px-2">
                                             <div className="text-right ml-auto"> {items.from}</div>
@@ -899,7 +899,7 @@ const Smm = () => {
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                         <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
                         <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
-                            <div style={{ color: (cat && !ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{chosen?.category || `Select ${icon.n} category`}</div>
+                            <div style={{ color: (cat && !ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{chosen?.category || `Select ${icon.n} category`}</div>
                         </div>
                         <div className='my-4  ml-auto mx-4 justify-self-end'>
                             <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
@@ -935,7 +935,7 @@ const Smm = () => {
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                         <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
                         <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
-                            <div style={{ color: (!id && ser) ? "var(--tgui--section_header_text_color)" : "black" }}>{!id ? `Select ${icon.n} service` : id}</div>
+                            <div style={{ color: (!id && ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{!id ? `Select ${icon.n} service` : id}</div>
                         </div>
                         <div className='my-4 ml-auto mx-4 justify-self-end'>
                             <FontAwesomeIcon className={(cat && !id && chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
