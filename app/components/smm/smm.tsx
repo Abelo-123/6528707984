@@ -273,7 +273,7 @@ const Smm = () => {
                             // Set user data in localStorage with a unique key
                             localStorage.setItem(storageKey, userName);
                             // Store the name with a unique key
-                            const storedData = localStorage.getItem(`userdata_name_${user.id}`);
+                            //const storedData = localStorage.getItem(`userdata_name_${user.id}`);
 
                             //setLs(`new set ${storedData}`)
                             // Use the name from the response
@@ -392,7 +392,7 @@ const Smm = () => {
         }
 
 
-        const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
+        //const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
 
         //setLs(storedData)
 
