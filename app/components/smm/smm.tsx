@@ -515,47 +515,56 @@ const Smm = () => {
         fetchServices();
     }, []); // Empty dependency array means this effect runs only once
 
-    // Handle input change and filter services by the service id
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearch(value);
-
-        //console.log(servicess[0].response)
-
-        // Filter services where service ID matches the search value
-        const filtered = servicess[0].response.filter(item =>
-            item.service.toString().includes(value)
-        );
-
-        // Sort the filtered results so that exact matches come first
-        const sortedFiltered = filtered.sort((a, b) => {
-            const aService = a.service.toString();
-            const bService = b.service.toString();
-
-            const aMatch = aService === value;
-            const bMatch = bService === value;
-
-            if (aMatch && !bMatch) {
-                return -1; // "a" should come first if it's an exact match
-            }
-            if (!aMatch && bMatch) {
-                return 1; // "b" should come first if it's an exact match
-            }
-
-            return aService.localeCompare(bService); // Otherwise, sort lexicographically
-        });
-
-        setFilteredServices(sortedFiltered)
     };
 
+    // Handle input change and filter services by the service id
+    useEffect(() => {
+        // Debounced search logic
+        const timeout = setTimeout(() => {
+            if (search) {
+                const filtered = servicess[0].response.filter((item) =>
+                    item.service.toString().includes(search)
+                );
+
+                const sortedFiltered = filtered.sort((a, b) => {
+                    const aService = a.service.toString();
+                    const bService = b.service.toString();
+
+                    const aMatch = aService === search;
+                    const bMatch = bService === search;
+
+                    if (aMatch && !bMatch) {
+                        return -1; // "a" should come first if it's an exact match
+                    }
+                    if (!aMatch && bMatch) {
+                        return 1; // "b" should come first if it's an exact match
+                    }
+
+                    return aService.localeCompare(bService); // Otherwise, sort lexicographically
+                });
+
+                setFilteredServices(sortedFiltered);
+            } else {
+                setFilteredServices([]);
+            }
+        }, 300); // 300ms debounce delay
+
+        return () => clearTimeout(timeout); // Clear timeout if input changes quickly
+    }, [search, servicess]);
+
     const clickedSearch = (service) => {
-        setChose(service)
-        readySearch(false)
-        settherate(service.rate)
+        setChose(service);
+        readySearch(false);
+        settherate(service.rate);
         setIcon(() => {
-            return ({ i: iconMap.search, c: 'black', n: search })
-        })
-    }
+            return { i: iconMap.search, c: "black", n: search };
+        });
+    };
+
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -686,64 +695,91 @@ const Smm = () => {
         };
     }, []);
 
+
+
     return (
 
         <List>
             {authmessage}<br />
-            {<button onClick={() => {
+            {/* {<button onClick={() => {
                 localStorage.clear();
 
             }}>
                 Clean
             </button>}<br />
-            local data:{ls}<br />
+            local data:{ls}<br /> */}
             {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
 
                 promo</button> */}
-            {
-                searchh && (<>
-                    <div style={{ zIndex: 900 }} className="absolute top-0 bottom-0 w-screen bg-red-100">
-                        <div onClick={() => readySearch(false)} className="absolute top-2 right-2  ">
-                            <FontAwesomeIcon icon={faClose} color="white" style={{ 'margin': 'auto auto' }} size="2x" />
-                        </div>
+            {searchh && (
+                <div
+                    style={{ background: 'var(--tgui--section_bg_color)', zIndex: 900 }}
+                    className="modal-popp absolute overflow-x-hidden min-w-full top-0 bottom-0  "
+                >
+                    <div
+                        onClick={() => readySearch(false)}
+                        className="absolute top-6 right-6"
+                    >
+                        <FontAwesomeIcon
+                            icon={faClose}
+                            color="var(--tgui--section_header_text_color)"
+                            style={{ margin: "auto auto" }}
+                            size="2x"
+                        />
+                    </div>
 
-                        <div className="p-3 bg-red-200 gap-5 pt-24 grid content-start w-full h-auto ">
-                            <div className="bg-red-500 p-2 ">
-                                <input
-                                    id="search"
-                                    type="text"
-                                    value={search}
-                                    onChange={handleSearchChange}
-                                    placeholder="Search by service ID"
-                                    className="w-full p-2"
-                                />
-                            </div>
-                            <div className="bg-red-600 w-full p-2">
-                                <div id="result">
-                                    {/* Display filtered services here */}
-                                    {search && filteredServices.length > 0 ? (
-                                        filteredServices.map((service) => (
-                                            <div key={service.service} onClick={() => clickedSearch(service)} className="p-2 mb-2 bg-white text-black rounded-md">
-                                                <h4 className="font-bold">{service.name}</h4>
-                                                <p><strong>Category</strong> {service.category}</p>
-                                                <p><strong>Rate</strong> {service.rate}</p>
-                                                <p><strong>Min</strong> {service.min} <strong> Max</strong> {service.max}</p>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p>No matching results found.</p>
-                                    )}
-                                </div>
+                    <div className="p-3  gap-5 pt-24 grid content-start w-full h-auto">
+                        <div className=" p-2">
+                            <input
+                                id="search"
+                                style={{ background: 'var(--tgui--header_bg_color)', borderBottom: '1px solid var(--tgui--accent_text_color)' }}
+                                type="text"
+                                value={search}
+                                onChange={handleSearchChange}
+                                placeholder="Search by service ID"
+                                className="w-full p-2  "
+                            />
+                        </div>
+                        <div className=" overflow-hidden w-full p-2">
+                            <div id="result">
+                                {/* Display filtered services here */}
+                                {search && filteredServices.length > 0 ? (
+                                    filteredServices.map((service) => (
+                                        <div
+                                            key={service.service}
+                                            style={{ background: 'var(--tgui--bg_color)' }}
+                                            onClick={() => clickedSearch(service)}
+                                            className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
+                                        >
+                                            <h4 className="font-bold">{service.name}</h4>
+                                            <p>
+                                                <strong>Category</strong> {service.category}
+                                            </p>
+                                            <p>
+                                                <strong>Rate</strong> {service.rate}
+                                            </p>
+                                            <p>
+                                                <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
+                                                {service.max}
+                                            </p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No matching results found.</p>
+                                )}
                             </div>
                         </div>
                     </div>
-                </>)
-            }
+                </div>
+            )}
+
 
             {
                 useNotification.notificationModal && (
-                    <div style={{ zIndex: 900 }} className="absolute top-0 bottom-0 w-screen bg-red-100">
-                        <div onClick={() => {
+                    <div style={{
+                        zIndex: 900, background: 'var(--tgui--section_bg_color)'
+                    }} className=" modal-popp absolute top-0 bottom-0 w-screen ">
+                        < div onClick={() => {
                             setNotification((prevNotification) => ({
                                 ...prevNotification, // Spread the previous state
                                 notificationModal: false,
@@ -751,21 +787,30 @@ const Smm = () => {
                                 notificationLoader: true,
                                 // Update the `deposit` field
                             }));
-                        }} className="absolute top-2 right-2 p-3 bg-red-300">X</div>
+                        }} className="absolute top-2 right-2 p-3 ">
+                            <FontAwesomeIcon
+                                icon={faClose}
+                                color="var(--tgui--section_header_text_color)"
+                                style={{ margin: "auto auto" }}
+                                size="2x"
+                            />
+                        </div>
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                        {!useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                            <div key={index} className="p-3 bg-red-200 gap-5 grid content-start w-screen " >
-                                <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
-                                    <div className="block w-full px-2">
-                                        <div className="text-right ml-auto"> {items.from}</div>
-                                        <div className="text ml-2"> {items.message}</div>
-                                    </div>
-                                </li>
-                            </div>
-                        ))}
+                        {
+                            !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+                                <div key={index} style={{ background: 'var(--tgui--bg_color)', marginTop: '7rem' }} className="p-3  gap-5 grid content-start w-screen " >
+                                    <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                                        <div className="block w-full px-2">
+                                            <div className="text-right ml-auto"> {items.from}</div>
+                                            <div className="text ml-2"> {items.message}</div>
+                                        </div>
+                                    </li>
+                                </div>
+                            ))
+                        }
 
 
-                    </div>
+                    </div >
                 )
             }
             {
@@ -778,12 +823,12 @@ const Smm = () => {
                 )
             }
 
-            <marquee style={{ margin: '1px' }}>{marq}</marquee>
-            {userData.userId}
+            <marquee>
+                <Text style={{ color: 'var(--tgui--hint_color)' }}>{marq}</Text></marquee>
 
             <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
-                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto' }} size="1x" />
+                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>

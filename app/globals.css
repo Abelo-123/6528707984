@@ -19,6 +19,10 @@ body {
   animation: popIn 0.05s ease-in forwards;
 }
 
+.modal-popp {
+  animation: popInn 0.1s ease-in forwards;
+}
+
 @keyframes popIn {
   0% {
     display: none;
@@ -29,6 +33,20 @@ body {
     opacity: 1;
   }
 }
+
+@keyframes popInn {
+  0% {
+    display: none;
+    opacity:0;
+    transform: scale(0.9);
+  }
+  100% {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
 .scrollable {
   overflow-y: auto; /* Enable vertical scrolling */
@@ -145,3 +163,6 @@ button:disabled {
   background-color: #dc3545; /* Cancel button color */
   color: white;              /* Cancel button text color */
 }
+
+/* Container to hide overflow */
+

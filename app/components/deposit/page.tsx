@@ -382,8 +382,8 @@ const Deposit = () => {
                             </div>
                             {aamount}
                             <div className="iframe-container relative">
-                                {loading && <MyLoader />}
-                                {iframeVisible && (
+                                {loading && !iframeVisible && <MyLoader />}
+                                {iframeVisible && !loading && (
                                     <iframe
                                         key={iframeKey} // Use key to force iframe reload
                                         src={generateIframeSrc()} // Dynamically set iframe src
@@ -491,30 +491,29 @@ const Deposit = () => {
                 <Section header="Order History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '20PX' }} className="overflow-x-auto">
                         {loader && <MyLoader />}
-                        <ul>
-                            {!loader && data.map((items, index) => (
-                                <li key={index} className="grid grid-cols-2 gap-1" style={{ borderTop: '1px solid red', borderBottom: '1px solid red' }}>
-                                    <div className="p-2 row-span-2 bg-red-100">
-                                        <div className="p-2 m-1 ml-2 w-fit bg-red-200">
-                                            <div className=" text-3xl" style={{ lineHeight: '1' }}>{items.amount} ETB</div>
-                                            <div className="m-1" style={{ lineHeight: '1' }}>{items.name} /{items.pm}</div>
+                        <table className="min-w-full  rounded-lg shadow-md">
+                            <thead>
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Order Id</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Payment Methof</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody className=" divide-y ">
+                                {data.map((items, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.did}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.pm}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900">{items.amount}</td>
+                                    </tr>
+                                ))}
 
-
-                                        </div>
-                                    </div>
-                                    <div className="p-2 bg-red-100">
-                                        <div className="p-0 block w-fit ml-auto bg-red-200">
-
-                                            <div className="m-1" style={{ fontSize: '0.8rem', lineHeight: '1' }}>{items.did} / {items.date}</div>
-                                        </div>
-                                    </div>
-                                    <div className="p-2 grid place-content-end bg-red-100">
-                                        <div className="p-2 w-fit  bg-red-200">{items.status}</div>
-                                    </div>
-
-                                </li>
-                            ))}
-                        </ul>
+                            </tbody>
+                        </table>
 
 
                     </div>
