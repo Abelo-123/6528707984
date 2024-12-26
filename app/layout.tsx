@@ -65,6 +65,7 @@ export default function RootLayout({
             <UserProvider>
               <UserNotProvider>
                 <AppRoot>
+
                   <Lays />
 
                   {children}

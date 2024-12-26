@@ -4,6 +4,7 @@
 
 
 body {
+  margin-top:2rem;
   background: var(--tgui--section_bg_color);
 }
 
