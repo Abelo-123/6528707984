@@ -8,8 +8,7 @@ import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
 import Account from './components/Account/account';
 import TelegramApp from './components/theme/theme';
-import React, { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React from "react";
 
 import { useActivePage } from './components/ActivePageContext';
 
