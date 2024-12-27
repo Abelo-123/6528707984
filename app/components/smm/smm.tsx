@@ -783,7 +783,7 @@ const Smm = () => {
                                 notificationLoader: true,
                                 // Update the `deposit` field
                             }));
-                        }} className="absolute top-6 right-2 p-3 ">
+                        }} className="absolute top-12 right-12 p-3 ">
                             <FontAwesomeIcon
                                 icon={faClose}
                                 color="var(--tgui--section_header_text_color)"
@@ -794,7 +794,7 @@ const Smm = () => {
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
                         {
                             !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                                <div key={index} className=" grid mt-24 content-start w-screen " >
+                                <div key={index} className=" grid mt-32 content-start w-screen " >
                                     <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                         <div className="block w-full px-2">
                                             <div className="text-right ml-auto"> {items.from}</div>
