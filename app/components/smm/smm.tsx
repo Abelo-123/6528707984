@@ -783,7 +783,7 @@ const Smm = () => {
                                 notificationLoader: true,
                                 // Update the `deposit` field
                             }));
-                        }} className="absolute top-2 right-2 p-3 ">
+                        }} className="absolute top-6 right-2 p-3 ">
                             <FontAwesomeIcon
                                 icon={faClose}
                                 color="var(--tgui--section_header_text_color)"
@@ -794,7 +794,7 @@ const Smm = () => {
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
                         {
                             !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                                <div key={index} className=" grid mt-20 content-start w-screen " >
+                                <div key={index} className=" grid mt-24 content-start w-screen " >
                                     <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                         <div className="block w-full px-2">
                                             <div className="text-right ml-auto"> {items.from}</div>
@@ -907,9 +907,10 @@ const Smm = () => {
                 modalA &&
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
                     <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', border: '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
-                        <div onClick={() => showModalA(false)} className='absolute top-0 right-0 m-6 text-white p-3'>
-                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div onClick={() => showModalA(false)} className='absolute top-6 right-0 m-6 text-white p-3'>
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                         </div>
+                        <br />
                         {category.map((datas, index) => (
                             <div key={index} className="px-1 py-3" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                                 <div className=" text-wrap flex">
@@ -947,10 +948,10 @@ const Smm = () => {
                 modalB &&
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
                     <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
-                        <div onClick={() => showModalB(false)} className='absolute top-0 text-white right-0 m-6 b p-3'>
-                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div onClick={() => showModalB(false)} className='absolute top-6 text-white right-0 m-6 b p-3'>
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                         </div>
-
+                        <br />
                         {ser ? service.map((datas, index) => (
 
                             <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >

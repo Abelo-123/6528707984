@@ -11,7 +11,7 @@ const pool = new Pool({
 export async function POST(req) {
     try {
         // Destructure the data from the request body
-        const { id, category, username, service, link, quantity, charge, refill, panel, name } = await req.json();
+        const { id, category, username, service, link, quantity, charge, refill, panel } = await req.json();
 
         // Construct the URL for the external API call
         const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
@@ -37,8 +37,8 @@ export async function POST(req) {
 
         // Prepare the SQL query to insert data into the 'orders' table
         const queryText = `
-        INSERT INTO orders (category, service, quantity, link, charge, refill, panel, status, username, chat, uid, oid, name)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        INSERT INTO orders (category, service, quantity, link, charge, refill, panel, status, username, chat, uid, oid)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         RETURNING id;
       `;
 
@@ -56,7 +56,6 @@ export async function POST(req) {
             `https://t.me/${username}`,
             id, // Telegram chat link
             order, // OID from the API response
-            name,
         ];
 
         // Insert data into the 'orders' table and get the inserted row's 'id'
