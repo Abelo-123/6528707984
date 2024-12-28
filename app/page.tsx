@@ -53,12 +53,12 @@ const Telegram = () => {
             id="1"
             className={`w-screen ${activePage === 1 ? '' : 'hidden'}`}><Smm /></div>
           <div
-            id="3"
+            id="2"
             className={`w-screen ${activePage === 2 ? '' : 'hidden  '} `}><Smmhistory />
           </div>
           <div
-            id="4"
-            className={`w-screen ${activePage === 4 ? '' : 'hidden'}`}><Deposit /></div>
+            id="3"
+            className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Deposit /></div>
           <div id="5"
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Account /></div>
           <div id="6"
