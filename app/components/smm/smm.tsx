@@ -759,8 +759,9 @@ const Smm = () => {
                                 size="2x"
                             />
                         </div>
+
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                        <div className=" grid  content-start w-screen " >
+                        <div className=" mt-28 w-screen " >
                             {
 
                                 !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
@@ -791,7 +792,7 @@ const Smm = () => {
                 )
             }
 
-            <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
                     <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
@@ -858,7 +859,7 @@ const Smm = () => {
 
 
 
-            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div onClick={() => showModalA(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
@@ -895,7 +896,7 @@ const Smm = () => {
             }
 
 
-            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>3. service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>3. service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div onClick={() => showModalB(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
@@ -919,7 +920,7 @@ const Smm = () => {
                 modalB &&
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable  mx-auto p-8 '>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mt-12 mx-auto p-8 '>
 
 
                         {ser ? service.map((datas, index) => (
@@ -936,7 +937,7 @@ const Smm = () => {
                         )) : <Text>Choose Category</Text>}
 
                     </div>
-                    <div onClick={() => showModalB(false)} className='absolute bg-red-100 mt-12 text-white  w-11/12 ml-4 grid place-content-center p-3'>
+                    <div onClick={() => showModalB(false)} className='absolute bg-red-100 mt-8 text-white  w-11/12 ml-4 grid place-content-center p-3'>
                         <div className='flex'>
                             <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                             <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
