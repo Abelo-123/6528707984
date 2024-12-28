@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
-import { faAngleDown, faArrowUpFromBracket, faBackspace, faBackward, faBackwardFast, faClose, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faClose, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
@@ -11,7 +11,6 @@ import { useNot } from '../StatusContext';
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import MyLoader from '../Loader/page';
-import { faClosedCaptioning, faHandBackFist, faWindowClose } from '@fortawesome/free-regular-svg-icons';
 
 const iconMap = {
     youtube: faYoutube,
