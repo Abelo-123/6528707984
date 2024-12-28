@@ -691,10 +691,10 @@ const Smm = () => {
                                 value={search}
                                 onChange={handleSearchChange}
                                 placeholder="Search by service ID"
-                                className="w-full p-2  "
+                                className="mt-12 w-full p-2  "
                             />
                         </div>
-                        <div style={{ height: '40rem' }} className=" scrollabler overflow-x-hidden">
+                        <div style={{ height: '38rem' }} className="  scrollabler overflow-x-hidden">
                             <div className=" overflow-hidden w-full p-2">
                                 <div id="result">
                                     {/* Display filtered services here */}
@@ -728,9 +728,9 @@ const Smm = () => {
                     </div>
                     <div
                         onClick={() => readySearch(false)}
-                        className='grid place-content-center pt-6'
+                        className='grid place-content-center '
                     >
-                        <div className="flex">
+                        <div className="flex pt-4">
                             <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                             <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
                         </div>
@@ -746,8 +746,8 @@ const Smm = () => {
                     }} className=" modal-popp absolute top-0 bottom-0 w-screen ">
 
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                        <div style={{ height: '85%' }}>
-                            <div className=" mt-12  w-screen " >
+                        <div style={{ height: '85%' }} className='mt-24 '>
+                            <div className="  w-screen " >
                                 {
 
                                     !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
@@ -793,7 +793,10 @@ const Smm = () => {
             <div className='z-90  w-full absolute mt-4 grid place-content-end  ' style={{ top: '9rem', right: '1rem' }}>
                 <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
             </div>
-            <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
+            {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
+ */}
+
+            <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
 
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -858,7 +861,7 @@ const Smm = () => {
 
 
 
-            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>1. Category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div onClick={() => showModalA(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
@@ -899,7 +902,7 @@ const Smm = () => {
             }
 
 
-            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>3. service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. Service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div onClick={() => showModalB(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>

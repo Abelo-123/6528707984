@@ -173,12 +173,12 @@ const Smmhistory = () => {
                 }}
             >
                 <Section header="Order History" style={{ border: "1px solid var(--tgui--section_bg_color)" }}>
-                    <div style={{ width: "95%" }} className="scrollabler mx-auto">
+                    <div style={{ width: "95%" }} className=" mx-auto">
                         {loader && <MyLoader />}
-                        <div style={{ borderRadius: "10px" }} className="bg-red-100 w-full overflow-x-auto">
+                        <div style={{ borderRadius: "10px" }} className="scrollabler bg-red-100 w-full overflow-x-auto">
                             <ul>
                                 {!loader &&
-                                    <table style={{ width: "100%" }} className=" border  rounded-lg shadow-md">
+                                    <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
                                         <thead>
                                             <tr>
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
@@ -201,7 +201,7 @@ const Smmhistory = () => {
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y ">
+                                        <tbody className=" ">
                                             {data.map((items, index) => (
                                                 <tr key={index}>
                                                     <td className="px-6 py-4 text-sm text-white">{items.status}</td>

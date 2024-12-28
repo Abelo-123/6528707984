@@ -69,49 +69,44 @@ const Tab = () => {
                     <div className='flex flex-col'>
 
                         <FontAwesomeIcon icon={faClock} style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} />
-                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>orderhistory</Text>
+                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>New Order</Text>
                     </div>
                 </Tabbar.Item>
                 <Tabbar.Item onClick={handleTwo}>
                     <div className='flex flex-col'>
-                        {display && (<>
-                            <div className="p-2 bg-red-100"></div>
 
-                            {useNotification.order === true ? 'on' : "off"}
-                        </>)
-                        }
                         <FontAwesomeIcon icon={faFacebookMessenger} style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>smm</Text>
+                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Orders</Text>
 
                     </div>
                 </Tabbar.Item>
 
-                <Tabbar.Item onClick={() => updateActivePage(3)}>
+                {/* <Tabbar.Item onClick={() => updateActivePage(3)}>
                     <div className='flex flex-col'>
 
                         <FontAwesomeIcon icon={faUser} style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>account</Text>
                     </div>
-                </Tabbar.Item>
+                </Tabbar.Item> */}
 
                 <Tabbar.Item onClick={() => updateActivePage(4)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faUser} style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>deposit</Text>
+                        <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Deposit</Text>
                     </div>
                 </Tabbar.Item>
-                <Tabbar.Item onClick={() => updateActivePage(5)}>
+                {/* <Tabbar.Item onClick={() => updateActivePage(5)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faCalendar} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>theme</Text>
                     </div>
-                </Tabbar.Item>
-                <Tabbar.Item onClick={() => updateActivePage(6)}>
+                </Tabbar.Item> */}
+                {/* <Tabbar.Item onClick={() => updateActivePage(6)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faCalendar} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>admin</Text>
                     </div>
-                </Tabbar.Item>
+                </Tabbar.Item> */}
             </Tabbar>
 
         </>

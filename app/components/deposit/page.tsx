@@ -321,171 +321,165 @@ const Deposit = () => {
 
     return (
         <>
+
+            {isPreModalOpen && (
+                <div
+                    className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
+                    onClick={closeModal}
+                >
+                    <div
+                        className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
+                    // Prevent clicking inside the modal from closing it
+                    >
+                        <div
+
+                            className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                            onClick={closePreModal}
+                        >
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+                        <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
+                        <p className="mb-4">Enter the amount you want to deposit:</p>
+
+                        <div className="amount-container">
+                            <input
+                                type="text"
+                                placeholder="Enter amount"
+                                value={aamount}
+                                onChange={(e) => setAmounts(e.target.value)}
+                            />
+                            <button
+                                onClick={() => {
+                                    setIframeKey((prevKey) => prevKey + 1)
+                                    setIframeVisible(true)
+                                    setLoading(true)
+                                }}
+                                disabled={parseInt(aamount) <= 1 || aamount === ''}
+                                style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) > 1 ? 'green' : 'gray', color: 'white' }}
+                            >
+                                {(ag && again) ? "try again" : "continue"}
+                            </button>
+
+                            {aamount !== '' && parseInt(aamount) < 1 && "Must be greater than 50"}
+                        </div>
+                        {aamount}
+                        <div className="iframe-container relative">
+                            {loading && !iframeVisible && <MyLoader />}
+                            {iframeVisible && !loading && (
+                                <iframe
+                                    key={iframeKey} // Use key to force iframe reload
+                                    src={generateIframeSrc()} // Dynamically set iframe src
+                                    width="100%"
+                                    height="310rem"
+                                    onLoad={() => {
+                                        setLoading(false)
+                                    }}
+                                    title="Embedded HTML"
+                                    frameBorder="0"
+                                />
+                            )}
+                        </div>
+
+
+                        <button
+                            onClick={openModal}
+                            style={{ background: 'var(--tgui--button_color)' }}
+                            className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
+                        >
+                            Pay manule
+                        </button>
+                    </div>
+                </div>
+            )}
+            {isModalOpen && (
+                <div
+                    className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-25 grid content-center z-50"
+                    onClick={closeModal}
+                >
+                    <div
+                        className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
+                    // Prevent clicking inside the modal from closing it
+                    >
+                        <div
+
+                            className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                            onClick={closeModal}
+                        >
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+                        <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
+                        <p className="mb-4">Enter the amount you want to deposit:</p>
+                        <Select header="Select" value={pm} onChange={handleChange}>
+                            <option value="">Select an option</option>
+                            <option>Hello</option>
+                            <option>Okay</option>
+                        </Select>
+                        <Input header="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Write and clean me" autoFocus />
+                        <Input type="number" style={{ color: inputColor }} header="Amount" value={amount} onInput={(e) => handleDeposit(e)} placeholder="Write and clean me" />
+                        <div className="flex mt-6  justify-between">
+                            <button
+                                disabled={inputColor == "blue" ? true : false}
+                                id="deposit"
+                                style={{ background: 'var(--tgui--button_color)' }}
+                                className=" w-full text-white px-6 py-4 rounded-md"
+                                onClick={openModall}
+                            >
+                                Make Deposit
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isModalOpenn && (
+                <div
+                    className="fixed  modal-pops grid content-center inset-0  bg-opacity-75 grid content-center z-50"
+                >
+                    <div style={{ height: '30rem', background: 'var(--tgui--bg_color)' }} className="mx-auto my-auto modal-pop relative  p-6 rounded-lg w-11/12">
+                        <div
+                            onClick={() => closeModall()}
+
+                            className=" absolute right-8 text-gray-500 px-4 py-3 mx-auto rounded-md"
+                        >
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
+                        <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-bold mb-4">Confirm Action</h2>
+                        {amount} {pm} {name}
+                        <div className="flex absolute bottom-6 left-0 right-0   w-full justify-end space-x-4">
+                            <button
+                                disabled={disable === true}
+                                onClick={handleConfirm}
+                                style={{ background: 'var(--tgui--button_color)' }}
+                                className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
+                            >
+                                {disable == true ? (
+                                    <>
+                                        <button className="buttonload">
+                                            <FontAwesomeIcon icon={faRefresh} className="spin" /> Loading
+                                        </button>
+
+
+                                    </>
+                                ) : "Confirm"}</button>
+
+                        </div>
+                    </div>
+                </div>
+            )}
             <List
                 style={{
 
                     padding: '5px',
-
+                    height: '40rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
                 }}
             >
-
-                <Button
-                    mode="filled"
-                    size="l"
-                    style={{ marginLeft: '50%' }}
-                    onClick={openPreModal}
-                    before="+"
-                >
-                    Make Deposit
-                </Button>
-                {isPreModalOpen && (
-                    <div
-                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
-                        onClick={closeModal}
-                    >
-                        <div
-                            className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
-                        // Prevent clicking inside the modal from closing it
-                        >
-                            <div
-
-                                className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
-                                onClick={closePreModal}
-                            >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
-                            </div>
-                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
-                            <p className="mb-4">Enter the amount you want to deposit:</p>
-
-                            <div className="amount-container">
-                                <input
-                                    type="text"
-                                    placeholder="Enter amount"
-                                    value={aamount}
-                                    onChange={(e) => setAmounts(e.target.value)}
-                                />
-                                <button
-                                    onClick={() => {
-                                        setIframeKey((prevKey) => prevKey + 1)
-                                        setIframeVisible(true)
-                                        setLoading(true)
-                                    }}
-                                    disabled={parseInt(aamount) <= 1 || aamount === ''}
-                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) > 1 ? 'green' : 'gray', color: 'white' }}
-                                >
-                                    {(ag && again) ? "try again" : "continue"}
-                                </button>
-
-                                {aamount !== '' && parseInt(aamount) < 1 && "Must be greater than 50"}
-                            </div>
-                            {aamount}
-                            <div className="iframe-container relative">
-                                {loading && !iframeVisible && <MyLoader />}
-                                {iframeVisible && !loading && (
-                                    <iframe
-                                        key={iframeKey} // Use key to force iframe reload
-                                        src={generateIframeSrc()} // Dynamically set iframe src
-                                        width="100%"
-                                        height="310rem"
-                                        onLoad={() => {
-                                            setLoading(false)
-                                        }}
-                                        title="Embedded HTML"
-                                        frameBorder="0"
-                                    />
-                                )}
-                            </div>
-
-
-                            <button
-                                onClick={openModal}
-                                style={{ background: 'var(--tgui--button_color)' }}
-                                className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
-                            >
-                                Pay manule
-                            </button>
-                        </div>
-                    </div>
-                )}
-                {isModalOpen && (
-                    <div
-                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-25 grid content-center z-50"
-                        onClick={closeModal}
-                    >
-                        <div
-                            className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
-                        // Prevent clicking inside the modal from closing it
-                        >
-                            <div
-
-                                className=" text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
-                                onClick={closeModal}
-                            >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
-                            </div>
-                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
-                            <p className="mb-4">Enter the amount you want to deposit:</p>
-                            <Select header="Select" value={pm} onChange={handleChange}>
-                                <option value="">Select an option</option>
-                                <option>Hello</option>
-                                <option>Okay</option>
-                            </Select>
-                            <Input header="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Write and clean me" autoFocus />
-                            <Input type="number" style={{ color: inputColor }} header="Amount" value={amount} onInput={(e) => handleDeposit(e)} placeholder="Write and clean me" />
-                            <div className="flex mt-6  justify-between">
-                                <button
-                                    disabled={inputColor == "blue" ? true : false}
-                                    id="deposit"
-                                    style={{ background: 'var(--tgui--button_color)' }}
-                                    className=" w-full text-white px-6 py-4 rounded-md"
-                                    onClick={openModall}
-                                >
-                                    Make Deposit
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-                )}
-                {isModalOpenn && (
-                    <div
-                        className="fixed  modal-pops grid content-center inset-0  bg-opacity-75 grid content-center z-50"
-                    >
-                        <div style={{ height: '30rem', background: 'var(--tgui--bg_color)' }} className="mx-auto my-auto modal-pop relative  p-6 rounded-lg w-11/12">
-                            <div
-                                onClick={() => closeModall()}
-
-                                className=" absolute right-8 text-gray-500 px-4 py-3 mx-auto rounded-md"
-                            >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
-                            </div>
-                            <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-bold mb-4">Confirm Action</h2>
-                            {amount} {pm} {name}
-                            <div className="flex absolute bottom-6 left-0 right-0   w-full justify-end space-x-4">
-                                <button
-                                    disabled={disable === true}
-                                    onClick={handleConfirm}
-                                    style={{ background: 'var(--tgui--button_color)' }}
-                                    className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
-                                >
-                                    {disable == true ? (
-                                        <>
-                                            <button className="buttonload">
-                                                <FontAwesomeIcon icon={faRefresh} className="spin" /> Loading
-                                            </button>
-
-
-                                        </>
-                                    ) : "Confirm"}</button>
-
-                            </div>
-                        </div>
-                    </div>
-                )}
 
 
                 <Section header="Order History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
@@ -518,6 +512,18 @@ const Deposit = () => {
 
                     </div>
                 </Section>
+
+                <Button
+                    mode="filled"
+                    size="l"
+                    style={{
+                        width: '80%', marginTop: 'auto', position: 'absolute', bottom: '4rem'
+                    }}
+                    onClick={openPreModal}
+                    before="+"
+                >
+                    Make Deposit
+                </Button>
 
             </List >
         </>
