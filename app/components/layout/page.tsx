@@ -9,7 +9,7 @@ import { useNot } from '../StatusContext';
 
 const Lays = () => {
     // const [notificationModal, seeNotificationModal] = useState(false)
-    const { userData } = useUser();
+    const { userData, setUserData } = useUser();
     // const [notificationMessage, setNotificationMessage] = useState([])
     const [marq, setMarq] = useState('')
 
@@ -47,6 +47,11 @@ const Lays = () => {
             if (error) {
                 console.error('Error fetching initial balance:', error);
             } else {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: data.balance,
+                    // Update the `deposit` field
+                }));
                 setBalance(data.balance); // Set initial balance
             }
         }
@@ -56,6 +61,11 @@ const Lays = () => {
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
                 setBalance((payload.new as { balance: number }).balance); // Update balance on real-time changes
 
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: payload.new.balance,
+                    // Update the `deposit` field
+                }));
             })
             .subscribe();
     }, [])

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
-import { faAngleDown, faClose, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faArrowUpFromBracket, faBackspace, faBackward, faBackwardFast, faClose, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
@@ -11,6 +11,7 @@ import { useNot } from '../StatusContext';
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import MyLoader from '../Loader/page';
+import { faClosedCaptioning, faHandBackFist, faWindowClose } from '@fortawesome/free-regular-svg-icons';
 
 const iconMap = {
     youtube: faYoutube,
@@ -454,8 +455,10 @@ const Smm = () => {
             alert("no quantity")
         } else if (link == null && quantity == 0) {
             alert("enter forms")
-        } else if (minn > quantity) {
+        } else if (minn > quantity || minn < quantity || (minn > quantity || minn < quantity)) {
             alert(`min is ${minn} and max is${maxx}`)
+        } else if (charge > userData.balance) {
+            alert(`insefuccient ba.ance`)
         }
         else {
             try {
@@ -654,42 +657,8 @@ const Smm = () => {
         }
     }
 
-    async function setUserOnlineStatus(userId, status) {
-        const { error } = await supabase
-            .from('users')
-            .update({
-                is_online: status,
-                last_activity: new Date(),
-            })
-            .eq('id', userId)
 
-        if (error) {
 
-            console.error("Error updating user status:", error);
-        } else {
-
-            console.log("User status updated:");
-        }
-    }
-    function handleVisibilityChange() {
-        if (document.visibilityState === 'visible') {
-            setUserOnlineStatus(userData.userId, true);
-        } else {
-            setUserOnlineStatus(userData.userId, false);
-        }
-    }
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            window.document.addEventListener('visibilitychange', handleVisibilityChange);
-        }
-
-        return () => {
-            if (typeof window !== 'undefined') {
-                window.document.removeEventListener('visibilitychange', handleVisibilityChange);
-            }
-        };
-    }, []);
 
 
 
@@ -792,18 +761,22 @@ const Smm = () => {
                             />
                         </div>
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                        {
-                            !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-                                <div key={index} className=" grid mt-32 content-start w-screen " >
-                                    <li className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                        <div className=" grid  content-start w-screen " >
+                            {
+
+                                !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+
+                                    <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                         <div className="block w-full px-2">
                                             <div className="text-right ml-auto"> {items.from}</div>
                                             <div className="text ml-2"> {items.message}</div>
                                         </div>
                                     </li>
-                                </div>
-                            ))
-                        }
+
+                                ))
+
+                            }
+                        </div>
 
 
                     </div >
@@ -818,7 +791,6 @@ const Smm = () => {
                     </div>
                 )
             }
-
 
             <Section header="Promo Code" style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
                 <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
@@ -947,11 +919,15 @@ const Smm = () => {
             {
                 modalB &&
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
-                        <div onClick={() => showModalB(false)} className='absolute top-6 text-white right-0 m-6 b p-3'>
-                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                    <div onClick={() => showModalB(false)} className='absolute mt-12 text-white  w-11/12 ml-2 grid place-content-center p-3'>
+                        <div className='flex'>
+                            <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                            <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
                         </div>
-                        <br />
+                    </div>
+                    <div style={{ 'marginTop': '8rem', 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable  mx-auto p-8 '>
+
+
                         {ser ? service.map((datas, index) => (
 
                             <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
@@ -964,6 +940,7 @@ const Smm = () => {
                                 </div>
                             </div>
                         )) : <Text>Choose Category</Text>}
+
                     </div>
                 </div>
             }
@@ -979,7 +956,7 @@ const Smm = () => {
             {
                 loader ? <MyLoader /> :
                     id && description && (
-                        <div className=' w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                        <div className='overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
                             <Text style={{ fontSize: '0.8rem' }}>
                                 <div dangerouslySetInnerHTML={{ __html: description }} />
                             </Text>
@@ -991,7 +968,7 @@ const Smm = () => {
                 isModalOpen && (
                     <div
 
-                        className="fixed inset-0 modal-pops absolute  bg-black bg-opacity-75 grid content-center  z-50"
+                        className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-75 grid content-center  z-50"
                         onClick={closeModal}
                     >
                         <div
