@@ -917,14 +917,9 @@ const Smm = () => {
 
             {
                 modalB &&
-                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div onClick={() => showModalB(false)} className='absolute mt-12 text-white  w-11/12 ml-2 grid place-content-center p-3'>
-                        <div className='flex'>
-                            <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
-                            <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
-                        </div>
-                    </div>
-                    <div style={{ 'marginTop': '8rem', 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable  mx-auto p-8 '>
+                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable  mx-auto p-8 '>
 
 
                         {ser ? service.map((datas, index) => (
@@ -940,6 +935,12 @@ const Smm = () => {
                             </div>
                         )) : <Text>Choose Category</Text>}
 
+                    </div>
+                    <div onClick={() => showModalB(false)} className='absolute bg-red-100 mt-12 text-white  w-11/12 ml-4 grid place-content-center p-3'>
+                        <div className='flex'>
+                            <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                            <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                        </div>
                     </div>
                 </div>
             }
