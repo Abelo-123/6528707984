@@ -169,11 +169,11 @@ const Smmhistory = () => {
 
             <List
                 style={{
-                    padding: "20px 0px",
+                    padding: "0px 0px",
                 }}
             >
-                <Section header="Order History" style={{ border: "1px solid var(--tgui--section_bg_color)" }}>
-                    <div style={{ width: "95%" }} className=" mx-auto">
+                <Section header="Order History" style={{ marginTop: '-0.5rem', border: "1px solid var(--tgui--section_bg_color)" }}>
+                    <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
                         <div style={{ borderRadius: "10px" }} className="scrollabler bg-red-100 w-full overflow-x-auto">
                             <ul>

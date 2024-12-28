@@ -479,8 +479,8 @@ const Deposit = () => {
                     </div>
                 )}
 
-                <Section header="Order History" style={{ width: '95%', marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: '10px' }} className="scrollabler overflow-x-auto">
+                <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
+                    <div style={{ borderRadius: '10px', width: '100%' }} className="scrollabler overflow-x-auto">
                         {loader && <MyLoader />}
                         <table className=" min-w-full  rounded-lg shadow-md">
                             <thead>
