@@ -324,7 +324,7 @@ const Deposit = () => {
             <List
                 style={{
 
-                    padding: '20px',
+                    padding: '5px',
 
                 }}
             >
@@ -489,7 +489,7 @@ const Deposit = () => {
 
 
                 <Section header="Order History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: '20PX' }} className="overflow-x-auto">
+                    <div style={{ borderRadius: '10pxPX' }} className="overflow-x-auto">
                         {loader && <MyLoader />}
                         <table className="min-w-full  rounded-lg shadow-md">
                             <thead>
@@ -504,11 +504,11 @@ const Deposit = () => {
                             <tbody className=" divide-y ">
                                 {data.map((items, index) => (
                                     <tr key={index}>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{items.did}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{items.pm}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{items.amount}</td>
+                                        <td className="px-6 py-4 text-sm text-white ">{items.status}</td>
+                                        <td className="px-6 py-4 text-sm text-white ">{items.did}</td>
+                                        <td className="px-6 py-4 text-sm text-white ">{items.date}</td>
+                                        <td className="px-6 py-4 text-sm text-white ">{items.pm}</td>
+                                        <td className="px-6 py-4 text-sm text-white ">{items.amount}</td>
                                     </tr>
                                 ))}
 

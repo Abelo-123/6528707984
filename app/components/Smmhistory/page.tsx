@@ -178,41 +178,41 @@ const Smmhistory = () => {
                         <div style={{ borderRadius: "10px" }} className="bg-red-100 w-full overflow-x-auto">
                             <ul>
                                 {!loader &&
-                                    <table style={{ width: "100%" }} className="bg-white border border-gray-200 rounded-lg shadow-md">
+                                    <table style={{ width: "100%" }} className="border border-gray-200 rounded-lg shadow-md">
                                         <thead className="bg-gray-100">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                                     Status
                                                 </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">ID</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                                     Starting From
                                                 </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Remains</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Remains</th>
 
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                                     Quantity
                                                 </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Link</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Link</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                                     Charge (ETB)
                                                 </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Service</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Date</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Service</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Date</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-200">
+                                        <tbody className="divide-y divide-gray-100">
                                             {data.map((items, index) => (
                                                 <tr key={index}>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.status}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.oid}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.start_count}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.remains}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.quantity}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.link}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.charge}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.service}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">{items.date}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.status}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.oid}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.start_count}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.remains}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.link}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.charge}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.service}</td>
+                                                    <td className="px-6 py-4 text-sm text-white">{items.date}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
