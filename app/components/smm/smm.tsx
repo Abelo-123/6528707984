@@ -677,22 +677,12 @@ const Smm = () => {
                 promo</button> */}
             {searchh && (
                 <div
-                    style={{ background: 'var(--tgui--section_bg_color)', zIndex: 900 }}
-                    className="modal-popp absolute overflow-x-hidden min-w-full top-0 bottom-0  "
+                    style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
+                    className="modal-popp  fixed overflow-y-hidden min-w-full top-0 bottom-0  "
                 >
-                    <div
-                        onClick={() => readySearch(false)}
-                        className="absolute top-6 right-6"
-                    >
-                        <FontAwesomeIcon
-                            icon={faClose}
-                            color="var(--tgui--section_header_text_color)"
-                            style={{ margin: "auto auto" }}
-                            size="2x"
-                        />
-                    </div>
 
-                    <div className="p-3  gap-5 pt-24 grid content-start w-full h-auto">
+
+                    <div className="p-3  gap-5 grid content-start w-full h-auto">
                         <div className=" p-2">
                             <input
                                 id="search"
@@ -704,34 +694,45 @@ const Smm = () => {
                                 className="w-full p-2  "
                             />
                         </div>
-                        <div className=" overflow-hidden w-full p-2">
-                            <div id="result">
-                                {/* Display filtered services here */}
-                                {search && filteredServices.length > 0 ? (
-                                    filteredServices.map((service) => (
-                                        <div
-                                            key={service.service}
-                                            style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
-                                            onClick={() => clickedSearch(service)}
-                                            className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
-                                        >
-                                            <h4 className="font-bold">{service.name}</h4>
-                                            <p>
-                                                <strong>Category</strong> {service.category}
-                                            </p>
-                                            <p>
-                                                <strong>Rate</strong> {service.rate}
-                                            </p>
-                                            <p>
-                                                <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
-                                                {service.max}
-                                            </p>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No matching results found.</p>
-                                )}
+                        <div style={{ height: '40rem' }} className=" scrollabler overflow-x-hidden">
+                            <div className=" overflow-hidden w-full p-2">
+                                <div id="result">
+                                    {/* Display filtered services here */}
+                                    {search && filteredServices.length > 0 ? (
+                                        filteredServices.map((service) => (
+                                            <div
+                                                key={service.service}
+                                                style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
+                                                onClick={() => clickedSearch(service)}
+                                                className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
+                                            >
+                                                <h4 className="font-bold">{service.name}</h4>
+                                                <p>
+                                                    <strong>Category</strong> {service.category}
+                                                </p>
+                                                <p>
+                                                    <strong>Rate</strong> {service.rate}
+                                                </p>
+                                                <p>
+                                                    <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
+                                                    {service.max}
+                                                </p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No matching results found.</p>
+                                    )}
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div
+                        onClick={() => readySearch(false)}
+                        className='grid place-content-center pt-6'
+                    >
+                        <div className="flex">
+                            <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                            <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
                         </div>
                     </div>
                 </div>
@@ -743,42 +744,40 @@ const Smm = () => {
                     <div style={{
                         zIndex: 900, background: 'var(--tgui--section_bg_color)'
                     }} className=" modal-popp absolute top-0 bottom-0 w-screen ">
-                        < div onClick={() => {
-                            setNotification((prevNotification) => ({
-                                ...prevNotification, // Spread the previous state
-                                notificationModal: false,
-                                notificationData: [],
-                                notificationLoader: true,
-                                // Update the `deposit` field
-                            }));
-                        }} className="absolute top-12 right-12 p-3 ">
-                            <FontAwesomeIcon
-                                icon={faClose}
-                                color="var(--tgui--section_header_text_color)"
-                                style={{ margin: "auto auto" }}
-                                size="2x"
-                            />
-                        </div>
 
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                        <div className=" mt-28 w-screen " >
-                            {
+                        <div style={{ height: '85%' }}>
+                            <div className=" mt-12  w-screen " >
+                                {
 
-                                !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+                                    !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
 
-                                    <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
-                                        <div className="block w-full px-2">
-                                            <div className="text-right ml-auto"> {items.from}</div>
-                                            <div className="text ml-2"> {items.message}</div>
-                                        </div>
-                                    </li>
+                                        <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                                            <div className="block w-full px-2">
+                                                <div className="text-right ml-auto"> {items.from}</div>
+                                                <div className="text ml-2"> {items.message}</div>
+                                            </div>
+                                        </li>
 
-                                ))
+                                    ))
 
-                            }
+                                }
+                            </div>
                         </div>
-
-
+                        <div className='absolute  w-full grid place-content-center bottom-4'>
+                            < div onClick={() => {
+                                setNotification((prevNotification) => ({
+                                    ...prevNotification, // Spread the previous state
+                                    notificationModal: false,
+                                    notificationData: [],
+                                    notificationLoader: true,
+                                    // Update the `deposit` field
+                                }));
+                            }} className="p-3 ">
+                                <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                                <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                            </div>
+                        </div>
                     </div >
                 )
             }
@@ -792,9 +791,9 @@ const Smm = () => {
                 )
             }
             <div className='z-90  w-full absolute mt-4 grid place-content-end  ' style={{ top: '9rem', right: '1rem' }}>
-                <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
             </div>
-            <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
+            <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
 
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
