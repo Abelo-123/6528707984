@@ -6,7 +6,7 @@ import Smm from './components/smm/smm';
 import Admin from "./components/admin/page";
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
-import Account from './components/Account/account';
+//import Account from './components/Account/account';
 import TelegramApp from './components/theme/theme';
 import React from "react";
 
