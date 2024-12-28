@@ -791,11 +791,11 @@ const Smm = () => {
                     </div>
                 )
             }
+            <div className=' w-full grid place-content-end ' style={{ top: '1rem', right: '1rem' }}>
+                <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+            </div>
+            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', }}>
 
-            <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)' }}>
-                <div className='absolute' style={{ top: '1rem', right: '1rem' }}>
-                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} color="blue" style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
-                </div>
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                     {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                         <Spinner size="l" />
@@ -877,12 +877,9 @@ const Smm = () => {
 
             {
                 modalA &&
-                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', border: '1px solid var(--tgui--bg_color)' }} className='scrollable my-auto mx-auto p-8 '>
-                        <div onClick={() => showModalA(false)} className='absolute top-6 right-0 m-6 text-white p-3'>
-                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
-                        </div>
-                        <br />
+                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
+
                         {category.map((datas, index) => (
                             <div key={index} className="px-1 py-3" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
                                 <div className=" text-wrap flex">
@@ -891,6 +888,13 @@ const Smm = () => {
                                 </div>
                             </div>
                         ))}
+
+                    </div>
+                    <div onClick={() => showModalA(false)} className='absolute  text-white  w-11/12 ml-2 grid place-content-center p-3'>
+                        <div className='flex'>
+                            <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                            <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                        </div>
                     </div>
                 </div>
             }
@@ -920,7 +924,7 @@ const Smm = () => {
                 modalB &&
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mt-12 mx-auto p-8 '>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mt-14 mx-auto p-8 '>
 
 
                         {ser ? service.map((datas, index) => (
@@ -937,7 +941,7 @@ const Smm = () => {
                         )) : <Text>Choose Category</Text>}
 
                     </div>
-                    <div onClick={() => showModalB(false)} className='absolute bg-red-100 mt-8 text-white  w-11/12 ml-4 grid place-content-center p-3'>
+                    <div onClick={() => showModalB(false)} className='absolute mt-8 text-white  w-11/12 ml-2 grid place-content-center p-3'>
                         <div className='flex'>
                             <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                             <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
