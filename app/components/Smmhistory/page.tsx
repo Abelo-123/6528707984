@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import axios from "axios";
 import { useNot } from '../StatusContext';
-import { useUser } from "../UserContext";
 import MyLoader from "../Loader/page";
 import { faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
