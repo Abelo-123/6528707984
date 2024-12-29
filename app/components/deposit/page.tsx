@@ -140,74 +140,92 @@ const Deposit = () => {
     }, [aamount]);
 
     useEffect(() => {
+
+
+
+
         const auth = async () => {
-            setLoader(true)
-            // Fetch the initial balance from the database
-            const { data: initialData, error } = await supabase
-                .from('deposit')
-                .select('*')
-                .eq('uid', userData.userId);
+            const script = document.createElement("script");
+            script.src = "https://telegram.org/js/telegram-web-app.js?2";
+            script.async = true;
+            document.body.appendChild(script);
 
-            if (error) {
-                console.log(error);
-            } else {
-                setLoader(false)
-                setData(initialData);  // Set the initial data
-            }
+            script.onload = async () => {
+                const Telegram = window.Telegram;
 
-            // Subscribe to real-time changes
-            supabase
-                .channel(`deposit:uid=eq.${userData.userId}`)
-                .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
-                    //console.log("New order inserted:", payload.new);
-                    // Add the new order to the state
-                    setData((prevData) => [...prevData, payload.new]);
-                    console.log(payload.new)
+                if (window.Telegram && window.Telegram.WebApp) {
 
-                })
-                .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
-                    //console.log("New order inserted:", payload.new);
-                    // Add the new order to the state
+                    const { user } = Telegram.WebApp.initDataUnsafe;
 
-                    if (payload.new.seen === true) {
-                        setNotification((prevNotification) => ({
-                            ...prevNotification, // Spread the previous state
-                            notificationLight: true
-                            // Update the `deposit` field
-                        }));
-                    }
-                    console.log(payload.new)
+                    setLoader(true)
+                    // Fetch the initial balance from the database
+                    const { data: initialData, error } = await supabase
+                        .from('deposit')
+                        .select('*')
+                        .eq('uid', user.id);
 
-                })
-                .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
-                    //console.log("New order inserted:", payload.new);
-                    // Add the new order to the state
-                    //console.log(payload.new)
-
-                    const updatedItem = payload.new;
-
-                    //console.log(payload.new)
-                    if (payload.new.seen === true) {
-                        setNotification((prevNotification) => ({
-                            ...prevNotification, // Spread the previous state
-                            notificationLight: true
-                            // Update the `deposit` field
-                        }));
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        setLoader(false)
+                        setData(initialData);  // Set the initial data
                     }
 
-                    setData((prevData) => {
-                        return prevData.map((item) => {
-                            if (item.did === updatedItem.did) {
-                                // If the IDs match, update the status
-                                return { ...item, status: "Done" };
+                    // Subscribe to real-time changes
+                    supabase
+                        .channel(`deposit:uid=eq.${user.id}`)
+                        .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
+                            //console.log("New order inserted:", payload.new);
+                            // Add the new order to the state
+                            setData((prevData) => [...prevData, payload.new]);
+                            console.log(payload.new)
+
+                        })
+                        .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
+                            //console.log("New order inserted:", payload.new);
+                            // Add the new order to the state
+
+                            if (payload.new.seen === true) {
+                                setNotification((prevNotification) => ({
+                                    ...prevNotification, // Spread the previous state
+                                    notificationLight: true
+                                    // Update the `deposit` field
+                                }));
                             }
-                            return item;
-                        });
-                    });
 
-                })
-                .subscribe();
+                        })
+                        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
+                            //console.log("New order inserted:", payload.new);
+                            // Add the new order to the state
+                            //console.log(payload.new)
+
+                            const updatedItem = payload.new;
+
+                            //console.log(payload.new)
+                            if (payload.new.seen === true) {
+                                setNotification((prevNotification) => ({
+                                    ...prevNotification, // Spread the previous state
+                                    notificationLight: true
+                                    // Update the `deposit` field
+                                }));
+                            }
+
+                            setData((prevData) => {
+                                return prevData.map((item) => {
+                                    if (item.did === updatedItem.did) {
+                                        // If the IDs match, update the status
+                                        return { ...item, status: "Done" };
+                                    }
+                                    return item;
+                                });
+                            });
+
+                        })
+                        .subscribe();
+                }
+            }
         };
+
 
         auth();
     }, []);
