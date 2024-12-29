@@ -48,32 +48,34 @@ const Lays = () => {
             const Telegram = window.Telegram;
 
             if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
-                setId(user.id)
+
+
+
+                const fetchBalance = async () => {
+                    const { data, error } = await supabase
+                        .from('users')
+                        .select('balance')
+                        .eq('id', user.id)
+                        .single(); // Get a single row
+
+                    if (error) {
+                        console.error('Error fetching initial balance:', error);
+                    } else {
+                        setId(user.id)
+                        setUserData((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            balance: data.balance,
+                            // Update the `deposit` field
+                        }));
+                        setBalance(data.balance)
+
+                    }
+                }
+                fetchBalance()
             }
         }
-        const fetchBalance = async () => {
-            const { data, error } = await supabase
-                .from('users')
-                .select('balance')
-                .eq('id', id)
-                .single(); // Get a single row
-
-            if (error) {
-                console.error('Error fetching initial balance:', error);
-            } else {
-                setUserData((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    balance: data.balance,
-                    // Update the `deposit` field
-                }));
-                setBalance(data.balance)
-
-            }
-        }
-        fetchBalance()
         supabase
             .channel(`users:id=eq.${userData.userId}`)
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
@@ -86,6 +88,7 @@ const Lays = () => {
                 setBalance(payload.new.balance);
             })
             .subscribe();
+
     }, [])
 
     const { useNotification } = useNot();
@@ -146,7 +149,7 @@ const Lays = () => {
 
                     <div className='flex flex-col justify-space-around mt-auto  ml-3'>
                         <Text weight="2">{userData.firstName} {userData.lastName}</Text>
-                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance: {balance}</Text>
+                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance: {balance} or {userData.balance} | {id}</Text>
                     </div>
                 </div>
                 <div onClick={seeNotification} style={{ position: 'relative' }} className="grid place-content-center ml-auto mr-8 ">
