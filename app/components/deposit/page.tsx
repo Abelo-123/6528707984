@@ -36,26 +36,6 @@ const Deposit = () => {
     const [loader, setLoader] = useState(true)
     const [loading, setLoading] = useState(false)
     const [mo, setMo] = useState(false)
-    const [idd, setIdd] = useState(undefined)
-
-    useEffect(() => {
-
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
-
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-
-            if (window.Telegram && window.Telegram.WebApp) {
-
-                const { user } = Telegram.WebApp.initDataUnsafe;
-                setIdd(user.id)
-
-            }
-        }
-    }, [])
 
     // Function to open the modal
     // const openModal = () => {
@@ -125,7 +105,7 @@ const Deposit = () => {
 
 
         const { error } = await supabase.from('deposit').insert([
-            { did: did, uid: idd, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile }
+            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile }
         ]);
 
         if (error) {
@@ -166,7 +146,7 @@ const Deposit = () => {
             const { data: initialData, error } = await supabase
                 .from('deposit')
                 .select('*')
-                .eq('uid', idd);
+                .eq('uid', userData.userId);
 
             if (error) {
                 console.log(error);
@@ -177,7 +157,7 @@ const Deposit = () => {
 
             // Subscribe to real-time changes
             supabase
-                .channel(`deposit:uid=eq.${idd}`)
+                .channel(`deposit:uid=eq.${userData.userId}`)
                 .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
                     //console.log("New order inserted:", payload.new);
                     // Add the new order to the state
@@ -241,40 +221,53 @@ const Deposit = () => {
     };
 
     const sendAmount = async (doll) => {
-        const { data: findDataa, error: findErrorDaa } = await supabase
-            .from("users")
-            .select('balance')
-            .eq("id", idd)
-            .single();
-        // Pass 100 as a string
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+
+            if (window.Telegram && window.Telegram.WebApp) {
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+
+                const { data: findDataa, error: findErrorDaa } = await supabase
+                    .from("users")
+                    .select('balance')
+                    .eq("id", user.id)
+                    .single();
+                // Pass 100 as a string
 
 
-        if (findErrorDaa) {
-            console.error(findErrorDaa.message)
-        } else {
-            const newbalance = Number(findDataa.balance + Number(doll))
-
-            const { error: findErrorCa } = await supabase
-                .from("users")
-                .update({ balance: newbalance })
-                .eq("id", idd); // Pass 100 as a string
-            if (findErrorCa) {
-                console.error(findErrorCa.message)
-            } else {
-                const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
-
-                const { error } = await supabase.from('deposit').insert([
-                    { did: did, uid: idd, pm: 'Chapa', amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
-                ]);
-                if (error) {
-                    console.error(error.message)
+                if (findErrorDaa) {
+                    console.error(findErrorDaa.message)
                 } else {
-                    setaAmount('')
+                    const newbalance = Number(findDataa.balance + Number(doll))
+
+                    const { error: findErrorCa } = await supabase
+                        .from("users")
+                        .update({ balance: newbalance })
+                        .eq("id", user.id); // Pass 100 as a string
+                    if (findErrorCa) {
+                        console.error(findErrorCa.message)
+                    } else {
+                        const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
+
+                        const { error } = await supabase.from('deposit').insert([
+                            { did: did, uid: user.id, pm: 'Chapa', amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
+                        ]);
+                        if (error) {
+                            console.error(error.message)
+                        } else {
+                            setaAmount('')
+                        }
+                    }
                 }
+
             }
         }
-
-
 
     }
 
@@ -563,7 +556,7 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
-                {idd}
+                {userData.userId}&&   {userData.balance}
                 <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '10px', width: '100%' }} className="scrollabler overflow-x-auto">
 

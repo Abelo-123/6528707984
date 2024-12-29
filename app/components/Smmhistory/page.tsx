@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import axios from "axios";
 import { useNot } from '../StatusContext';
+import { useUser } from "../UserContext";
 import MyLoader from "../Loader/page";
 import { faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Smmhistory = () => {
 
     const [loader, setLoader] = useState(true)
-
+    const { userData } = useUser();
     const delay = (ms: number) => new Promise(resolve => {
         const interval = setInterval(() => {
             clearInterval(interval);
@@ -22,26 +23,6 @@ const Smmhistory = () => {
     const { useNotification, setNotification } = useNot();
 
     const [data, setData] = useState<any[]>([]); // Adjust the type based on your data structure
-    const [idd, setIdd] = useState(undefined)
-
-    useEffect(() => {
-
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
-
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-
-            if (window.Telegram && window.Telegram.WebApp) {
-
-                const { user } = Telegram.WebApp.initDataUnsafe;
-                setIdd(user.id)
-
-            }
-        }
-    }, [])
 
     // Fetch order status for each order
     const fetchOrderStatus = async (orderId: string) => {
@@ -100,7 +81,7 @@ const Smmhistory = () => {
             const { data: initialData, error } = await supabase
                 .from("orders")
                 .select("*")
-                .eq("uid", idd); // Filter by user id or another parameter as needed
+                .eq("uid", userData.userId); // Filter by user id or another parameter as needed
 
             if (error) {
                 console.log(error);
