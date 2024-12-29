@@ -599,7 +599,7 @@ const Smm = () => {
                     const { data: rowss, error: fetchErrore } = await supabase
                         .from('users')
                         .select('balance')
-                        .eq('id', 100)
+                        .eq('id', userData.userId)
                         .single();  // Increment balance by 200
 
                     if (fetchErrore) {

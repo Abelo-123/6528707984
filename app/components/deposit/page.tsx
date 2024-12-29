@@ -224,7 +224,7 @@ const Deposit = () => {
         const { data: findDataa, error: findErrorDaa } = await supabase
             .from("users")
             .select('balance')
-            .eq("id", 100)
+            .eq("id", userData.userId)
             .single();
         // Pass 100 as a string
 
