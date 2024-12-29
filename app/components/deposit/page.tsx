@@ -36,10 +36,10 @@ const Deposit = () => {
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState(false)
     // Function to open the modal
-    const openModal = () => {
-        setIsModalOpen(true);
+    // const openModal = () => {
+    //     setIsModalOpen(true);
 
-    };
+    // };
     const openPreModal = () => {
         setIsPreModalOpen(true);
 
