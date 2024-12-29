@@ -23,9 +23,10 @@ const Smmhistory = () => {
     const { useNotification, setNotification } = useNot();
 
     const [data, setData] = useState<any[]>([]); // Adjust the type based on your data structure
+
     // Fetch order status for each order
     const fetchOrderStatus = async (orderId: string) => {
-        await delay(3000); // Wait for 2 seconds
+        await delay(9000); // Wait for 2 seconds
 
         // Find the current status of the order from the state (data array)
         const currentStatus = data.find((item) => item.oid === orderId)?.status;
@@ -36,25 +37,26 @@ const Smmhistory = () => {
             return; // Exit the function early, skipping the API request
         }
 
-        const url = `'../../api/smm/fetchStatus`; // Same URL, but we're using POST
+        const url = '../../api/smm/fetchStatus'; // Same URL, but we're using POST
 
         // Simulating a 2-second delay before making the API call
 
 
         try {
+            // console.log(orderId)
 
-            // Sending the orderId in the request body using POST
+            // // Sending the orderId in the request body using POST
             const response = await axios.post(url, {
                 orderId: orderId, // Sending orderId as JSON in the body
             });
 
             const result = response.data; // Axios response contains data directly
 
-            // Assuming the result is structured like { orderId: { status: "someStatus", ... }}
+            // // Assuming the result is structured like { orderId: { status: "someStatus", ... }}
             if (result[orderId]) {
                 const { status, charge, start_count, remains, currency } = result[orderId];
 
-                // If the response contains status for the given orderId, update the relevant data
+                //     // If the response contains status for the given orderId, update the relevant data
                 setData((prevData) =>
                     prevData.map((item) =>
                         item.oid === orderId
@@ -99,7 +101,7 @@ const Smmhistory = () => {
                     .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
                     .map((item) => {
 
-                        return setInterval(() => fetchOrderStatus(item.oid), 2000000); // Polling only for non-completed orders every 2 seconds
+                        return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
                     });
 
                 // Cleanup intervals when the component unmounts or when data changes
@@ -248,7 +250,16 @@ const Smmhistory = () => {
                                         <tbody className=" ">
                                             {data.map((items, index) => (
                                                 <tr key={index}>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.status}</td>
+                                                    <td
+                                                        style={{
+                                                            textShadow:
+                                                                items.status === "Canceled" ? "2px 2px 29px red" :
+                                                                    items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
+                                                                        items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
+                                                                            items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
+                                                                                undefined
+                                                        }}
+                                                        className="px-6 py-4 text-sm text-white">{items.status}</td>
                                                     <td className="px-6 py-4 text-sm text-white">{items.oid}</td>
                                                     <td className="px-6 py-4 text-sm text-white">{items.start_count}</td>
                                                     <td className="px-6 py-4 text-sm text-white">{items.remains}</td>

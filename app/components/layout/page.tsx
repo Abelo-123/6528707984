@@ -52,7 +52,7 @@ const Lays = () => {
                     balance: data.balance,
                     // Update the `deposit` field
                 }));
-                setBalance(data.balance); // Set initial balance
+                //setBalance(data.balance); // Set initial balance
             }
         }
         fetchBalance()

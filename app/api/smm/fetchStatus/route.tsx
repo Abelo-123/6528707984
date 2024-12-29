@@ -8,26 +8,17 @@ const pool = new Pool({
     },
 });
 
-// Fetch with timeout function
-const fetchWithTimeout = (url, options = {}, timeout = 20000) => {
-    return new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error("Request timed out")), timeout);
-
-        fetch(url, options)
-            .then((response) => {
-                clearTimeout(timer);
-                resolve(response);
-            })
-            .catch((err) => {
-                clearTimeout(timer);
-                reject(err);
-            });
-    });
-};
+// Function to simulate a delay (in milliseconds)
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function POST(req) {
+
+
+
     try {
         // Parse the request body
+        await delay(9000); // 3000ms = 3 seconds
+
         const { orderId } = await req.json();
 
         if (!orderId) {
@@ -38,7 +29,7 @@ export async function POST(req) {
         const url = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=status&order=${orderId}`;
 
         // Fetch data from the external API with timeout
-        const response = await fetchWithTimeout(url, { method: "GET" });
+        const response = await fetch(url, { method: "GET" });
 
         // Type assertion to ensure the response is a Response object
         if (!(response as Response).ok) {
@@ -47,6 +38,8 @@ export async function POST(req) {
 
         const data = await (response as Response).json();
         const { status, remains, start_count } = data;
+
+        // Simulate a 3-second delay before responding
 
         // Update the database
         const updateUserQuery = `

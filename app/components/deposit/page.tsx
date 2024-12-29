@@ -35,6 +35,7 @@ const Deposit = () => {
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [mo, setMo] = useState(false)
 
     // Function to open the modal
     // const openModal = () => {
@@ -49,12 +50,13 @@ const Deposit = () => {
     // Function to close the modal
     const closeModal = () => {
         setIsModalOpen(false);
-
+        setMo(false)
     };
 
     const closePreModal = () => {
         setIsPreModalOpen(false);
         setTg(false)
+        setMo(false)
         setIframeVisible(false)
         setaAmount('')
     };
@@ -129,6 +131,9 @@ const Deposit = () => {
             });
         }
     }
+
+
+
 
     useEffect(() => {
         aamountRef.current = aamount;
@@ -232,7 +237,7 @@ const Deposit = () => {
             const { error: findErrorCa } = await supabase
                 .from("users")
                 .update({ balance: newbalance })
-                .eq("id", 100); // Pass 100 as a string
+                .eq("id", userData.userId); // Pass 100 as a string
             if (findErrorCa) {
                 console.error(findErrorCa.message)
             } else {
@@ -263,6 +268,7 @@ const Deposit = () => {
             // Handle different message types
             if (type === 'payment-success') {
                 console.log(message); // e.g., "Payment was successful!"
+
                 setIsPreModalOpen(false)
                 //setAgain(true); // Set to true to show the container
                 setIframeVisible(false); // Make iframe visible again
@@ -321,6 +327,10 @@ const Deposit = () => {
     const setAmounts = (ee) => {
         //console.log(ee)
         setaAmount(ee)
+        if (mo) {
+            setTg(true)
+            setAgain(true)
+        }
         setIframeVisible(false)
     }
     const { useNotification } = useNot();
@@ -335,6 +345,7 @@ const Deposit = () => {
                     position: 'relative',
                 }}
             >
+
                 {
                     useNotification.notificationModal && (
                         <div style={{
@@ -399,6 +410,7 @@ const Deposit = () => {
                             <p className="mb-4">Enter the amount you want to deposit:</p>
 
                             <div className="amount-container">
+
                                 <Input
                                     header="Amount"
                                     type="text"
@@ -408,11 +420,13 @@ const Deposit = () => {
 
                                     onChange={(e) => setAmounts(e.target.value)}
                                 />
+
                                 <Button
                                     onClick={() => {
                                         setIframeKey((prevKey) => prevKey + 1)
                                         setIframeVisible(true)
                                         setLoading(true)
+                                        setMo(true)
                                     }}
                                     className="w-full p-4"
                                     disabled={parseInt(aamount) <= 1 || aamount === ''}

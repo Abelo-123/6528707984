@@ -106,17 +106,17 @@ const Smm = () => {
 
 
 
-            const { data, error } = await supabase
-                .from('users')
-                .select('balance')
-                .eq('id', userData.userId)
-                .single(); // Get a single row
+            // const { data, error } = await supabase
+            //     .from('users')
+            //     .select('balance')
+            //     .eq('id', userData.userId)
+            //     .single(); // Get a single row
 
-            if (error) {
-                console.error('Error fetching initial balance:', error);
-            } else {
-                setBalance(data.balance); // Set initial balance
-            }
+            // if (error) {
+            //     console.error('Error fetching initial balance:', error);
+            // } else {
+            //     //setBalance(data.balance); // Set initial balance
+            // }
 
             const { data: seeData, error: seeEror } = await supabase
                 .from('deposit')
