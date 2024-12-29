@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Smmhistory = () => {
 
     const [loader, setLoader] = useState(false)
-    const { userData } = useUser();
+    //const { userData } = useUser();
     const delay = (ms: number) => new Promise(resolve => {
         const interval = setInterval(() => {
             clearInterval(interval);
@@ -76,38 +76,52 @@ const Smmhistory = () => {
 
     useEffect(() => {
         const auth = async () => {
-            setLoader(true)
-            // Fetch the initial data (orders) from Supabase or any other source
-            const { data: initialData, error } = await supabase
-                .from("orders")
-                .select("*")
-                .eq("uid", userData.userId); // Filter by user id or another parameter as needed
+            const script = document.createElement("script");
+            script.src = "https://telegram.org/js/telegram-web-app.js?2";
+            script.async = true;
+            document.body.appendChild(script);
 
-            if (error) {
-                console.log(error);
-            } else {
-                setData(initialData); // Set the initial data
-                setLoader(false)
-                // Immediately call fetchOrderStatus for each order to fetch the initial status
-                initialData.forEach((item) => {
-                    // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                    if (item.status !== "Completed" && item.status !== "Canceled") {
-                        fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
+            script.onload = async () => {
+                const Telegram = window.Telegram;
+
+                if (window.Telegram && window.Telegram.WebApp) {
+
+                    const { user } = Telegram.WebApp.initDataUnsafe;
+
+                    setLoader(true)
+                    // Fetch the initial data (orders) from Supabase or any other source
+                    const { data: initialData, error } = await supabase
+                        .from("orders")
+                        .select("*")
+                        .eq("uid", user.id); // Filter by user id or another parameter as needed
+
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        setData(initialData); // Set the initial data
+                        setLoader(false)
+                        // Immediately call fetchOrderStatus for each order to fetch the initial status
+                        initialData.forEach((item) => {
+                            // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
+                            if (item.status !== "Completed" && item.status !== "Canceled") {
+                                fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
+                            }
+                        });
+
+                        // Create intervals for polling, only for non-completed or non-cancelled orders
+                        const intervals = initialData
+                            .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
+                            .map((item) => {
+
+                                return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
+                            });
+
+                        // Cleanup intervals when the component unmounts or when data changes
+                        return () => {
+                            intervals.forEach(clearInterval); // Clear all intervals
+                        };
                     }
-                });
-
-                // Create intervals for polling, only for non-completed or non-cancelled orders
-                const intervals = initialData
-                    .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
-                    .map((item) => {
-
-                        return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
-                    });
-
-                // Cleanup intervals when the component unmounts or when data changes
-                return () => {
-                    intervals.forEach(clearInterval); // Clear all intervals
-                };
+                }
             }
         };
 
@@ -150,7 +164,7 @@ const Smmhistory = () => {
 
                 //console.log(payload.new)
                 if (payload.new.panel === "Completed" && useNotification.order == false) {
-                    console.log(payload.new.panel)
+                    //console.log(payload.new.panel)
                     setNotification((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         order: true,
