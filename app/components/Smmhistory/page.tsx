@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Smmhistory = () => {
 
     const [loader, setLoader] = useState(true)
-    const { userData } = useUser();
+
     const delay = (ms: number) => new Promise(resolve => {
         const interval = setInterval(() => {
             clearInterval(interval);
