@@ -33,7 +33,7 @@ const Deposit = () => {
     const [ag, setTg] = useState(false)
     const [data, setData] = useState<any[]>([]);  // Adjust the type based on your data structure
     const [disable, setDisable] = useState(false)
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(true)
     const [loading, setLoading] = useState(false)
     const [mo, setMo] = useState(false)
 
@@ -141,7 +141,7 @@ const Deposit = () => {
 
     useEffect(() => {
         const auth = async () => {
-            setLoader(true)
+
             // Fetch the initial balance from the database
             const { data: initialData, error } = await supabase
                 .from('deposit')
@@ -543,10 +543,10 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
-
+                {userData.userId}
                 <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '10px', width: '100%' }} className="scrollabler overflow-x-auto">
-                        {loader && <MyLoader />}
+
                         <table className=" min-w-full  rounded-lg shadow-md">
                             <thead>
                                 <tr>
@@ -570,7 +570,7 @@ const Deposit = () => {
 
                             </tbody>
                         </table>
-
+                        {loader && <MyLoader />}
 
                     </div>
                 </Section>
