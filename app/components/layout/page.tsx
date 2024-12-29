@@ -10,6 +10,7 @@ import { useNot } from '../StatusContext';
 const Lays = () => {
     // const [notificationModal, seeNotificationModal] = useState(false)
     const { userData, setUserData } = useUser();
+    const [id, setId] = useState(0)
     // const [notificationMessage, setNotificationMessage] = useState([])
     const [marq, setMarq] = useState('')
 
@@ -37,11 +38,27 @@ const Lays = () => {
     }, [])
 
     useEffect(() => {
+
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                setId(user.id)
+            }
+        }
         const fetchBalance = async () => {
             const { data, error } = await supabase
                 .from('users')
                 .select('balance')
-                .eq('id', userData.userId)
+                .eq('id', id)
                 .single(); // Get a single row
 
             if (error) {
@@ -52,7 +69,8 @@ const Lays = () => {
                     balance: data.balance,
                     // Update the `deposit` field
                 }));
-                setBalance(data.balance); // Set initial balance
+                setBalance(data.balance)
+
             }
         }
         fetchBalance()
