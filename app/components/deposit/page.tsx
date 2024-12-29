@@ -332,7 +332,7 @@ const Deposit = () => {
 
                 {isPreModalOpen && (
                     <div
-                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-75 grid content-center z-50"
+                        className="fixed  modal-pops inset-0  h-screen bg-black bg-opacity-75 grid content-center z-50"
                         onClick={closeModal}
                     >
                         <div
@@ -352,30 +352,33 @@ const Deposit = () => {
                             <p className="mb-4">Enter the amount you want to deposit:</p>
 
                             <div className="amount-container">
-                                <input
+                                <Input
+                                    header="Amount"
                                     type="text"
+                                    className="w-full"
                                     placeholder="Enter amount"
                                     value={aamount}
                                     onChange={(e) => setAmounts(e.target.value)}
                                 />
-                                <button
+                                <Button
                                     onClick={() => {
                                         setIframeKey((prevKey) => prevKey + 1)
                                         setIframeVisible(true)
                                         setLoading(true)
                                     }}
+                                    className="w-full p-4"
                                     disabled={parseInt(aamount) <= 1 || aamount === ''}
-                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) > 1 ? 'green' : 'gray', color: 'white' }}
+                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) > 1 ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
                                 >
-                                    {(ag && again) ? "try again" : "continue"}
-                                </button>
+                                    {(ag && again) ? "Try Again" : "Continue"}
+                                </Button>
 
                                 {aamount !== '' && parseInt(aamount) < 1 && "Must be greater than 50"}
                             </div>
-                            {aamount}
+                            <br />
                             <div className="iframe-container relative">
-                                {loading && !iframeVisible && <MyLoader />}
-                                {iframeVisible && !loading && (
+                                {loading && <MyLoader />}
+                                {iframeVisible && (
                                     <iframe
                                         key={iframeKey} // Use key to force iframe reload
                                         src={generateIframeSrc()} // Dynamically set iframe src
@@ -391,13 +394,13 @@ const Deposit = () => {
                             </div>
 
 
-                            <button
+                            {/* <button
                                 onClick={openModal}
                                 style={{ background: 'var(--tgui--button_color)' }}
                                 className="bg-blue-500  text-white px-6 py-4 mx-auto w-10/12 rounded-md"
                             >
                                 Pay manule
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 )}
