@@ -74,21 +74,21 @@ const Lays = () => {
                     }
                 }
                 fetchBalance()
+
+                supabase
+                    .channel(`users:id=eq.${user.id}`)
+                    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
+
+                        setUserData((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            balance: payload.new.balance,
+                            // Update the `deposit` field
+                        }));
+                        setBalance(payload.new.balance);
+                    })
+                    .subscribe();
             }
         }
-        supabase
-            .channel(`users:id=eq.${userData.userId}`)
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
-
-                setUserData((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    balance: payload.new.balance,
-                    // Update the `deposit` field
-                }));
-                setBalance(payload.new.balance);
-            })
-            .subscribe();
-
     }, [])
 
     const { useNotification } = useNot();
@@ -149,7 +149,7 @@ const Lays = () => {
 
                     <div className='flex flex-col justify-space-around mt-auto  ml-3'>
                         <Text weight="2">{userData.firstName} {userData.lastName}</Text>
-                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance: {balance} or {userData.balance} | {id}</Text>
+                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance: {balance}</Text>
                     </div>
                 </div>
                 <div onClick={seeNotification} style={{ position: 'relative' }} className="grid place-content-center ml-auto mr-8 ">

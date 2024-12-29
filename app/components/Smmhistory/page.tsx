@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Smmhistory = () => {
 
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(false)
     const { userData } = useUser();
     const delay = (ms: number) => new Promise(resolve => {
         const interval = setInterval(() => {
@@ -76,7 +76,7 @@ const Smmhistory = () => {
 
     useEffect(() => {
         const auth = async () => {
-
+            setLoader(true)
             // Fetch the initial data (orders) from Supabase or any other source
             const { data: initialData, error } = await supabase
                 .from("orders")
