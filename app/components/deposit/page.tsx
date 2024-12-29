@@ -1,7 +1,7 @@
 "use client"
-import { List, Select, Input, Button, Section } from "@telegram-apps/telegram-ui";
+import { List, Select, Text, Input, Button, Section } from "@telegram-apps/telegram-ui";
 import { useState, useEffect, useRef } from "react";
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useUser } from "../UserContext";
@@ -35,6 +35,7 @@ const Deposit = () => {
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState(false)
+
     // Function to open the modal
     // const openModal = () => {
     //     setIsModalOpen(true);
@@ -70,6 +71,9 @@ const Deposit = () => {
         }
     };
     const handleChange = (event) => {
+
+        // Reset the idle timeout on each input change
+
         const value = event.target.value;
         setPm(value);   // Call the setPm() function
     };
@@ -315,9 +319,11 @@ const Deposit = () => {
     }, []);
 
     const setAmounts = (ee) => {
-        console.log(ee)
+        //console.log(ee)
         setaAmount(ee)
+        setIframeVisible(false)
     }
+    const { useNotification } = useNot();
 
     return (
         <>
@@ -329,7 +335,48 @@ const Deposit = () => {
                     position: 'relative',
                 }}
             >
+                {
+                    useNotification.notificationModal && (
+                        <div style={{
+                            zIndex: 900, background: 'var(--tgui--section_bg_color)'
+                        }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
 
+                            {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
+                            <div style={{ height: '85%' }} className='mt-24 '>
+                                <div className="  w-screen " >
+                                    {
+
+                                        !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+
+                                            <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                                                <div className="block w-full px-2">
+                                                    <div className="text-right ml-auto"> {items.from}</div>
+                                                    <div className="text ml-2"> {items.message}</div>
+                                                </div>
+                                            </li>
+
+                                        ))
+
+                                    }
+                                </div>
+                            </div>
+                            <div className='absolute  w-full grid place-content-center bottom-4'>
+                                < div onClick={() => {
+                                    setNotification((prevNotification) => ({
+                                        ...prevNotification, // Spread the previous state
+                                        notificationModal: false,
+                                        notificationData: [],
+                                        notificationLoader: true,
+                                        // Update the `deposit` field
+                                    }));
+                                }} className="p-3 ">
+                                    <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                                    <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                                </div>
+                            </div>
+                        </div >
+                    )
+                }
                 {isPreModalOpen && (
                     <div
                         className="fixed  modal-pops inset-0  h-screen bg-black bg-opacity-75 grid content-center z-50"
@@ -358,6 +405,7 @@ const Deposit = () => {
                                     className="w-full"
                                     placeholder="Enter amount"
                                     value={aamount}
+
                                     onChange={(e) => setAmounts(e.target.value)}
                                 />
                                 <Button

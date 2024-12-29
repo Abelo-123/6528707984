@@ -76,7 +76,6 @@ const Smm = () => {
 
 
 
-
     useEffect(() => {
         const fetchDepo = async () => {
             const { data: seeDataa, error: seeErora } = await supabase
@@ -743,7 +742,7 @@ const Smm = () => {
                 useNotification.notificationModal && (
                     <div style={{
                         zIndex: 900, background: 'var(--tgui--section_bg_color)'
-                    }} className=" modal-popp absolute top-0 bottom-0 w-screen ">
+                    }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
 
                         {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
                         <div style={{ height: '85%' }} className='mt-24 '>

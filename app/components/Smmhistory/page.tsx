@@ -1,11 +1,13 @@
 "use client";
-import { List, Section } from "@telegram-apps/telegram-ui";
+import { List, Section, Text } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import axios from "axios";
 import { useNot } from '../StatusContext';
 import { useUser } from "../UserContext";
 import MyLoader from "../Loader/page";
+import { faRotateBackward } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Smmhistory = () => {
 
@@ -172,6 +174,48 @@ const Smmhistory = () => {
                     padding: "0px 0px",
                 }}
             >
+                {
+                    useNotification.notificationModal && (
+                        <div style={{
+                            zIndex: 900, background: 'var(--tgui--section_bg_color)'
+                        }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
+
+                            {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
+                            <div style={{ height: '85%' }} className='mt-24 '>
+                                <div className="  w-screen " >
+                                    {
+
+                                        !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+
+                                            <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                                                <div className="block w-full px-2">
+                                                    <div className="text-right ml-auto"> {items.from}</div>
+                                                    <div className="text ml-2"> {items.message}</div>
+                                                </div>
+                                            </li>
+
+                                        ))
+
+                                    }
+                                </div>
+                            </div>
+                            <div className='absolute  w-full grid place-content-center bottom-4'>
+                                < div onClick={() => {
+                                    setNotification((prevNotification) => ({
+                                        ...prevNotification, // Spread the previous state
+                                        notificationModal: false,
+                                        notificationData: [],
+                                        notificationLoader: true,
+                                        // Update the `deposit` field
+                                    }));
+                                }} className="p-3 ">
+                                    <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                                    <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                                </div>
+                            </div>
+                        </div >
+                    )
+                }
                 <Section header="Order History" style={{ marginTop: '-0.5rem', border: "1px solid var(--tgui--section_bg_color)" }}>
                     <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
