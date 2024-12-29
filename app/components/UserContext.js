@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
         username: '',
         firstName: '',
         lastName: '',
-        userId: 0, //userId: undefined,
+        userId: undefined, //userId: undefined,
         balance: null,
         profile: "https://png.pngtree.com/png-clipart/20230511/ourmid/pngtree-isolated-cat-on-white-background-png-image_7094927.png"
 

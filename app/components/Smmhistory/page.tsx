@@ -23,6 +23,26 @@ const Smmhistory = () => {
     const { useNotification, setNotification } = useNot();
 
     const [data, setData] = useState<any[]>([]); // Adjust the type based on your data structure
+    const [idd, setIdd] = useState(undefined)
+
+    useEffect(() => {
+
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+
+            if (window.Telegram && window.Telegram.WebApp) {
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                setIdd(user.id)
+
+            }
+        }
+    }, [])
 
     // Fetch order status for each order
     const fetchOrderStatus = async (orderId: string) => {
@@ -81,7 +101,7 @@ const Smmhistory = () => {
             const { data: initialData, error } = await supabase
                 .from("orders")
                 .select("*")
-                .eq("uid", userData.userId); // Filter by user id or another parameter as needed
+                .eq("uid", idd); // Filter by user id or another parameter as needed
 
             if (error) {
                 console.log(error);

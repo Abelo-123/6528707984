@@ -30,6 +30,7 @@ const iconMap = {
 const Smm = () => {
     const { setNotification } = useNot();
 
+    const [idd, setIdd] = useState(undefined)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [services, setServices] = useState([])
     const [category, setCategory] = useState([])
@@ -74,7 +75,24 @@ const Smm = () => {
     // const [marq, setMarq] = useState('')
 
 
+    useEffect(() => {
 
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+
+            if (window.Telegram && window.Telegram.WebApp) {
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                setIdd(user.id)
+
+            }
+        }
+    }, [])
 
     useEffect(() => {
         const fetchDepo = async () => {
@@ -121,7 +139,7 @@ const Smm = () => {
             const { data: seeData, error: seeEror } = await supabase
                 .from('deposit')
                 .select('seen')
-                .eq('uid', userData.userId)
+                .eq('uid', idd)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -181,7 +199,7 @@ const Smm = () => {
             const { data: seeData, error: seeEror } = await supabase
                 .from('deposit')
                 .select('seen')
-                .eq('uid', userData.userId)
+                .eq('uid', idd)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -472,7 +490,7 @@ const Smm = () => {
                     panel: 'smm',
                     name: id,
                     category: chosen.category,
-                    id: userData.userId
+                    id: idd
                 });
                 if (response) {
                     setIsModalOpen(false);
@@ -586,7 +604,7 @@ const Smm = () => {
                     .from('promo')
                     .select('*')
                     .eq('code', promoCode)
-                    .ilike('users', `%${userData.userId}%`); // Check if '100' exists surrounded by commas
+                    .ilike('users', `%${idd}%`); // Check if '100' exists surrounded by commas
 
                 if (error) {
                     window.alert("invalid code")
@@ -599,7 +617,7 @@ const Smm = () => {
                     const { data: rowss, error: fetchErrore } = await supabase
                         .from('users')
                         .select('balance')
-                        .eq('id', userData.userId)
+                        .eq('id', idd)
                         .single();  // Increment balance by 200
 
                     if (fetchErrore) {
@@ -620,7 +638,7 @@ const Smm = () => {
                         const currentArray = rows.users || [];
 
                         // Step 2: Append the new value ('sd') to the array
-                        const updatedArray = `${currentArray}, ${userData.userId}`;
+                        const updatedArray = `${currentArray}, ${idd}`;
 
                         // Update the "users" column in the "promo" table
                         const { error: updateError } = await supabase
@@ -634,7 +652,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .update({ balance: Number(Number(bala) + Number(pb)) }) // Increment balance
-                                .eq('id', userData.userId); // Add WHERE clause for id = 100
+                                .eq('id', id); // Add WHERE clause for id = 100
                             if (error) {
                                 console.error('Error updating balance:', error.message);
                             }
@@ -794,7 +812,7 @@ const Smm = () => {
             </div>
             {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}
-            {userData.userId}
+            {idd}
             <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
 
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
@@ -993,7 +1011,7 @@ const Smm = () => {
                             <div style={{ paddingLeft: '1rem' }}>
                                 {!cat && 'choose media' || !chosen?.name && `choose ${icon.n} category and service` || (chosen.name && !id) && `choose ${icon.n} service` || cat && ser && (<>
                                     <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
-                                    <p className="mb-4 ml-4">Enter the amount you want to deposit:{userData.userId}</p>
+                                    <p className="mb-4 ml-4">Enter the amount you want to deposit:{idd}</p>
                                     <Input header="quantity" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
                                     <Input header="link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
 
