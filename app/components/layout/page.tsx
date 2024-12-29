@@ -10,7 +10,7 @@ import { useNot } from '../StatusContext';
 const Lays = () => {
     // const [notificationModal, seeNotificationModal] = useState(false)
     const { userData, setUserData } = useUser();
-    const [id, setId] = useState(0)
+
     // const [notificationMessage, setNotificationMessage] = useState([])
     const [marq, setMarq] = useState('')
 
@@ -63,7 +63,7 @@ const Lays = () => {
                     if (error) {
                         console.error('Error fetching initial balance:', error);
                     } else {
-                        setId(user.id)
+
                         setUserData((prevNotification) => ({
                             ...prevNotification, // Spread the previous state
                             balance: data.balance,
