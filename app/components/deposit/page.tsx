@@ -290,7 +290,7 @@ const Deposit = () => {
 
 
                             setaAmount('')
-                            setData((prevData) => [...prevData, "done", 12, 12, 12, 12]);
+                            setData((prevData) => [...prevData, did, Date.now(), mess, mess, Number(doll)]);
                         }
                     }
                 }
