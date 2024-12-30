@@ -574,7 +574,7 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
-                {userData.userId}&&   {userData.balance}
+
                 <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '10px', width: '100%' }} className="scrollabler overflow-x-auto">
 
@@ -591,11 +591,11 @@ const Deposit = () => {
                             <tbody className=" divide-y ">
                                 {data.map((items, index) => (
                                     <tr key={index}>
-                                        <td className="px-6 py-4 text-sm text-white ">{items.status}</td>
-                                        <td className="px-6 py-4 text-sm text-white ">{items.did}</td>
-                                        <td className="px-6 py-4 text-sm text-white ">{items.date}</td>
-                                        <td className="px-6 py-4 text-sm text-white ">{items.pm}</td>
-                                        <td className="px-6 py-4 text-sm text-white ">{items.amount}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.status}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.did}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.date}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.pm}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.amount}</td>
                                     </tr>
                                 ))}
 

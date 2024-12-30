@@ -794,7 +794,7 @@ const Smm = () => {
             </div>
             {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}
-            {userData.userId}&&   {userData.balance}
+
             <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
 
                 <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">

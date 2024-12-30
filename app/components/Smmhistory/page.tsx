@@ -272,15 +272,15 @@ const Smmhistory = () => {
                                                                             items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
                                                                                 undefined
                                                         }}
-                                                        className="px-6 py-4 text-sm text-white">{items.status}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.oid}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.start_count}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.remains}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.quantity}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.link}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.charge}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.service}</td>
-                                                    <td className="px-6 py-4 text-sm text-white">{items.date}</td>
+                                                        className="px-6 py-4 text-sm ">{items.status}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.oid}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.start_count}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.remains}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.link}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.charge}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.service}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.date}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
