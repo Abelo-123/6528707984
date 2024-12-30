@@ -168,19 +168,21 @@ const Deposit = () => {
                         console.log(error);
                     } else {
                         setLoader(false)
-                        setData(initialData);  // Set the initial data
+                        setData(initialData);
+
+                        // Set the initial data
                     }
 
                     // Subscribe to real-time changes
                     supabase
                         .channel(`deposit:uid=eq.${user.id}`)
-                        .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
-                            //console.log("New order inserted:", payload.new);
-                            // Add the new order to the state
-                            setData((prevData) => [...prevData, payload.new]);
-                            console.log(payload.new)
+                        // .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
+                        //     //console.log("New order inserted:", payload.new);
+                        //     // Add the new order to the state
+                        //     setData((prevData) => [...prevData, payload.new]);
+                        //     //console.log(payload.new)
 
-                        })
+                        // })
                         .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
                             //console.log("New order inserted:", payload.new);
                             // Add the new order to the state
@@ -279,7 +281,16 @@ const Deposit = () => {
                         if (error) {
                             console.error(error.message)
                         } else {
+
+                            // {items.status}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.did}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.date}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.amount}
+
+
                             setaAmount('')
+                            setData((prevData) => [...prevData, "done", 12, 12, 12, 12]);
                         }
                     }
                 }
