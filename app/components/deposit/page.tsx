@@ -238,7 +238,7 @@ const Deposit = () => {
         return ''; // Return an empty string if the amount is not valid
     };
 
-    const sendAmount = async (doll) => {
+    const sendAmount = async (doll, mess) => {
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
         script.async = true;
@@ -274,7 +274,7 @@ const Deposit = () => {
                         const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
                         const { error } = await supabase.from('deposit').insert([
-                            { did: did, uid: user.id, pm: 'Chapa', amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
+                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
                         ]);
                         if (error) {
                             console.error(error.message)
@@ -298,7 +298,7 @@ const Deposit = () => {
 
             // Handle different message types
             if (type === 'payment-success') {
-                console.log(message); // e.g., "Payment was successful!"
+                //console.log(message); // e.g., "Payment was successful!"
 
                 setIsPreModalOpen(false)
                 //setAgain(true); // Set to true to show the container
@@ -317,7 +317,7 @@ const Deposit = () => {
                 });
 
                 if (aamountRef.current) {
-                    sendAmount(aamountRef.current);
+                    sendAmount(aamountRef.current, message);
                 } else {
                     console.log(0);
                 }
@@ -584,7 +584,7 @@ const Deposit = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Order Id</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Payment Methof</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">transactionId</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
                                 </tr>
                             </thead>
@@ -594,7 +594,7 @@ const Deposit = () => {
                                         <td className="px-6 py-4 text-sm  ">{items.status}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.did}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.date}</td>
-                                        <td className="px-6 py-4 text-sm  ">{items.pm}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.amount}</td>
                                     </tr>
                                 ))}
