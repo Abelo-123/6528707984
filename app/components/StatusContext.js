@@ -12,6 +12,7 @@ export const UserNotProvider = ({ children }) => {
         deposit: false,
         order: false,
         id: 0,
+        more: false,
         notificationLoader: true,
         notificationData: [],
         notificationModal: false,
