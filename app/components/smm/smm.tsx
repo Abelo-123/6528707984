@@ -677,23 +677,23 @@ const Smm = () => {
             {searchh && (
                 <div
                     style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
-                    className="modal-popp  fixed overflow-y-hidden min-w-full top-0 bottom-0  "
+                    className="modal-popp  fixed overflow-y-hidden min-w-screen top-0 bottom-0  "
                 >
 
 
-                    <div className="p-3  gap-5 grid content-start w-full h-auto">
+                    <div className="p-3  gap-5 grid content-start w-screen h-auto">
                         <div className=" p-2">
                             <input
                                 id="search"
-                                style={{ background: 'var(--tgui--header_bg_color)', borderBottom: '1px solid var(--tgui--accent_text_color)' }}
+                                style={{ background: ' var(--tgui--section_bg_color)', borderBottom: '1px solid var(--tgui--accent_text_color)' }}
                                 type="text"
                                 value={search}
                                 onChange={handleSearchChange}
                                 placeholder="Search by service ID"
-                                className="mt-12 w-full p-2  "
+                                className="mt-16 w-full p-2  "
                             />
                         </div>
-                        <div style={{ height: '38rem' }} className="  scrollabler overflow-x-hidden">
+                        <div style={{ height: '36rem' }} className="  scrollabler overflow-x-hidden">
                             <div className=" overflow-hidden w-full p-2">
                                 <div id="result">
                                     {/* Display filtered services here */}
@@ -865,7 +865,7 @@ const Smm = () => {
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                         <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
                         <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
-                            <div style={{ color: (cat && !ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{chosen?.category || `Select ${icon.n} category`}</div>
+                            <div style={{ color: (cat && !ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{chosen?.category || `Select ${icon.n} Category`}</div>
                         </div>
                         <div className='my-4  ml-auto mx-4 justify-self-end'>
                             <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
@@ -877,7 +877,9 @@ const Smm = () => {
 
             {
                 modalA &&
+                //  <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
                 <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+
                     <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
 
                         {category.map((datas, index) => (
@@ -906,7 +908,7 @@ const Smm = () => {
                     <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                         <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
                         <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
-                            <div style={{ color: (!id && ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{!id ? `Select ${icon.n} service` : id}</div>
+                            <div style={{ color: (!id && ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{!id ? `Select ${icon.n} Service` : id}</div>
                         </div>
                         <div className='my-4 ml-auto mx-4 justify-self-end'>
                             <FontAwesomeIcon className={(cat && !id && chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
@@ -922,9 +924,10 @@ const Smm = () => {
 
             {
                 modalB &&
-                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+                // <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+                <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
 
-                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mt-14 mx-auto p-8 '>
+                    <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
 
 
                         {ser ? service.map((datas, index) => (
@@ -933,7 +936,7 @@ const Smm = () => {
                                 <div className="text-wrap flex">
                                     <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
                                     <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.name}
-                                        <div className='bg-red-100 m-2 rounded-lg  p-2 inline'>ola</div>
+                                        <div style={{ background: 'var(--tgui--section_header_text_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{datas.rate}</div>
                                     </div>
 
                                 </div>
@@ -941,7 +944,7 @@ const Smm = () => {
                         )) : <Text>Choose Category</Text>}
 
                     </div>
-                    <div onClick={() => showModalB(false)} className='absolute mt-8 text-white  w-11/12 ml-2 grid place-content-center p-3'>
+                    <div onClick={() => showModalB(false)} className='absolute  text-white  w-11/12 ml-2 grid place-content-center p-3'>
                         <div className='flex'>
                             <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                             <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
