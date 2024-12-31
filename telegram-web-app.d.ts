@@ -25,6 +25,7 @@ interface TelegramWebApp {
     };
     // Add the expand method
     expand: () => void;
+    close: () => void;
   }
   
   interface Window {
