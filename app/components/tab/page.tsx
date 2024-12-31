@@ -5,7 +5,7 @@ import { faClock, faDotCircle, faUser } from '@fortawesome/free-regular-svg-icon
 import { useActivePage } from "../ActivePageContext";
 import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
 import { useNot } from '../StatusContext';
-import { faClose, faDoorClosed, faDoorOpen, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faDoorOpen, faKey } from "@fortawesome/free-solid-svg-icons";
 
 const Tab = () => {
     const { useNotification, setNotification } = useNot();
