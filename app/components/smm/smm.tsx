@@ -56,7 +56,6 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
-    const [form, openForm] = useState(false)
     const [search, setSearch] = useState('');
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
@@ -421,7 +420,7 @@ const Smm = () => {
         showModalA(false)
 
         const ser = services[0].data.response.filter((datas) => datas.category.includes(name))
-        settherate(ser[0].rate)
+
 
         return setService(ser)
     }
@@ -431,6 +430,7 @@ const Smm = () => {
         setSer(true)
         setChosen(data)
         showModalB(false)
+        settherate(data.rate)
         setMin(data.min)
         setMax(data.max)
         setLabel(`Min: ${data.min} Max: ${data.max}`)
@@ -566,6 +566,8 @@ const Smm = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setQuantity(null)
+        setCharge(0)
     };
 
     const { useNotification } = useNot();
@@ -806,49 +808,49 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'tiktok')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'Tiktok')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faTiktok} style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Tiktok</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Telegram', '#0088cc', iconMap.telegram, 'telegram')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Telegram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Telegram', '#0088cc', iconMap.telegram, 'Telegram')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Telegram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faTelegram} color="#0088cc" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Telegram</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Facebook', '#1877f2', iconMap.facebook, 'facebook')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Facebook' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Facebook', '#1877f2', iconMap.facebook, 'Facebook')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Facebook' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faFacebook} color="#1877f2" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Facebook</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Instagram', '#c32aa3', iconMap.instagram, 'instagram')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Instagram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Instagram', '#c32aa3', iconMap.instagram, 'Instagram')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Instagram' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faInstagram} color="#c32aa3" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Instagram</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'twitter')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'Twitter')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faXTwitter} style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitter/X</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'linkedin')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'Linkedin')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faLinkedin} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>LinkedIn</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'whatsapp')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'Whatsapp')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'twitch')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitch</Text>
@@ -1027,93 +1029,8 @@ const Smm = () => {
                         </div>
                     )
                 }
-                {useNotification.admin && (
-                    <div
-
-                        className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-75 grid content-center  z-50"
-
-                    >
-                        <div
-                            style={{ width: '90%', background: 'var(--tgui--bg_color)' }}
-                            className=" modal-pop mx-auto lg:w-4/12  px-2 py-8 rounded-lg relative w-96"
-                            onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
-                        >
 
 
-                            <div
-                                className=" text-gray-500 absolute m-2 right-0  top-0 px-4 py-3 rounded-md"
-                                onClick={() => {
-                                    setNotification((prevNotification) => ({
-                                        ...prevNotification, // Spread the previous state
-                                        admin: !useNotification.admin,
-                                        more: !useNotification.more
-                                        // Update the `deposit` field
-                                    })
-                                    )
-
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
-                            </div>
-                            <button
-                                disabled={disable === true}
-                                onClick={() => {
-                                    openForm(!form)
-                                }}
-                                style={{ background: 'var(--tgui--button_color)' }}
-                                className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
-                            >
-                                Modal</button>
-
-                        </div>
-                    </div>
-                )
-
-                }
-                {form && (
-                    <div
-
-                        className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-0 grid content-center  z-50"
-
-                    >
-                        <div
-                            style={{ width: '90%', background: 'var(--tgui--bg_color)' }}
-                            className=" modal-pop block mx-auto lg:w-4/12  px-2 py-8 rounded-lg relative w-96"
-                            onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
-                        >
-
-                            <div
-                                className=" text-gray-500 absolute m-2 right-0  top-0 px-4 py-3 rounded-md"
-                                onClick={() => {
-                                    setNotification((prevNotification) => ({
-                                        ...prevNotification, // Spread the previous state
-                                        admin: !useNotification.admin,
-                                        more: false
-                                        // Update the `deposit` field
-                                    })
-
-                                    )
-                                    openForm(!form)
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
-                            </div>
-                            <div>d</div>
-                            <button
-                                disabled={disable === true}
-                                onClick={() => {
-                                    openForm(!form)
-                                }}
-                                style={{ background: 'var(--tgui--button_color)' }}
-                                className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
-                            >
-                                Modal</button>
-                        </div>
-                    </div>
-
-                )
-
-                }
 
             </List >
 

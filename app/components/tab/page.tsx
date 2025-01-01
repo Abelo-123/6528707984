@@ -15,7 +15,7 @@ const Tab = () => {
     return (
 
         <>
-            {useNotification.more && (
+            {/* {useNotification.more && (
                 <div style={{ height: '15rem', width: '10rem', background: 'var(--tgui--section_bg_color)' }} className='rounded-lg ml-auto absolute right-0 bottom-0  '>
                     <FontAwesomeIcon onClick={() => {
                         setNotification((prevNotification) => ({
@@ -56,8 +56,8 @@ const Tab = () => {
                         </div>
                     </div>
                 </div>)
-            }
-            <Tabbar style={{ background: ' var(--tgui--bg_color)', border: '2px solid transparent', display: 'grid', paddingBottom: '1rem', margin: '0', placeItems: 'center', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+            } */}
+            <Tabbar style={{ background: ' var(--tgui--bg_color)', border: '2px solid transparent', display: 'grid', paddingBottom: '1rem', margin: '0', placeItems: 'center', gridTemplateColumns: 'repeat(3, 1fr)' }}>
 
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col '>
@@ -90,7 +90,7 @@ const Tab = () => {
                         <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Deposit</Text>
                     </div>
                 </Tabbar.Item>
-                <Tabbar.Item onClick={() => setNotification((prevNotification) => ({
+                {/* <Tabbar.Item onClick={() => setNotification((prevNotification) => ({
                     ...prevNotification, // Spread the previous state
                     more: !useNotification.more
                     // Update the `deposit` field
@@ -98,11 +98,11 @@ const Tab = () => {
                     <div className='flex flex-col '>
 
 
-                        <FontAwesomeIcon icon={faDotCircle} style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>More</Text>
+                        <FontAwesomeIcon icon={faDotCircle} style={{ color: 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
+                        <Text weight="3" style={{ color: 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>More</Text>
                     </div>
 
-                </Tabbar.Item>
+                </Tabbar.Item> */}
                 {/* <Tabbar.Item onClick={() => updateActivePage(5)}>
                     <div className='flex flex-col'>
                         <FontAwesomeIcon icon={faCalendar} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
