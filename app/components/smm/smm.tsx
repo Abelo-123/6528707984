@@ -453,7 +453,7 @@ const Smm = () => {
         if (quantity % 10 !== 0) {
             Swal.fire({
                 title: 'Invalid Quantity',
-                text: 'Quantity music be a multiple of 10.',
+                text: 'Quantity must be a multiple of 10.',
                 icon: 'warning',
                 confirmButtonText: 'OK',
                 customClass: {
@@ -465,7 +465,7 @@ const Smm = () => {
             });
             // } else if (quantity > 10000) {
             //     alert("to big")
-        } else if (link == null) {
+        } else if (link == null || link.trim() === '') {
             Swal.fire({
                 title: 'Missing Information',
                 text: 'No link provided. Please complete all required fields',
