@@ -21,7 +21,7 @@ const Deposit = () => {
 
     const { setNotification } = useNot();
 
-    const { userData } = useUser();
+    const { userData, setUserData } = useUser();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenn, setIsModalOpenn] = useState(false);
@@ -42,6 +42,46 @@ const Deposit = () => {
     //     setIsModalOpen(true);
 
     // };
+    useEffect(() => {
+        const fetchDeposit = async () => {
+            const { data: desposit, error: setError } = await supabase
+                .from('panel')
+                .select('minmax')
+                .eq('father', userData.father)
+                .eq('key', 'minmax')
+                .single()
+
+            if (setError) {
+                console.error('Error fetching initial balance:', setError)
+            } else {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    deposit: desposit.minmax,
+                    // Update the `deposit` field
+                }));
+            }
+        }
+
+        supabase
+            .channel("panel")
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
+                //console.log("New order inserted:", payload.new);
+                // Add the new order to the state
+                if (payload.new.father === userData.father && payload.new.key === 'minmax') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        deposit: payload.new.minmax,
+                        // Update the `deposit` field
+                    }))
+                    // console.log(payload.new.value)
+
+                }
+                //console.log(payload.new)
+            }).subscribe()
+        fetchDeposit();
+
+    }, [])
+
     const openPreModal = () => {
         setIsPreModalOpen(true);
 
@@ -162,7 +202,8 @@ const Deposit = () => {
                     const { data: initialData, error } = await supabase
                         .from('deposit')
                         .select('*')
-                        .eq('uid', user.id);
+                        .eq('uid', user.id)
+                        .order('date', { ascending: false });
 
                     if (error) {
                         console.log(error);
@@ -183,46 +224,46 @@ const Deposit = () => {
                         //     //console.log(payload.new)
 
                         // })
-                        .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
-                            //console.log("New order inserted:", payload.new);
-                            // Add the new order to the state
+                        // .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
+                        //     //console.log("New order inserted:", payload.new);
+                        //     // Add the new order to the state
 
-                            if (payload.new.seen === true) {
-                                setNotification((prevNotification) => ({
-                                    ...prevNotification, // Spread the previous state
-                                    notificationLight: true
-                                    // Update the `deposit` field
-                                }));
-                            }
+                        //     if (payload.new.seen === true) {
+                        //         setNotification((prevNotification) => ({
+                        //             ...prevNotification, // Spread the previous state
+                        //             notificationLight: true
+                        //             // Update the `deposit` field
+                        //         }));
+                        //     }
 
-                        })
-                        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
-                            //console.log("New order inserted:", payload.new);
-                            // Add the new order to the state
-                            //console.log(payload.new)
+                        // })
+                        // .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
+                        //     //console.log("New order inserted:", payload.new);
+                        //     // Add the new order to the state
+                        //     //console.log(payload.new)
 
-                            const updatedItem = payload.new;
+                        //     const updatedItem = payload.new;
 
-                            //console.log(payload.new)
-                            if (payload.new.seen === true) {
-                                setNotification((prevNotification) => ({
-                                    ...prevNotification, // Spread the previous state
-                                    notificationLight: true
-                                    // Update the `deposit` field
-                                }));
-                            }
+                        //     //console.log(payload.new)
+                        //     if (payload.new.seen === true) {
+                        //         setNotification((prevNotification) => ({
+                        //             ...prevNotification, // Spread the previous state
+                        //             notificationLight: true
+                        //             // Update the `deposit` field
+                        //         }));
+                        //     }
 
-                            setData((prevData) => {
-                                return prevData.map((item) => {
-                                    if (item.did === updatedItem.did) {
-                                        // If the IDs match, update the status
-                                        return { ...item, status: "Done" };
-                                    }
-                                    return item;
-                                });
-                            });
+                        //     setData((prevData) => {
+                        //         return prevData.map((item) => {
+                        //             if (item.did === updatedItem.did) {
+                        //                 // If the IDs match, update the status
+                        //                 return { ...item, status: "Done" };
+                        //             }
+                        //             return item;
+                        //         });
+                        //     });
 
-                        })
+                        // })
                         .subscribe();
                 }
             }
@@ -455,7 +496,6 @@ const Deposit = () => {
                                 <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
-                            <p className="mb-4">Enter the amount you want to deposit:</p>
 
                             <div className="amount-container">
 
@@ -468,7 +508,9 @@ const Deposit = () => {
 
                                     onChange={(e) => setAmounts(e.target.value)}
                                 />
-
+                                <strong style={{ color: 'red' }}>
+                                    {aamount !== '' && parseInt(aamount) <= userData.deposit && `The Minimum Deposit Amount is ${userData.deposit}`}
+                                </strong>
                                 <Button
                                     onClick={() => {
                                         setIframeKey((prevKey) => prevKey + 1)
@@ -477,13 +519,13 @@ const Deposit = () => {
                                         setMo(true)
                                     }}
                                     className="w-full p-4"
-                                    disabled={parseInt(aamount) <= 1 || aamount === ''}
-                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) > 1 ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
+                                    disabled={parseInt(aamount) <= userData.deposit || aamount === ''}
+                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) >= userData.deposit ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
                                 >
                                     {(ag && again) ? "Try Again" : "Continue"}
                                 </Button>
 
-                                {aamount !== '' && parseInt(aamount) < 1 && "Must be greater than 50"}
+
                             </div>
                             <br />
                             <div className="iframe-container relative">
@@ -600,9 +642,10 @@ const Deposit = () => {
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Order Id</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">transactionId</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Transaction</th>
+
+                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
                                 </tr>
                             </thead>
                             <tbody className=" divide-y ">
@@ -610,9 +653,10 @@ const Deposit = () => {
                                     <tr key={index}>
                                         <td className="px-6 py-4 text-sm  ">{items.status}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.did}</td>
-                                        <td className="px-6 py-4 text-sm  ">{items.date}</td>
-                                        <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.amount}</td>
+
+                                        <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.date}</td>
                                     </tr>
                                 ))}
 
@@ -633,7 +677,7 @@ const Deposit = () => {
                         onClick={openPreModal}
                         before="+"
                     >
-                        Make Deposit
+                        Deposit Now
                     </Button>
                 </div>
             </List >

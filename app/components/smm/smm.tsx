@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
-import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk, faDiscord } from '@fortawesome/free-brands-svg-icons';
 import { faAngleDown, faClose, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
@@ -25,6 +25,7 @@ const iconMap = {
     twitch: faTwitch,
     vk: faVk,
     search: faSearch,
+    discord: faDiscord
 };
 
 const Smm = () => {
@@ -57,6 +58,8 @@ const Smm = () => {
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
     const [search, setSearch] = useState('');
+
+    const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
     const [description, setDescription] = useState("")
@@ -75,30 +78,32 @@ const Smm = () => {
 
 
 
-    useEffect(() => {
-        const fetchDepo = async () => {
-            const { data: seeDataa, error: seeErora } = await supabase
-                .from('adminmessage')
-                .select('seen')
-                .eq('seen', true);
 
-            if (seeErora) {
-                console.error('Error fetching initial balance:', seeErora);
-            } else {
-                if (seeDataa.length >= 1) {
-                    setNotification((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        notificationLight: true,
-                        // Update the `deposit` field
-                    }));
-                    console.log("there admin")
-                } else {
-                    console.log("no admin message")
-                }
-            }
-        }
-        fetchDepo()
-    }, [])
+
+    // useEffect(() => {
+    //     const fetchDepo = async () => {
+    //         const { data: seeDataa, error: seeErora } = await supabase
+    //             .from('adminmessage')
+    //             .select('seen')
+    //             .eq('seen', true);
+
+    //         if (seeErora) {
+    //             console.error('Error fetching initial balance:', seeErora);
+    //         } else {
+    //             if (seeDataa.length >= 1) {
+    //                 setNotification((prevNotification) => ({
+    //                     ...prevNotification, // Spread the previous state
+    //                     notificationLight: true,
+    //                     // Update the `deposit` field
+    //                 }));
+    //                 console.log("there admin")
+    //             } else {
+    //                 console.log("no admin message")
+    //             }
+    //         }
+    //     }
+    //     fetchDepo()
+    // }, [])
     useEffect(() => {
         const auth = async () => {
             // Fetch the initial balance from the database
@@ -118,9 +123,10 @@ const Smm = () => {
             // }
 
             const { data: seeData, error: seeEror } = await supabase
-                .from('deposit')
-                .select('seen')
-                .eq('uid', userData.userId)
+                .from('adminmessage')
+                .select('message')
+                .eq('for', userData.userId)
+                .eq('father', userData.father)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -154,13 +160,13 @@ const Smm = () => {
                     //console.log("New order inserted:", payload.new);
                     // Add the new order to the state
 
-                    if (payload.new.seen === true) {
+                    if ((Number(payload.new.for) === userData.userId && payload.new.father === userData.father) && payload.new.seen === true) {
                         setNotification((prevNotification) => ({
                             ...prevNotification, // Spread the previous state
                             notificationLight: true
                             // Update the `deposit` field
                         }));
-                        console.log(payload.new)
+                        // console.log(payload.new)
                     }
                 })
                 .subscribe();
@@ -342,7 +348,7 @@ const Smm = () => {
                 const response = await axios.get('/api/smm/fetchService');
 
                 setServices([response]);
-
+                console.log(response)
                 if (response) {
                     setMediaload(false)
                     function getCategory() {
@@ -439,24 +445,91 @@ const Smm = () => {
     const handleInput = (e) => {
         setQuantity(e.target.value)
         const inputValue = e.target.value;
-        setCharge(inputValue * theRate); // Perform the calculation
+        setCharge(Number((inputValue * theRate / userData.rate).toFixed(2)))
+        // Perform the calculation
     };
 
     const handleOrder = async () => {
         if (quantity % 10 !== 0) {
-            alert("multiple 10")
-        } else if (quantity > 10000) {
-            alert("to big")
+            Swal.fire({
+                title: 'Invalid Quantity',
+                text: 'Quantity music be a multiple of 10.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+            // } else if (quantity > 10000) {
+            //     alert("to big")
         } else if (link == null) {
-            alert("no link")
-        } else if (quantity == 0) {
-            alert("no quantity")
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No link provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        } else if (quantity == null) {
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No Quantity provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
         } else if (link == null && quantity == 0) {
-            alert("enter forms")
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No Link And Quantity provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
         } else if (minn > quantity || minn < quantity || (minn > quantity || minn < quantity)) {
-            alert(`min is ${minn} and max is${maxx}`)
+            Swal.fire({
+                title: 'Invalid Quantity',
+                text: `The quantity must be between ${minn} and ${maxx}.`,
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
         } else if (charge > userData.balance) {
-            alert(`insefuccient ba.ance`)
+            Swal.fire({
+                title: 'Insufficient Balance',
+                text: 'Not enough balance to complete this order. Please recharge and try again.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
         }
         else {
             try {
@@ -517,24 +590,24 @@ const Smm = () => {
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
-        setSearch(value);
+        setSearchh(value);
     };
 
     // Handle input change and filter services by the service id
     useEffect(() => {
         // Debounced search logic
         const timeout = setTimeout(() => {
-            if (search) {
+            if (searchhh) {
                 const filtered = servicess[0].response.filter((item) =>
-                    item.service.toString().includes(search)
+                    item.service.toString().includes(searchhh)
                 );
 
                 const sortedFiltered = filtered.sort((a, b) => {
                     const aService = a.service.toString();
                     const bService = b.service.toString();
 
-                    const aMatch = aService === search;
-                    const bMatch = bService === search;
+                    const aMatch = aService === searchhh;
+                    const bMatch = bService === searchhh;
 
                     if (aMatch && !bMatch) {
                         return -1; // "a" should come first if it's an exact match
@@ -553,7 +626,7 @@ const Smm = () => {
         }, 300); // 300ms debounce delay
 
         return () => clearTimeout(timeout); // Clear timeout if input changes quickly
-    }, [search, servicess]);
+    }, [searchhh, servicess]);
 
     const clickedSearch = (service) => {
         setChose(service);
@@ -658,7 +731,86 @@ const Smm = () => {
     }
 
 
+    useEffect(() => {
+        const fetchRate = async () => {
 
+
+            const { data: rate, error: fetchError2 } = await supabase
+                .from('panel')
+                .select('value')
+                .eq('father', userData.father)
+                .eq('key', 'rate')
+                .single();  // Increment balance by 200
+
+            if (fetchError2) {
+                console.log(fetchError2.message)
+            } else {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    rate: Number(rate.value),
+                    // Update the `deposit` field
+                }))
+            }
+        }
+        const fetchDisable = async () => {
+
+
+            const { data: rate, error: fetchError2 } = await supabase
+                .from('panel')
+                .select('bigvalue')
+                .eq('father', userData.father)
+                .eq('key', 'disabled')
+                .single();  // Increment balance by 200
+
+            if (fetchError2) {
+                console.log(fetchError2.message)
+            } else {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    disabled: rate.bigvalue,
+                    // Update the `deposit` field
+                }))
+            }
+        }
+        fetchRate();
+        fetchDisable();
+    }, [])
+
+    useEffect(() => {
+        supabase
+            .channel("panel")
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
+                //console.log("New order inserted:", payload.new);
+                // Add the new order to the state
+                if (payload.new.father === userData.father && payload.new.kew === 'rate') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        rate: payload.new.value,
+                        // Update the `deposit` field
+                    }))
+                    // console.log(payload.new.value)
+
+                }
+                //console.log(payload.new)
+            })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
+
+                if (payload.new.father === userData.father && payload.new.key === 'disabled') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        disabled: payload.new.bigvalue,
+                        // Update the `deposit` field
+                    }))
+                    console.log(payload.new.bigvalue)
+                }
+            })
+
+
+
+            .subscribe();
+
+
+    }, [])
 
 
 
@@ -674,8 +826,9 @@ const Smm = () => {
             </button>}<br />
             local data:{ls}<br /> */}
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
-
+                
                 promo</button> */}
+
                 {searchh && (
                     <div
                         style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
@@ -689,7 +842,7 @@ const Smm = () => {
                                     id="search"
                                     style={{ background: ' var(--tgui--section_bg_color)', borderBottom: '1px solid var(--tgui--accent_text_color)' }}
                                     type="text"
-                                    value={search}
+                                    value={searchhh}
                                     onChange={handleSearchChange}
                                     placeholder="Search by service ID"
                                     className="mt-16 w-full p-2  "
@@ -699,27 +852,32 @@ const Smm = () => {
                                 <div className=" overflow-hidden w-full p-2">
                                     <div id="result">
                                         {/* Display filtered services here */}
-                                        {search && filteredServices.length > 0 ? (
-                                            filteredServices.map((service) => (
-                                                <div
-                                                    key={service.service}
-                                                    style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
-                                                    onClick={() => clickedSearch(service)}
-                                                    className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
-                                                >
-                                                    <h4 className="font-bold">{service.name}</h4>
-                                                    <p>
-                                                        <strong>Category</strong> {service.category}
-                                                    </p>
-                                                    <p>
-                                                        <strong>Rate</strong> {service.rate}
-                                                    </p>
-                                                    <p>
-                                                        <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
-                                                        {service.max}
-                                                    </p>
-                                                </div>
-                                            ))
+                                        {searchhh && filteredServices.length > 0 ? (
+                                            filteredServices
+                                                .filter((items) => {
+                                                    const disabledArray = String(userData.disabled || "").split(","); // Ensure it is a string
+                                                    return !disabledArray.includes(String(items.service)); // Check if service is not in the array
+                                                })
+                                                .map((service) => (
+                                                    <div
+                                                        key={service.service}
+                                                        style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
+                                                        onClick={() => clickedSearch(service)}
+                                                        className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
+                                                    >
+                                                        <h4 className="font-bold">{service.name}</h4>
+                                                        <p>
+                                                            <strong>Category</strong> {service.category}
+                                                        </p>
+                                                        <p>
+                                                            <strong>Rate</strong> {Number((service.rate / userData.rate * 1000).toFixed(2))}
+                                                        </p>
+                                                        <p>
+                                                            <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
+                                                            {service.max}
+                                                        </p>
+                                                    </div>
+                                                ))
                                         ) : (
                                             <p>No matching results found.</p>
                                         )}
@@ -808,7 +966,7 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.tiktok, 'Tiktok')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Tiktok', 'var(--tgui--text_color)', iconMap.tiktok, 'Tiktok')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Tiktok' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faTiktok} style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Tiktok</Text>
@@ -832,28 +990,28 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Instagram</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Twitter', '#ffffff', iconMap.twitter, 'Twitter')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Twitter', 'var(--tgui--text_color)', iconMap.twitter, 'Twitter')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitter' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faXTwitter} style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitter/X</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('LinkedIn', '#0a66c2', iconMap.linkedin, 'Linkedin')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'LinkedIn' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faLinkedin} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div className='common-styles' onClick={() => getCategory('Discord', '#0a66c2', iconMap.discord, 'Discord')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Discord' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                            <FontAwesomeIcon icon={faDiscord} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>LinkedIn</Text>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Discord</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Tiktok', '#ffffff', iconMap.whatsapp, 'Whatsapp')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Whatsapp', '#25d366', iconMap.whatsapp, 'Whatsapp')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Twitch', '#ffffff', iconMap.twitch, 'Twitch')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Twitch' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faTwitch} color="#9146ff" style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div className='common-styles' onClick={() => getCategory('Spotify', '#1DB954', iconMap.spotify, 'Spotify')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                            <FontAwesomeIcon icon={faSpotify} color="#1DB954" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitch</Text>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                             </div>
                         </div>
                     </div>
@@ -932,18 +1090,24 @@ const Smm = () => {
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
 
 
-                            {ser ? service.map((datas, index) => (
+                            {ser ? service
+                                .filter((items) => {
+                                    const disabledArray = String(userData.disabled || "").split(","); // Ensure it is a string
+                                    return !disabledArray.includes(String(items.service)); // Check if service is not in the array
+                                })
+                                .map((datas, index) => (
 
-                                <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                                    <div className="text-wrap flex">
-                                        <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-                                        <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.name}
-                                            <div style={{ background: 'var(--tgui--section_header_text_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{datas.rate}</div>
+                                    <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                        <div className="text-wrap flex">
+                                            <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
+
+                                            <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
+                                                <div style={{ background: 'var(--tgui--section_header_text_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))} Per 1000</div>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
-                            )) : <Text>Choose Category</Text>}
+                                )) : <Text>Choose Category</Text>}
 
                         </div>
                         <div onClick={() => showModalB(false)} className='absolute  text-white  w-11/12 ml-2 grid place-content-center p-3'>
@@ -961,7 +1125,7 @@ const Smm = () => {
                     style={{ 'width': '96%', 'marginLeft': '2%', 'marginTop': '2%' }}
                     onClick={openModal}
                 >
-                    Action
+                    Order
                 </Button>
                 {
                     loader ? <MyLoader /> :
@@ -995,15 +1159,15 @@ const Smm = () => {
                                     <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
                                 </div>
                                 <div style={{ paddingLeft: '1rem' }}>
-                                    {!cat && 'choose media' || !chosen?.name && `choose ${icon.n} category and service` || (chosen.name && !id) && `choose ${icon.n} service` || cat && ser && (<>
-                                        <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Make Deposit</h2>
-                                        <p className="mb-4 ml-4">Enter the amount you want to deposit:{userData.userId}</p>
-                                        <Input header="quantity" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
-                                        <Input header="link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
+                                    {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
+                                        <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 
-                                        <div className='p-2 ml-4'> minmax: {labelel}</div>
-                                        <div className='p-2 ml-4'> Charge: {charge}</div>
-                                        <div className='p-2 ml-4'> service: {id}</div>
+                                        <Input header="Quantity" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
+                                        <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
+
+                                        <div className='p-2 ml-4'>  {labelel}</div>
+                                        <div className='p-2 ml-4'> Charge: {charge} ETB</div>
+                                        <div className='p-2 ml-4'> Service: {id}</div>
                                         <div className="flex mt-6  justify-between">
                                             <button
                                                 disabled={disable === true}

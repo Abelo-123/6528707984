@@ -9,17 +9,17 @@ import Deposit from './components/deposit/page';
 //import Account from './components/Account/account';
 import TelegramApp from './components/theme/theme';
 import React from "react";
-import { useNot } from "./components/StatusContext";
+//import { useNot } from "./components/StatusContext";
 import { useActivePage } from './components/ActivePageContext';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const Telegram = () => {
   const { activePage } = useActivePage();
 
-  const [form, openForm] = useState(false)
-  const { useNotification, setNotification } = useNot();
+  // const [form, openForm] = useState(false)
+  // const { useNotification, setNotification } = useNot();
 
   useEffect(() => {
     // Load the Telegram Web App JavaScript SDK
@@ -51,7 +51,7 @@ const Telegram = () => {
 
       <AppRoot>
         <div className='w-screen' >
-          {useNotification.admin && (
+          {/* {useNotification.admin && (
             <div
 
               className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-75 grid content-center  z-50"
@@ -136,7 +136,7 @@ const Telegram = () => {
 
           )
 
-          }
+          } */}
           <div
             id="1"
             className={`w-screen ${activePage === 1 ? '' : 'hidden'}`}><Smm /></div>

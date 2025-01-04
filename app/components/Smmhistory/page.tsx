@@ -92,7 +92,8 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id); // Filter by user id or another parameter as needed
+                        .eq("uid", user.id) // Filter by user id or another parameter as needed
+                        .order('date', { ascending: false });
 
                     if (error) {
                         console.log(error);
@@ -247,11 +248,12 @@ const Smmhistory = () => {
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
                                                     Starting From
                                                 </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Remains</th>
-
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
                                                     Quantity
                                                 </th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Remains</th>
+
+
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Link</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
                                                     Charge (ETB)
@@ -275,8 +277,10 @@ const Smmhistory = () => {
                                                         className="px-6 py-4 text-sm ">{items.status}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.oid}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.start_count}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.remains}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.remains}</td>
+
+
                                                     <td className="px-6 py-4 text-sm ">{items.link}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.charge}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.service}</td>

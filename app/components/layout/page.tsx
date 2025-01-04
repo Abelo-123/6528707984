@@ -7,16 +7,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useNot } from '../StatusContext';
 
+
 const Lays = () => {
     // const [notificationModal, seeNotificationModal] = useState(false)
     const { userData, setUserData } = useUser();
-
-    // const [notificationMessage, setNotificationMessage] = useState([])
     const [marq, setMarq] = useState('')
-
-
     const { setNotification } = useNot();
-
     const [balance, setBalance] = useState(0.0)
 
     useEffect(() => {
@@ -91,6 +87,7 @@ const Lays = () => {
         }
     }, [])
 
+
     const { useNotification } = useNot();
 
     const seeNotification = async () => {
@@ -122,12 +119,8 @@ const Lays = () => {
             }));
         }
 
-        const { error } = await supabase.from('deposit').update({ seen: false }).gt('did', 0); // Update all rows where `did` is greater than 0
-        if (error) {
-            console.error(error.message)
-        }
 
-        const { error: errorb } = await supabase.from('adminmessage').update({ seen: false }).gt('id', 0); // Update all rows where `did` is greater than 0
+        const { error: errorb } = await supabase.from('adminmessage').update({ seen: false }).eq('for', userData.userId); // Update all rows where `did` is greater than 0
         if (errorb) {
             console.error(errorb.message)
         }
@@ -149,7 +142,7 @@ const Lays = () => {
 
                     <div className='flex flex-col justify-space-around mt-auto  ml-3'>
                         <Text weight="2">{userData.firstName} {userData.lastName}</Text>
-                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance: {balance}</Text>
+                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance {balance} ETB</Text>
                     </div>
                 </div>
                 <div onClick={seeNotification} style={{ position: 'relative' }} className="grid place-content-center ml-auto mr-8 ">
