@@ -57,7 +57,7 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
-    const [search, setSearch] = useState('');
+    // const [search, setSearch] = useState('');
 
     const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
@@ -870,7 +870,7 @@ const Smm = () => {
                                                             <strong>Category</strong> {service.category}
                                                         </p>
                                                         <p>
-                                                            <strong>Rate</strong> {Number((service.rate / userData.rate * 1000).toFixed(2))}
+                                                            <strong>Rate</strong> {Number((service.rate / userData.rate * 1000).toFixed(2))} Per 1000
                                                         </p>
                                                         <p>
                                                             <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
@@ -1166,7 +1166,7 @@ const Smm = () => {
                                         <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
 
                                         <div className='p-2 ml-4'>  {labelel}</div>
-                                        <div className='p-2 ml-4'> Charge: {charge} ETB</div>
+                                        <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>
                                         <div className='p-2 ml-4'> Service: {id}</div>
                                         <div className="flex mt-6  justify-between">
                                             <button
