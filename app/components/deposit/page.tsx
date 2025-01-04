@@ -585,8 +585,8 @@ const Deposit = () => {
                                 <option>Hello</option>
                                 <option>Okay</option>
                             </Select>
-                            <Input header="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Write and clean me" autoFocus />
-                            <Input type="number" style={{ color: inputColor }} header="Amount" value={amount} onInput={(e) => handleDeposit(e)} placeholder="Write and clean me" />
+                            <Input header="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" autoFocus />
+                            <Input type="number" style={{ color: inputColor }} header="Amount" value={amount} onInput={(e) => handleDeposit(e)} placeholder="Enter the amount" />
                             <div className="flex mt-6  justify-between">
                                 <button
                                     disabled={inputColor == "blue" ? true : false}

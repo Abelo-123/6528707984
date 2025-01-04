@@ -954,7 +954,7 @@ const Smm = () => {
                 </div>
                 {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}<br />
-                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
+                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '0.2rem' }}>
 
                     <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -1162,8 +1162,8 @@ const Smm = () => {
                                     {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
                                         <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 
-                                        <Input header="Quantity" value={quantity} onInput={handleInput} placeholder="Write and clean me" />
-                                        <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Write and clean me" />
+                                        <Input header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
+                                        <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Enter the link" />
 
                                         <div className='p-2 ml-4'>  {labelel}</div>
                                         <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>

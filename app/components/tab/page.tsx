@@ -106,8 +106,8 @@ const Tab = () => {
                 </Tabbar.Item> */}
                 <Tabbar.Item onClick={() => updateActivePage(5)}>
                     <div className='flex flex-col'>
-                        <FontAwesomeIcon icon={faCalculator} style={{ color: activePage === 6 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 6 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>theme</Text>
+                        <FontAwesomeIcon icon={faCalculator} style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
+                        <Text weight="3" style={{ color: activePage === 5 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1rem' }}>theme</Text>
                     </div>
                 </Tabbar.Item>
                 {/* <Tabbar.Item onClick={() => updateActivePage(6)}>
