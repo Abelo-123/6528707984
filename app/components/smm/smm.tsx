@@ -949,12 +949,12 @@ const Smm = () => {
                         </div>
                     )
                 }
-                <div className='z-90  w-full absolute mt-4 grid place-content-end  ' style={{ top: '9rem', right: '1rem' }}>
+                <div className='z-90  w-full absolute mt-4 grid place-content-end  ' style={{ top: '10rem', right: '1rem' }}>
                     <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
                 {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}
-                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
+                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1.8rem' }}>
 
                     <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -1102,7 +1102,7 @@ const Smm = () => {
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
-                                                <div style={{ background: 'var(--tgui--section_header_text_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))} Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))} Per 1000</div>
                                             </div>
 
                                         </div>

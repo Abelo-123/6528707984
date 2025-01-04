@@ -8,6 +8,9 @@ body {
   background: var(--tgui--section_bg_color);
 }
 
+Section {
+  background-color: var(--tgui--section_bg_color);
+}
 .common-styles {
   @apply flex p-2 border-2 border-blue-200; /* Using Tailwind's @apply directive */
 }
