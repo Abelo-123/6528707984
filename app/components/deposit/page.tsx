@@ -652,7 +652,7 @@ const Deposit = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
                                 </tr>
                             </thead>
-                            <tbody className=" divide-y ">
+                            <tbody className=" ">
                                 {data.map((items, index) => (
                                     <tr key={index}>
                                         <td className="px-6 py-4 text-sm  ">{items.status}</td>
