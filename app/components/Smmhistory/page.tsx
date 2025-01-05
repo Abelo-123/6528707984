@@ -101,7 +101,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // Filter by user id or another parameter as needed
+                        .eq("uid", 7338639492) // Filter by user id or another parameter as needed
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -268,15 +268,15 @@ const Smmhistory = () => {
                                                     Charge (ETB)
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">name</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">name</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody className=" ">
                                             {data.map((items, index) => {
                                                 const isExpanded = expandedRow === index;
                                                 const truncatedLink =
-                                                    items.link.length > 25 ? `${items.link.substring(0, 50)}...` : items.link;
+                                                    items.link.length > 20 ? `${items.link.substring(0, 20)}...` : items.link;
 
                                                 return (
                                                     <tr key={index}>
@@ -329,8 +329,8 @@ const Smmhistory = () => {
                                                         </td>
                                                         <td className="px-6 py-4 text-sm ">{items.charge}</td>
                                                         <td className="px-6 py-4 text-sm ">{items.service}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.name}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.date}</td>
+                                                        <td className="px-6 py-4 text-sm text-nowrap ">{items.name}</td>
+                                                        <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
 
                                                     </tr>
                                                 );
