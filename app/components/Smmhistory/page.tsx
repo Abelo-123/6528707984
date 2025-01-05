@@ -5,10 +5,12 @@ import { supabase } from "@/app/lib/supabaseClient";
 import axios from "axios";
 import { useNot } from '../StatusContext';
 import MyLoader from "../Loader/page";
-import { faRotateBackward } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Smmhistory = () => {
+
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const [loader, setLoader] = useState(false)
     //const { userData } = useUser();
@@ -72,6 +74,14 @@ const Smmhistory = () => {
         }
     };
 
+    const [expandedRow, setExpandedRow] = useState(null);
+
+    const handleToggle = (index) => {
+        setExpandedRow(expandedRow === index ? null : index);
+    };
+
+
+
 
     useEffect(() => {
         const auth = async () => {
@@ -92,7 +102,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // Filter by user id or another parameter as needed
+                        .eq("uid", 7338639492) // Filter by user id or another parameter as needed
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -259,34 +269,73 @@ const Smmhistory = () => {
                                                     Charge (ETB)
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">name</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody className=" ">
-                                            {data.map((items, index) => (
-                                                <tr key={index}>
-                                                    <td
-                                                        style={{
-                                                            textShadow:
-                                                                items.status === "Canceled" ? "2px 2px 29px red" :
-                                                                    items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
-                                                                        items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
-                                                                            items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
-                                                                                undefined
-                                                        }}
-                                                        className="px-6 py-4 text-sm ">{items.status}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.oid}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.start_count}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.quantity}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.remains}</td>
+                                            {data.map((items, index) => {
+                                                const isExpanded = expandedRow === index;
+                                                const truncatedLink =
+                                                    items.link.length > 25 ? `${items.link.substring(0, 50)}...` : items.link;
+
+                                                return (
+                                                    <tr key={index}>
+                                                        <td
+                                                            style={{
+                                                                textShadow:
+                                                                    items.status === "Canceled" ? "2px 2px 29px red" :
+                                                                        items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
+                                                                            items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
+                                                                                items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
+                                                                                    undefined
+                                                            }}
+                                                            className="px-6 py-4 text-sm ">{items.status}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.oid}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.start_count}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.quantity}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.remains}</td>
 
 
-                                                    <td className="px-6 py-4 text-sm ">{items.link}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.charge}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.service}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.date}</td>
-                                                </tr>
-                                            ))}
+                                                        <td className="px-6 py-4 text-sm">
+
+                                                            <span className="flex">
+                                                                <a
+                                                                    href={items.link}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    style={{ display: "inline-block", marginRight: '0.5rem' }}
+                                                                >
+                                                                    <FontAwesomeIcon
+                                                                        icon={faLink}
+                                                                        style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
+                                                                        size="1x"
+                                                                    />
+                                                                </a>
+                                                                {isExpanded ? items.link : truncatedLink}</span>
+                                                            {items.link.length > 50 && (
+                                                                <div className="inline-flex items-center ml-2">
+                                                                    <button
+                                                                        onClick={() => handleToggle(index)}
+                                                                        className="text-blue-500 hover:underline mr-2"
+                                                                    >
+                                                                        {isExpanded ? "See less" : "See more"}
+                                                                    </button>
+                                                                    {/* Custom Link Icon */}
+
+
+
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td className="px-6 py-4 text-sm ">{items.charge}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.service}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.name}</td>
+                                                        <td className="px-6 py-4 text-sm ">{items.date}</td>
+
+                                                    </tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                 }

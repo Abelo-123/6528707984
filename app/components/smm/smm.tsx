@@ -504,7 +504,7 @@ const Smm = () => {
                     cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                 }
             });
-        } else if (minn > quantity || minn < quantity || (minn > quantity || minn < quantity)) {
+        } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
             Swal.fire({
                 title: 'Invalid Quantity',
                 text: `The quantity must be between ${minn} and ${maxx}.`,
@@ -1102,7 +1102,7 @@ const Smm = () => {
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))} Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))}br Per 1000</div>
                                             </div>
 
                                         </div>

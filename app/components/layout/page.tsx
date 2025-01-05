@@ -147,9 +147,9 @@ const Lays = () => {
                 </div>
                 <div onClick={seeNotification} style={{ position: 'relative' }} className="grid place-content-center ml-auto mr-8 ">
                     <div className="flex">
-                        <FontAwesomeIcon size="2x" icon={faBell} />
+                        <FontAwesomeIcon style={{ color: 'var(--tgui--section_header_text_color)' }} size="1x" icon={faBell} />
                         {useNotification.notificationLight === true ? (
-                            <div style={{ position: 'absolute', right: '0', padding: '0.4rem', height: '0.4rem', borderRadius: '100px', background: 'red' }}></div>
+                            <div style={{ position: 'absolute', right: '0', padding: '0.3rem', height: '0.3rem', borderRadius: '100px', background: 'red' }}></div>
                         ) : (<></>)}
                     </div>
                 </div>
