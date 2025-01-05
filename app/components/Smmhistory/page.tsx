@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Smmhistory = () => {
 
-    const [isExpanded, setIsExpanded] = useState(false);
 
     const [loader, setLoader] = useState(false)
     //const { userData } = useUser();
@@ -102,7 +101,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", 7338639492) // Filter by user id or another parameter as needed
+                        .eq("uid", user.id) // Filter by user id or another parameter as needed
                         .order('date', { ascending: false });
 
                     if (error) {
