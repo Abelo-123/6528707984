@@ -519,7 +519,7 @@ const Deposit = () => {
 
                                 <Input
                                     header="Amount"
-                                    type="text"
+                                    type="number"
                                     className="w-full"
                                     placeholder="Enter amount"
                                     value={aamount}
@@ -541,7 +541,7 @@ const Deposit = () => {
                                     disabled={parseInt(aamount) <= userData.deposit || aamount === ''}
                                     style={{ display: but ? 'block' : 'none', marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) >= userData.deposit ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
                                 >
-                                    {(ag && again) ? "Try Again" : "Continu"}
+                                    {(ag && again) ? "Try Again" : "Continue"}
                                 </Button>
 
 
