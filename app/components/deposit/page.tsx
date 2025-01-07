@@ -59,6 +59,7 @@ const Deposit = () => {
                     deposit: desposit.minmax,
                     // Update the `deposit` field
                 }));
+
             }
         }
 
@@ -237,33 +238,24 @@ const Deposit = () => {
                         //     }
 
                         // })
-                        // .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
-                        //     //console.log("New order inserted:", payload.new);
-                        //     // Add the new order to the state
-                        //     //console.log(payload.new)
+                        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
+                            //console.log("New order inserted:", payload.new);
+                            // Add the new order to the state
+                            //console.log(payload.new)
 
-                        //     const updatedItem = payload.new;
 
-                        //     //console.log(payload.new)
-                        //     if (payload.new.seen === true) {
-                        //         setNotification((prevNotification) => ({
-                        //             ...prevNotification, // Spread the previous state
-                        //             notificationLight: true
-                        //             // Update the `deposit` field
-                        //         }));
-                        //     }
 
-                        //     setData((prevData) => {
-                        //         return prevData.map((item) => {
-                        //             if (item.did === updatedItem.did) {
-                        //                 // If the IDs match, update the status
-                        //                 return { ...item, status: "Done" };
-                        //             }
-                        //             return item;
-                        //         });
-                        //     });
+                            //     setData((prevData) => {
+                            //         return prevData.map((item) => {
+                            //             if (item.did === updatedItem.did) {
+                            //                 // If the IDs match, update the status
+                            //                 return { ...item, status: "Done" };
+                            //             }
+                            //             return item;
+                            //         });
+                            //     });
 
-                        // })
+                        })
                         .subscribe();
                 }
             }
@@ -341,6 +333,12 @@ const Deposit = () => {
                                 },
                                 ...prevData, // Add previous data below the new data
                             ]);
+                            setUserData((prevNotification) => ({
+                                ...prevNotification, // Spread the previous state
+                                balance: Number(doll + userData.balance),
+                                // Update the `deposit` field
+                            }));
+
 
                         }
                     }
