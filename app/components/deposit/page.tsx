@@ -243,24 +243,7 @@ const Deposit = () => {
                         //     }
 
                         // })
-                        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "deposit" }, (payload) => {
-                            //console.log("New order inserted:", payload.new);
-                            // Add the new order to the state
-                            //console.log(payload.new)
 
-
-
-                            //     setData((prevData) => {
-                            //         return prevData.map((item) => {
-                            //             if (item.did === updatedItem.did) {
-                            //                 // If the IDs match, update the status
-                            //                 return { ...item, status: "Done" };
-                            //             }
-                            //             return item;
-                            //         });
-                            //     });
-
-                        })
                         .subscribe();
                 }
             }
