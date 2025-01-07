@@ -323,11 +323,15 @@ const Deposit = () => {
 
 
                             setaAmount('')
+                            const timestamp = Date.now(); // Current timestamp
+                            const date = new Date(timestamp); // Convert timestamp to a Date object
+
                             setData((prevData) => [
+
                                 {
                                     status: "Done",
                                     did: did,
-                                    date: Date.now(),
+                                    date: date.toISOString().split('T')[0],
                                     transaction: mess,
                                     amount: Number(doll),
                                 },
