@@ -541,7 +541,7 @@ const Deposit = () => {
                                     disabled={parseInt(aamount) <= userData.deposit || aamount === ''}
                                     style={{ display: but ? 'block' : 'none', marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) >= userData.deposit ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
                                 >
-                                    {(ag && again) ? "Try Again" : "Continue"}
+                                    {(ag && again) ? "Try Again" : "Continu"}
                                 </Button>
 
 
