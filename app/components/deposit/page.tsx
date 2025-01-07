@@ -36,7 +36,7 @@ const Deposit = () => {
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState(false)
     const [mo, setMo] = useState(false)
-
+    const [but, setBut] = useState(true)
     // Function to open the modal
     // const openModal = () => {
     //     setIsModalOpen(true);
@@ -92,11 +92,16 @@ const Deposit = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setMo(false)
+        setBut(true)
+        setTg(false)
+        setIframeVisible(false)
+        setaAmount('')
     };
 
     const closePreModal = () => {
         setIsPreModalOpen(false);
         setTg(false)
+        setBut(true)
         setMo(false)
         setIframeVisible(false)
         setaAmount('')
@@ -396,6 +401,7 @@ const Deposit = () => {
                 console.error(message); // Handle failure or closed event
 
                 setAgain(true);
+                setBut(true)
                 setTg(true)
                 // Hide container and show iframe
                 setIframeVisible(false);
@@ -407,6 +413,7 @@ const Deposit = () => {
 
                 setAgain(true);
                 setTg(true)
+                setBut(true)
                 console.log(message); // e.g., "Payment popup closed."
                 setIframeVisible(false);
 
@@ -526,12 +533,13 @@ const Deposit = () => {
                                     onClick={() => {
                                         setIframeKey((prevKey) => prevKey + 1)
                                         setIframeVisible(true)
+                                        setBut(false)
                                         setLoading(true)
                                         setMo(true)
                                     }}
                                     className="w-full p-4"
                                     disabled={parseInt(aamount) <= userData.deposit || aamount === ''}
-                                    style={{ marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) >= userData.deposit ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
+                                    style={{ display: but ? 'block' : 'none', marginTop: '10px', padding: '10px', backgroundColor: parseInt(aamount) >= userData.deposit ? 'var(--tgui--button_color)' : 'gray', color: 'white' }}
                                 >
                                     {(ag && again) ? "Try Again" : "Continue"}
                                 </Button>
