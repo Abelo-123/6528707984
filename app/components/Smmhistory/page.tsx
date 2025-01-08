@@ -101,7 +101,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // Filter by user id or another parameter as needed
+                        .eq("uid", 7338639492) // Filter by user id or another parameter as needed
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -299,18 +299,31 @@ const Smmhistory = () => {
                                                         <td className="px-6 py-4 text-sm">
 
                                                             <span className="flex">
-                                                                <a
-                                                                    href={items.link}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    style={{ display: "inline-block", marginRight: '0.5rem' }}
-                                                                >
-                                                                    <FontAwesomeIcon
-                                                                        icon={faLink}
-                                                                        style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
-                                                                        size="1x"
-                                                                    />
-                                                                </a>
+                                                                {
+                                                                    items.link && (() => {
+                                                                        try {
+                                                                            const url = new URL(items.link); // Validate URL
+                                                                            return (
+                                                                                <a
+                                                                                    href={url.href}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    style={{ display: "inline-block", marginRight: '0.5rem' }}
+                                                                                >
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={faLink}
+                                                                                        style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
+                                                                                        size="1x"
+                                                                                    />
+                                                                                </a>
+                                                                            );
+                                                                        } catch (e) {
+
+                                                                            return null; // Do not render the link if invalid
+                                                                        }
+                                                                    })()
+                                                                }
+
                                                                 {isExpanded ? items.link : truncatedLink}</span>
                                                             {items.link.length > 50 && (
                                                                 <div className="inline-flex items-center ml-2">

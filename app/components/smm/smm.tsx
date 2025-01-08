@@ -536,7 +536,7 @@ const Smm = () => {
                 setDisable(true)
 
                 const response = await axios.post('/api/smm/addOrder', {
-                    username: "userData.firstName",
+                    username: userData.firstName,
                     service: chosen.service,
                     link: link,
                     quantity: quantity,
@@ -549,6 +549,7 @@ const Smm = () => {
                 });
                 if (response) {
                     setIsModalOpen(false);
+
                     setDisable(false)
                     Swal.fire({
                         title: 'Success!',
@@ -639,6 +640,7 @@ const Smm = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setDisable(false)
         setQuantity(null)
         setCharge(0)
     };
@@ -1162,8 +1164,9 @@ const Smm = () => {
                                     {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
                                         <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 
-                                        <Input header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
                                         <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Enter the link" />
+
+                                        <Input type="number" header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
 
                                         <div className='p-2 ml-4'>  {labelel}</div>
                                         <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>
