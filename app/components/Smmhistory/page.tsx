@@ -101,7 +101,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", 7338639492) // Filter by user id or another parameter as needed
+                        .eq("uid", user.id) // Filter by user id or another parameter as needed
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -317,7 +317,7 @@ const Smmhistory = () => {
                                                                                     />
                                                                                 </a>
                                                                             );
-                                                                        } catch (e) {
+                                                                        } catch {
 
                                                                             return null; // Do not render the link if invalid
                                                                         }
