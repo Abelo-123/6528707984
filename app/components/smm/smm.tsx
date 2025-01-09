@@ -541,7 +541,7 @@ const Smm = () => {
                 quantity: quantity,
                 charge: charge,
                 refill: chosen.refill,
-                panel: 'smm',
+                panel: 'sm',
                 name: id,
                 category: chosen.category,
                 id: 5928771903
