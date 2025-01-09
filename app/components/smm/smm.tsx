@@ -30,7 +30,7 @@ const iconMap = {
 
 const Smm = () => {
     const { setNotification } = useNot();
-
+    const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [services, setServices] = useState([])
     const [category, setCategory] = useState([])
@@ -77,7 +77,27 @@ const Smm = () => {
 
 
 
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
+        script.onload = () => {
+            const Telegram = window.Telegram;
+            if (Telegram && Telegram.WebApp) {
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                if (user && user.id) {
+                    setUserId(user.id);
+                    setDisable(false); // Enable the button after the user ID is available
+                }
+            }
+        };
+
+        return () => {
+            document.body.removeChild(script); // Cleanup the script on component unmount
+        };
+    }, []);
 
 
     // useEffect(() => {
@@ -450,7 +470,7 @@ const Smm = () => {
         // Perform the calculation
     };
 
-    const handleOrder = async () => {
+    const handleOrder = async (uid) => {
         if (quantity % 10 !== 0) {
             Swal.fire({
                 title: 'Invalid Quantity',
@@ -546,7 +566,7 @@ const Smm = () => {
                     panel: 'smm',
                     name: id,
                     category: chosen.category,
-                    id: 10001
+                    id: uid
                 });
                 if (response) {
                     setIsModalOpen(false);
@@ -1175,7 +1195,7 @@ const Smm = () => {
                                         <div className="flex mt-6  justify-between">
                                             <button
                                                 disabled={disable === true}
-                                                onClick={handleOrder}
+                                                onClick={() => handleOrder(userId)}
                                                 style={{ background: 'var(--tgui--button_color)' }}
                                                 className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
                                             >

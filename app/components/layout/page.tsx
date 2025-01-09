@@ -34,7 +34,11 @@ const Lays = () => {
     }, [])
 
     useEffect(() => {
-
+        setUserData((prevNotification) => ({
+            ...prevNotification, // Spread the previous state
+            balance: 900,
+            // Update the `deposit` field
+        }));
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
         script.async = true;
