@@ -208,7 +208,7 @@ const Deposit = () => {
                     const { data: initialData, error } = await supabase
                         .from('deposit')
                         .select('*')
-                        .eq('uid', 7159821786)
+                        .eq('uid', user.id)
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -277,7 +277,7 @@ const Deposit = () => {
                 const { data: findDataa, error: findErrorDaa } = await supabase
                     .from("users")
                     .select('balance')
-                    .eq("id", 7159821786)
+                    .eq("id", user.id)
                     .single();
                 // Pass 100 as a string
 
@@ -290,7 +290,7 @@ const Deposit = () => {
                     const { error: findErrorCa } = await supabase
                         .from("users")
                         .update({ balance: newbalance })
-                        .eq("id", 7159821786); // Pass 100 as a string
+                        .eq("id", user.id); // Pass 100 as a string
 
 
                     if (findErrorCa) {
@@ -304,7 +304,7 @@ const Deposit = () => {
                         const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
                         const { error } = await supabase.from('deposit').insert([
-                            { transaction: mess, did: did, uid: 7159821786, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
+                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
                         ]);
                         if (error) {
                             console.error(error.message)
