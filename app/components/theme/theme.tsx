@@ -45,6 +45,7 @@ const TelegramApp = () => {
     const [version, setVersion] = useState(null)
 
     useEffect(() => {
+
         // Load the Telegram Web App JavaScript SDK
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -60,10 +61,10 @@ const TelegramApp = () => {
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 const themeParams = window.Telegram.WebApp.themeParams;
                 setUserData({
-                    username: user.username,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    userId: user.id, // Store user ID
+                    username: "user.username",
+                    firstName: "user.first_name",
+                    lastName: "user.last_name",
+                    userId: 23423423, // Store user ID
                 });
                 setTheme(themeParams);
                 // Fetch user profile photos

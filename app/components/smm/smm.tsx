@@ -213,6 +213,7 @@ const Smm = () => {
 
 
     useEffect(() => {
+
         // Load the Telegram Web App JavaScript SDK
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -830,7 +831,7 @@ const Smm = () => {
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
-
+                {userData.userId}
                 {searchh && (
                     <div
                         style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
