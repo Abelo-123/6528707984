@@ -63,11 +63,11 @@ const TelegramApp = () => {
                     username: user.username,
                     firstName: user.first_name,
                     lastName: user.last_name,
-                    userId: user.id, // Store user ID
+                    userId: 7159821786, // Store user ID
                 });
                 setTheme(themeParams);
                 // Fetch user profile photos
-                fetchUserProfilePhotos(user.id);
+                fetchUserProfilePhotos(7159821786);
                 setIsAppReady(true);
             } else {
                 console.error("Telegram Web App API not loaded");

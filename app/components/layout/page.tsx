@@ -53,7 +53,7 @@ const Lays = () => {
                     const { data, error } = await supabase
                         .from('users')
                         .select('balance')
-                        .eq('id', user.id)
+                        .eq('id', 7159821786)
                         .single(); // Get a single row
 
                     if (error) {

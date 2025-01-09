@@ -208,7 +208,7 @@ const Deposit = () => {
                     const { data: initialData, error } = await supabase
                         .from('deposit')
                         .select('*')
-                        .eq('uid', user.id)
+                        .eq('uid', 7159821786)
                         .order('date', { ascending: false });
 
                     if (error) {
@@ -277,7 +277,7 @@ const Deposit = () => {
                 const { data: findDataa, error: findErrorDaa } = await supabase
                     .from("users")
                     .select('balance')
-                    .eq("id", user.id)
+                    .eq("id", 7159821786)
                     .single();
                 // Pass 100 as a string
 
@@ -290,14 +290,21 @@ const Deposit = () => {
                     const { error: findErrorCa } = await supabase
                         .from("users")
                         .update({ balance: newbalance })
-                        .eq("id", user.id); // Pass 100 as a string
+                        .eq("id", 7159821786); // Pass 100 as a string
+
+
                     if (findErrorCa) {
                         console.error(findErrorCa.message)
                     } else {
+                        setUserData((prevNotifi) => ({
+                            ...prevNotifi, // Spread the previous state
+                            balance: newbalance,
+                            // Update the `deposit` field
+                        }));
                         const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
                         const { error } = await supabase.from('deposit').insert([
-                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
+                            { transaction: mess, did: did, uid: 7159821786, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
                         ]);
                         if (error) {
                             console.error(error.message)
@@ -311,30 +318,21 @@ const Deposit = () => {
 
 
                             setaAmount('')
-                            const timestamp = Date.now(); // Get the current timestamp
-                            const date = new Date(timestamp); // Convert timestamp to a Date object
 
                             // Extract year, month, and day
-                            const year = date.getFullYear();
-                            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
-                            const day = String(date.getDate()).padStart(2, '0');
 
                             setData((prevData) => [
 
                                 {
                                     status: "Done",
                                     did: did,
-                                    date: `${year}-${month}-${day}`,
+                                    Date: new Date(),
                                     transaction: mess,
                                     amount: Number(doll),
                                 },
                                 ...prevData, // Add previous data below the new data
                             ]);
-                            setUserData((prevNotification) => ({
-                                ...prevNotification, // Spread the previous state
-                                balance: Number(doll + userData.balance),
-                                // Update the `deposit` field
-                            }));
+
 
 
                         }

@@ -230,7 +230,7 @@ const Smm = () => {
                     username: user.username,
                     firstName: user.first_name,
                     lastName: user.last_name,
-                    userId: user.id,
+                    userId: 7159821786,
                     profile: user.photo_url,
 
                 });
