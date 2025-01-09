@@ -544,7 +544,7 @@ const Smm = () => {
                 panel: 'sm',
                 name: id,
                 category: chosen.category,
-                id: 5928771903
+                id: userData.userId
             });
             if (response) {
                 setIsModalOpen(false);
