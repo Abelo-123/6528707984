@@ -533,7 +533,7 @@ const Smm = () => {
         }
         else {
             setDisable(true)
-
+            alert(uid)
             const response = await axios.post('/api/smm/addOrder', {
                 username: "username",
                 service: chosen.service,
@@ -546,22 +546,8 @@ const Smm = () => {
                 category: chosen.category,
                 id: uid
             });
-            if (response) {
-                setIsModalOpen(false);
-
-                setDisable(false)
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'The operation was successful.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    customClass: {
-                        popup: 'swal2-popup',    // Apply the custom class to the popup
-                        title: 'swal2-title',    // Apply the custom class to the title
-                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                    }
-                });
+            if (response.data) {
+                alert("good")
             }
 
 
