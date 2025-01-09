@@ -1165,7 +1165,7 @@ const Smm = () => {
                                         <Input type="number" header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
 
                                         <div className='p-2 ml-4'>  {labelel}</div>
-                                        <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>
+                                        <div className='p-2 ml-4'> Chare: <strong>{charge} ETB</strong></div>
                                         <div className='p-2 ml-4'> Service: {id}</div>
                                         <div className="flex mt-6  justify-between">
                                             <button
