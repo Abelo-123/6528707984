@@ -450,7 +450,7 @@ const Smm = () => {
         // Perform the calculation
     };
 
-    const handleOrder = async (idd) => {
+    const handleOrder = async () => {
         if (quantity % 10 !== 0) {
             Swal.fire({
                 title: 'Invalid Quantity',
@@ -546,7 +546,7 @@ const Smm = () => {
                     panel: 'smm',
                     name: id,
                     category: chosen.category,
-                    id: idd
+                    id: 10001
                 });
                 if (response) {
                     setIsModalOpen(false);
@@ -1175,7 +1175,7 @@ const Smm = () => {
                                         <div className="flex mt-6  justify-between">
                                             <button
                                                 disabled={disable === true}
-                                                onClick={() => handleOrder(userData.userId)}
+                                                onClick={handleOrder}
                                                 style={{ background: 'var(--tgui--button_color)' }}
                                                 className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
                                             >
