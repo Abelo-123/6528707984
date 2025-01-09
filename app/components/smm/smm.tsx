@@ -533,8 +533,8 @@ const Smm = () => {
         }
         else {
             setDisable(true)
-            alert(uid)
-            const response = await axios.post('/api/smm/addOrder', {
+
+            const response = await axios.post('https://ppppooo.netlify.app/api/smm/addOrder', {
                 username: "username",
                 service: chosen.service,
                 link: link,
@@ -546,8 +546,22 @@ const Smm = () => {
                 category: chosen.category,
                 id: uid
             });
-            if (response.data) {
-                alert("good")
+            if (response) {
+                setIsModalOpen(false);
+
+                setDisable(false)
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'The operation was successful.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        popup: 'swal2-popup',    // Apply the custom class to the popup
+                        title: 'swal2-title',    // Apply the custom class to the title
+                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                    }
+                });
             }
 
 
