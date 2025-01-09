@@ -449,7 +449,7 @@ const Smm = () => {
         // Perform the calculation
     };
 
-    const handleOrder = async (uid) => {
+    const handleOrder = async () => {
         if (quantity % 10 !== 0) {
             Swal.fire({
                 title: 'Invalid Quantity',
@@ -534,7 +534,7 @@ const Smm = () => {
         else {
             setDisable(true)
 
-            const response = await axios.post('https://ppppooo.netlify.app/api/smm/addOrder', {
+            const response = await axios.post('/api/smm/addOrder', {
                 username: "username",
                 service: chosen.service,
                 link: link,
@@ -544,7 +544,7 @@ const Smm = () => {
                 panel: 'smm',
                 name: id,
                 category: chosen.category,
-                id: uid
+                id: 5928771903
             });
             if (response) {
                 setIsModalOpen(false);
@@ -1165,12 +1165,12 @@ const Smm = () => {
                                         <Input type="number" header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
 
                                         <div className='p-2 ml-4'>  {labelel}</div>
-                                        <div className='p-2 ml-4'> Chare: <strong>{charge} ETB</strong></div>
+                                        <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>
                                         <div className='p-2 ml-4'> Service: {id}</div>
                                         <div className="flex mt-6  justify-between">
                                             <button
                                                 disabled={disable === true}
-                                                onClick={() => handleOrder(userData.userId)}
+                                                onClick={handleOrder}
                                                 style={{ background: 'var(--tgui--button_color)' }}
                                                 className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
                                             >
