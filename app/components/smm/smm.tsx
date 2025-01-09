@@ -30,7 +30,7 @@ const iconMap = {
 
 const Smm = () => {
     const { setNotification } = useNot();
-    const [userId, setUserId] = useState(null);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [services, setServices] = useState([])
     const [category, setCategory] = useState([])
@@ -49,6 +49,7 @@ const Smm = () => {
     const [quantity, setQuantity] = useState(null);
     // Replace with your bot token
     const { setUserData, userData } = useUser();
+    const [userId, setUserId] = useState(userData.userId);
     //const [checkname, setCheckname] = useState('')
     //const [authmessage, setAuthMsg] = useState('')
     const [id, setId] = useState('')
@@ -851,7 +852,6 @@ const Smm = () => {
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
-                {userData.userId}
                 {searchh && (
                     <div
                         style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
