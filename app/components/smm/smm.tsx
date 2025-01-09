@@ -539,50 +539,57 @@ const Smm = () => {
                 document.body.appendChild(script);
 
                 script.onload = async () => {
-                    const Telegram = window.Telegram;
+                    try {
+                        const Telegram = window.Telegram;
 
-                    if (window.Telegram && window.Telegram.WebApp) {
+                        if (Telegram && Telegram.WebApp) {
+                            const { user } = Telegram.WebApp.initDataUnsafe;
 
-                        const { user } = Telegram.WebApp.initDataUnsafe;
+                            setDisable(true);
 
-                        setDisable(true)
-
-                        const response = await axios.post('/api/smm/addOrder', {
-                            username: user.username,
-                            service: chosen.service,
-                            link: link,
-                            quantity: quantity,
-                            charge: charge,
-                            refill: chosen.refill,
-                            panel: 'smm',
-                            name: id,
-                            category: chosen.category,
-                            id: user.id
-                        });
-
-                        if (response) {
-                            setIsModalOpen(false);
-
-                            setDisable(false)
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'The operation was successful.',
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                customClass: {
-                                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                                    title: 'swal2-title',    // Apply the custom class to the title
-                                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                                }
+                            const response = await axios.post('/api/smm/addOrder', {
+                                username: user.username,
+                                service: chosen.service,
+                                link: link,
+                                quantity: quantity,
+                                charge: charge,
+                                refill: chosen.refill,
+                                panel: 'smm',
+                                name: id,
+                                category: chosen.category,
+                                id: user.id
                             });
-                        }
-                    }
-                }
-            } catch (e) {
-                console.error(e.message)
-            }
 
+                            if (response) {
+                                setIsModalOpen(false);
+                                setDisable(false);
+
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'The operation was successful.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    customClass: {
+                                        popup: 'swal2-popup',    // Custom popup class
+                                        title: 'swal2-title',    // Custom title class
+                                        confirmButton: 'swal2-confirm', // Custom confirm button class
+                                        cancelButton: 'swal2-cancel' // Custom cancel button class
+                                    }
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error during script load or API call:", error.message);
+                        setDisable(false); // Re-enable the button in case of failure
+                    }
+                };
+
+                script.onerror = () => {
+                    console.error("Failed to load Telegram script.");
+                };
+            } catch (e) {
+                console.error("An unexpected error occurred:", e.message);
+            }
         }
 
 
