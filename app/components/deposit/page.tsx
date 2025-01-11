@@ -635,7 +635,7 @@ const Deposit = () => {
                 )}
 
                 <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: '10px', width: '100%' }} className="scrollabler overflow-x-auto">
+                    <div style={{ borderRadius: '10px', height: '25rem', width: '100%' }} className="scrollabler overflow-x-auto">
 
                         <table className=" min-w-full  rounded-lg shadow-md">
                             <thead>
@@ -672,7 +672,7 @@ const Deposit = () => {
                         mode="filled"
                         size="l"
                         style={{
-                            width: '90%', marginTop: 'auto', position: 'absolute', bottom: '4rem'
+                            width: '100%', margin: 'auto auto'
                         }}
                         onClick={openPreModal}
                         before="+"
