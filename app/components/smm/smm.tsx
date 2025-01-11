@@ -1036,7 +1036,7 @@ const Smm = () => {
                 {
                     modalA &&
                     //  <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
 
@@ -1083,7 +1083,7 @@ const Smm = () => {
                 {
                     modalB &&
                     // <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '80%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
 
@@ -1100,7 +1100,7 @@ const Smm = () => {
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / userData.rate * 1000).toFixed(2))} Br Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
                                             </div>
 
                                         </div>
