@@ -737,7 +737,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('father', userData.father)
+                .eq('owner', userData.father)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -757,7 +757,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('father', userData.father)
+                .eq('owner', userData.father)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -781,7 +781,7 @@ const Smm = () => {
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.father === userData.father && payload.new.kew === 'rate') {
+                if (payload.new.owner === userData.father && payload.new.kew === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         rate: payload.new.value,
@@ -794,7 +794,7 @@ const Smm = () => {
             })
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-                if (payload.new.father === userData.father && payload.new.key === 'disabled') {
+                if (payload.new.owner === userData.father && payload.new.key === 'disabled') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         disabled: payload.new.bigvalue,

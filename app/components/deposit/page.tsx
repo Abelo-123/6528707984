@@ -47,7 +47,7 @@ const Deposit = () => {
             const { data: desposit, error: setError } = await supabase
                 .from('panel')
                 .select('minmax')
-                .eq('father', userData.father)
+                .eq('owner', userData.father)
                 .eq('key', 'minmax')
                 .single()
 
@@ -68,10 +68,19 @@ const Deposit = () => {
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.father === userData.father && payload.new.key === 'minmax') {
+                if (payload.new.owner === userData.father && payload.new.key === 'minmax') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         deposit: payload.new.minmax,
+                        // Update the `deposit` field
+                    }))
+                    // console.log(payload.new.value)
+
+                }
+                if (payload.new.owner === userData.father && payload.new.key === 'rate') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        rate: payload.new.rate,
                         // Update the `deposit` field
                     }))
                     // console.log(payload.new.value)
