@@ -903,7 +903,7 @@ const Smm = () => {
                         }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
 
                             {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
-                            <div style={{ height: '85%' }} className='mt-24 '>
+                            <div style={{ height: '85%' }} className='mt-2 '>
                                 <div className="  w-screen " >
                                     {
 
