@@ -445,7 +445,7 @@ const Smm = () => {
     const handleInput = (e) => {
         setQuantity(e.target.value)
         const inputValue = e.target.value;
-        setCharge(Number((inputValue * theRate / userData.rate).toFixed(2)))
+        setCharge(Number((inputValue * theRate / userData.allrate * userData.rate).toFixed(2)))
         // Perform the calculation
     };
 
@@ -749,6 +749,22 @@ const Smm = () => {
                     rate: Number(rate.value),
                     // Update the `deposit` field
                 }))
+                const { data: rates, error: fetchError3 } = await supabase
+                    .from('panel')
+                    .select('allrate')
+                    .eq('owner', userData.father)
+                    .eq('key', 'rate')
+                    .single();  // Increment balance by 200
+
+                if (fetchError3) {
+                    console.log(fetchError3.message)
+                } else {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        allrate: Number(rates.allrate),
+                        // Update the `deposit` field
+                    }))
+                }
             }
         }
         const fetchDisable = async () => {
@@ -868,7 +884,7 @@ const Smm = () => {
                                                             <strong>Category</strong> {service.category}
                                                         </p>
                                                         <p>
-                                                            <strong>Rate</strong> {Number((service.rate / userData.rate * 1000).toFixed(2))} Per 1000
+                                                            <strong>Rate</strong> {Number((service.rate / userData.allrate * userData.rate * 1000).toFixed(2))} Per 1000
                                                         </p>
                                                         <p>
                                                             <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
@@ -1100,7 +1116,7 @@ const Smm = () => {
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / Number(userData.allrate) * Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
                                             </div>
 
                                         </div>

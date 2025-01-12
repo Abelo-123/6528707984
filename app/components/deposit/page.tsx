@@ -86,6 +86,15 @@ const Deposit = () => {
                     // console.log(payload.new.value)
 
                 }
+                if (payload.new.owner === userData.father && payload.new.key === 'rate') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        allrate: payload.new.allrate,
+                        // Update the `deposit` field
+                    }))
+                    // console.log(payload.new.value)
+
+                }
                 //console.log(payload.new)
             }).subscribe()
         fetchDeposit();
