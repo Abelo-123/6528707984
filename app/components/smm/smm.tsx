@@ -438,6 +438,7 @@ const Smm = () => {
         showModalB(false)
         settherate(data.rate)
         setMin(data.min)
+        console.log(data)
         setMax(data.max)
         setLabel(`Min: ${data.min} Max: ${data.max}`)
     }
@@ -850,7 +851,7 @@ const Smm = () => {
                     >
 
 
-                        <div className="p-3  gap-5 grid content-start w-screen h-auto">
+                        <div style={{ height: '90%' }} className="p-3  gap-5 grid content-start w-screen h-auto">
                             <div className=" p-2">
                                 <input
                                     id="search"
@@ -862,7 +863,7 @@ const Smm = () => {
                                     className="mt-4 w-full p-2  "
                                 />
                             </div>
-                            <div style={{ height: '36rem' }} className="  scrollabler overflow-x-hidden">
+                            <div className="  scrollabler overflow-x-hidden">
                                 <div className=" overflow-hidden w-full p-2">
                                     <div id="result">
                                         {/* Display filtered services here */}
@@ -1151,7 +1152,7 @@ const Smm = () => {
                             </div>
                         )
                 }
-
+                <br /><br /><br />
                 {
                     isModalOpen && (
                         <div
