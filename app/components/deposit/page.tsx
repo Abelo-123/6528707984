@@ -68,7 +68,7 @@ const Deposit = () => {
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.owner === userData.father && payload.new.key === 'minmax') {
+                if (payload.new.owner === 7786592015 && payload.new.key === 'minmax') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         deposit: payload.new.minmax,
@@ -77,7 +77,7 @@ const Deposit = () => {
                     // console.log(payload.new.value)
 
                 }
-                if (payload.new.owner === userData.father && payload.new.key === 'rate') {
+                if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         rate: Number(payload.new.value),
@@ -86,7 +86,7 @@ const Deposit = () => {
                     // console.log(payload.new.value)
 
                 }
-                if (payload.new.owner === userData.father && payload.new.key === 'rate') {
+                if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         allrate: payload.new.allrate,
