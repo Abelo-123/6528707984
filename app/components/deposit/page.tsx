@@ -47,7 +47,7 @@ const Deposit = () => {
             const { data: desposit, error: setError } = await supabase
                 .from('panel')
                 .select('minmax')
-                .eq('owner', userData.father)
+                .eq('owner', 7786592015)
                 .eq('key', 'minmax')
                 .single()
 
@@ -80,7 +80,7 @@ const Deposit = () => {
                 if (payload.new.owner === userData.father && payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
-                        rate: payload.new.rate,
+                        rate: Number(payload.new.value),
                         // Update the `deposit` field
                     }))
                     // console.log(payload.new.value)
@@ -169,7 +169,7 @@ const Deposit = () => {
 
 
         const { error } = await supabase.from('deposit').insert([
-            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile }
+            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 7786592015 }
         ]);
 
         if (error) {

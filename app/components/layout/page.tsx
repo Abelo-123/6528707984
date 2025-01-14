@@ -22,6 +22,7 @@ const Lays = () => {
                 .from('adminmessage')
                 .select('message')
                 .eq('for', 'all')
+                .eq('father', 7786592015)
                 .single()
 
             if (setError) {
@@ -29,6 +30,8 @@ const Lays = () => {
             } else {
                 setMarq(setNotify.message)
             }
+
+
         }
         fetchMarq();
     }, [])
@@ -108,19 +111,29 @@ const Lays = () => {
         const { data: setNotify, error: setError } = await supabase
             .from('adminmessage')
             .select('*')
-            .eq('for', userData.userId)
+            .eq('for', 5928771903)
 
         if (setError) {
             console.error('Error fetching initial balance:', setError);
         } else {
 
-            setNotification((prevNotification) => ({
-                ...prevNotification, // Spread the previous state
-                notificationLoader: false,
-                notificationData: setNotify,
-                notificationLight: false,
-                // Update the `deposit` field
-            }));
+            const { error: setError } = await supabase
+                .from("adminmessage")
+                .update({ seen: false })
+                .eq('for', 5928771903)
+
+
+            if (setError) {
+                console.error('Error fetching initial balance:', setError);
+            } else {
+                setNotification((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    notificationLoader: false,
+                    notificationData: setNotify,
+                    notificationLight: false,
+                    // Update the `deposit` field
+                }));
+            }
         }
 
 

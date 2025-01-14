@@ -124,8 +124,8 @@ const Smm = () => {
             const { data: seeData, error: seeEror } = await supabase
                 .from('adminmessage')
                 .select('message')
-                .eq('for', userData.userId)
-                .eq('father', userData.father)
+                .eq('for', 5928771903)
+                .eq('father', 100)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -159,7 +159,7 @@ const Smm = () => {
                     //console.log("New order inserted:", payload.new);
                     // Add the new order to the state
 
-                    if ((Number(payload.new.for) === userData.userId && payload.new.father === userData.father) && payload.new.seen === true) {
+                    if ((Number(payload.new.for) === 5928771903 && payload.new.father === 100) && payload.new.seen === true) {
                         setNotification((prevNotification) => ({
                             ...prevNotification, // Spread the previous state
                             notificationLight: true
@@ -253,7 +253,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id }
+                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 7786592015 }
                                 ]);
 
                             if (error) {
@@ -738,7 +738,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('owner', userData.father)
+                .eq('owner', 7786592015)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -753,7 +753,7 @@ const Smm = () => {
                 const { data: rates, error: fetchError3 } = await supabase
                     .from('panel')
                     .select('allrate')
-                    .eq('owner', userData.father)
+                    .eq('owner', 7786592015)
                     .eq('key', 'rate')
                     .single();  // Increment balance by 200
 
@@ -774,7 +774,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('owner', userData.father)
+                .eq('owner', 7786592015)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -834,13 +834,12 @@ const Smm = () => {
         <>
             <List>
                 {/* {authmessage}<br /> */}
-                {/* {<button onClick={() => {
-                localStorage.clear();
+                {<button onClick={() => {
+                    localStorage.clear();
 
-            }}>
-                Clean
-            </button>}<br />
-            local data:{ls}<br /> */}
+                }}>
+                    Clean
+                </button>}<br />
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
