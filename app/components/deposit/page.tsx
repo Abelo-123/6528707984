@@ -47,7 +47,7 @@ const Deposit = () => {
             const { data: desposit, error: setError } = await supabase
                 .from('panel')
                 .select('minmax')
-                .eq('owner', 7786592015)
+                .eq('owner', 5928771903)
                 .eq('key', 'minmax')
                 .single()
 
@@ -68,7 +68,7 @@ const Deposit = () => {
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.owner === 7786592015 && payload.new.key === 'minmax') {
+                if (payload.new.owner === 5928771903 && payload.new.key === 'minmax') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         deposit: payload.new.minmax,
@@ -77,7 +77,7 @@ const Deposit = () => {
                     // console.log(payload.new.value)
 
                 }
-                if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
+                if (payload.new.owner === 5928771903 && payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         rate: Number(payload.new.value),
@@ -86,7 +86,7 @@ const Deposit = () => {
                     // console.log(payload.new.value)
 
                 }
-                if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
+                if (payload.new.owner === 5928771903 && payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         allrate: payload.new.allrate,
@@ -169,7 +169,7 @@ const Deposit = () => {
 
 
         const { error } = await supabase.from('deposit').insert([
-            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 7786592015 }
+            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 5928771903 }
         ]);
 
         if (error) {
@@ -322,7 +322,7 @@ const Deposit = () => {
                         const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
                         const { error } = await supabase.from('deposit').insert([
-                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile }
+                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile, father: 5928771903 }
                         ]);
                         if (error) {
                             console.error(error.message)

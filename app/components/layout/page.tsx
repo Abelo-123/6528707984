@@ -22,7 +22,7 @@ const Lays = () => {
                 .from('adminmessage')
                 .select('message')
                 .eq('for', 'all')
-                .eq('father', 7786592015)
+                .eq('father', 999999999)
                 .single()
 
             if (setError) {
@@ -35,6 +35,22 @@ const Lays = () => {
         }
         fetchMarq();
     }, [])
+
+
+    useEffect(() => {
+        supabase
+            .channel("paffnl_chnel")
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "adminmessage" }, (payload) => {
+
+                if (payload.new.father === 5928771903 && payload.new.for === "all") {
+                    setMarq(payload.new.message)
+                }
+
+            })
+
+            .subscribe();
+
+    }, []);
 
     useEffect(() => {
         setUserData((prevNotification) => ({
@@ -111,7 +127,7 @@ const Lays = () => {
         const { data: setNotify, error: setError } = await supabase
             .from('adminmessage')
             .select('*')
-            .eq('for', 5928771903)
+            .eq('for', 99999999)
 
         if (setError) {
             console.error('Error fetching initial balance:', setError);

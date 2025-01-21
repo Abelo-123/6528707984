@@ -125,7 +125,7 @@ const Smm = () => {
                 .from('adminmessage')
                 .select('message')
                 .eq('for', 5928771903)
-                .eq('father', 7786592015)
+                .eq('father', 5928771903)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -159,7 +159,7 @@ const Smm = () => {
                     //console.log("New order inserted:", payload.new);
                     // Add the new order to the state
 
-                    if ((Number(payload.new.for) === 5928771903 && payload.new.father === 7786592015) && payload.new.seen === true) {
+                    if ((Number(payload.new.for) === 5928771903 && payload.new.father === 5928771903) && payload.new.seen === true) {
                         setNotification((prevNotification) => ({
                             ...prevNotification, // Spread the previous state
                             notificationLight: true
@@ -253,7 +253,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 7786592015 }
+                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 5928771903 }
                                 ]);
 
                             if (error) {
@@ -738,7 +738,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('owner', 7786592015)
+                .eq('owner', 5928771903)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -753,7 +753,7 @@ const Smm = () => {
                 const { data: rates, error: fetchError3 } = await supabase
                     .from('panel')
                     .select('allrate')
-                    .eq('owner', 7786592015)
+                    .eq('owner', 5928771903)
                     .eq('key', 'rate')
                     .single();  // Increment balance by 200
 
@@ -774,7 +774,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('owner', 7786592015)
+                .eq('owner', 5928771903)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -798,7 +798,7 @@ const Smm = () => {
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.owner === 7786592015 && payload.new.kew === 'rate') {
+                if (payload.new.owner === 5928771903 && payload.new.kew === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         rate: payload.new.value,
@@ -811,13 +811,34 @@ const Smm = () => {
             })
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-                if (payload.new.owner === 7786592015 && payload.new.key === 'disabled') {
+                if (payload.new.owner == 5928771903) {
+                    // setUserData((prevNotification) => ({
+                    //     ...prevNotification, // Spread the previous state
+                    //     disabled: payload.new.bigvalue,
+                    //     // Update the `deposit` field
+                    // }))
+                    console.log(payload.new.bigvalue)
+                }
+            })
+
+
+
+            .subscribe();
+
+
+    }, [])
+
+    useEffect(() => {
+        supabase
+            .channel("panel_56")
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
+
+                if (payload.new.owner === 5928771903 && payload.new.key === 'disabled') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         disabled: payload.new.bigvalue,
                         // Update the `deposit` field
                     }))
-                    console.log(payload.new.bigvalue)
                 }
             })
 
