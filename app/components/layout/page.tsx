@@ -54,11 +54,11 @@ const Lays = () => {
     }, []);
 
     useEffect(() => {
-        setUserData((prevNotification) => ({
-            ...prevNotification, // Spread the previous state
-            balance: 900,
-            // Update the `deposit` field
-        }));
+        // setUserData((prevNotification) => ({
+        //     ...prevNotification, // Spread the previous state
+        //     balance: 900,
+        //     // Update the `deposit` field
+        // }));
 
 
         const fetchBalance = async () => {
