@@ -258,7 +258,7 @@ const Smmhistory = () => {
                 <Section header="Order History" style={{ marginTop: '-0.5rem', border: "1px solid var(--tgui--section_bg_color)" }}>
                     <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
-                        <div style={{ borderRadius: "10px", height: '25rem', width: '100%' }} className="scrollabler bg-red-100 w-full overflow-x-auto">
+                        <div style={{ borderRadius: "10px", height: '29rem', width: '100%' }} className="scrollabler bg-red-100 w-full overflow-x-auto">
 
                             {!loader &&
                                 <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
