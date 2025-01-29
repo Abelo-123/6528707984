@@ -48,53 +48,20 @@ const Lays = () => {
                 }
 
             })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
+
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: payload.new.balance,
+                    // Update the `deposit` field
+                }));
+                setBalance(payload.new.balance);
+            })
 
             .subscribe();
 
     }, []);
 
-    useEffect(() => {
-        if (!userData?.userId) return; // Ensure userId exists before running effect
-
-        const fetchBalance = async () => {
-            const { data, error } = await supabase
-                .from('users')
-                .select('balance')
-                .eq('id', userData.userId)
-                .single();
-
-            if (error) {
-                console.error('Error fetching initial balance:', error);
-            } else {
-                setUserData((prev) => ({
-                    ...prev,
-                    balance: data.balance,
-                }));
-                setBalance(data.balance);
-            }
-        };
-
-        fetchBalance();
-
-        const channel = supabase
-            .channel(`users:id=eq.${userData.userId}`)
-            .on(
-                'postgres_changes',
-                { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` },
-                (payload) => {
-                    setUserData((prev) => ({
-                        ...prev,
-                        balance: payload.new.balance,
-                    }));
-                    setBalance(payload.new.balance);
-                }
-            )
-            .subscribe();
-
-        return () => {
-            channel.unsubscribe(); // Cleanup on unmount
-        };
-    }, [userData?.userId]); // Added dependency on userData.userId
 
 
     const { useNotification } = useNot();
@@ -147,6 +114,38 @@ const Lays = () => {
 
 
 
+    useEffect(() => {
+        // setUserData((prevNotification) => ({
+        //     ...prevNotification, // Spread the previous state
+        //     balance: 900,
+        //     // Update the `deposit` field
+        // }));
+
+
+        const fetchBalance = async () => {
+            const { data, error } = await supabase
+                .from('users')
+                .select('balance')
+                .eq('id', userData.userId)
+                .single(); // Get a single row
+
+            if (error) {
+                console.error('Error fetching initial balance:', error);
+            } else {
+
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: data.balance,
+                    // Update the `deposit` field
+                }));
+                setBalance(data.balance)
+
+            }
+        }
+        fetchBalance()
+
+
+    }, [])
 
 
     return (<>
