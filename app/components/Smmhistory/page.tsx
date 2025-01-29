@@ -100,7 +100,6 @@ const Smmhistory = () => {
                 window.Telegram.WebApp.ready();
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
-
                 const auth = async () => {
 
                     setLoader(true)
@@ -138,58 +137,72 @@ const Smmhistory = () => {
                         };
                     }
                 }
+
+
+
                 auth();
             }
         }
-
-
-
         // Call the auth function when the component is mounted
     }, []); // Empty dependency array ensures this effect runs only once after initial render
     // Empty dependency array ensures this effect runs only once on mount
 
     useEffect(() => {
-        // Create a real-time channel for the 'orders' table
-        const channel = supabase
-            .channel("orders_channel")
-            .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders", filter: `uid=eq.${userData.userId}` }, (payload) => {
-                //console.log("New order inserted:", payload.new);
-                // Add the new order to the state
-                //  if (payload.new.uid == 5928771903) {
-                setData((prevData) => [payload.new, ...prevData]);
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-                // If the new order status is not "Completed", call fetchOrderStatus
-                if (payload.new.status !== "Completed" && payload.new.status !== "Canceled") {
-                    fetchOrderStatus(payload.new.oid); // Fetch status for new order
-                }
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-            })
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders", filter: `uid=eq.${userData.userId}` }, (payload) => {
-                //console.log("Order updated:", payload.new.status, "for oid", payload.new.oid);
-                // if (payload.new.uid == 5928771903) {
-                // Find the updated order in the current state
-                setData((prevData) =>
-                    prevData.map((item) =>
-                        item.oid === payload.new.oid
-                            ? { ...item, status: payload.new.status, start_count: payload.new.start_from, remains: payload.new.remains } // Update the status in the state
-                            : item
-                    )
-                );
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                // Create a real-time channel for the 'orders' table
+                const channel = supabase
+                    .channel("orders_channel")
+                    .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders", filter: `uid=eq.${user.id}` }, (payload) => {
+                        //console.log("New order inserted:", payload.new);
+                        // Add the new order to the state
+                        //  if (payload.new.uid == 5928771903) {
+                        setData((prevData) => [payload.new, ...prevData]);
 
-                // If the updated order's status is not "Completed", call fetchOrderStatus
-                if (payload.new.status === "Pending" && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
-                    fetchOrderStatus(payload.new.oid); // Fetch status for updated order
-                }
+                        // If the new order status is not "Completed", call fetchOrderStatus
+                        if (payload.new.status !== "Completed" && payload.new.status !== "Canceled") {
+                            fetchOrderStatus(payload.new.oid); // Fetch status for new order
+                        }
 
-            })
+                    })
+                    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders", filter: `uid=eq.${user.id}` }, (payload) => {
+                        //console.log("Order updated:", payload.new.status, "for oid", payload.new.oid);
+                        // if (payload.new.uid == 5928771903) {
+                        // Find the updated order in the current state
+                        setData((prevData) =>
+                            prevData.map((item) =>
+                                item.oid === payload.new.oid
+                                    ? { ...item, status: payload.new.status, start_count: payload.new.start_from, remains: payload.new.remains } // Update the status in the state
+                                    : item
+                            )
+                        );
+
+                        // If the updated order's status is not "Completed", call fetchOrderStatus
+                        if (payload.new.status === "Pending" && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
+                            fetchOrderStatus(payload.new.oid); // Fetch status for updated order
+                        }
+
+                    })
 
 
-            .subscribe();
+                    .subscribe();
 
-        // Cleanup the subscription on component unmount
-        return () => {
-            channel.unsubscribe();
-        };
+                // Cleanup the subscription on component unmount
+                return () => {
+                    channel.unsubscribe();
+                };
+            }
+        }
     }, []); // Empty dependency array ensures this effect runs only once on mount
 
     return (
@@ -245,114 +258,114 @@ const Smmhistory = () => {
                 <Section header="Order History" style={{ marginTop: '-0.5rem', border: "1px solid var(--tgui--section_bg_color)" }}>
                     <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
-                        <div style={{ borderRadius: "10px" }} className="scrollabler bg-red-100 w-full overflow-x-auto">
-                            <ul>
-                                {!loader &&
-                                    <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
-                                        <thead>
-                                            <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
-                                                    Status
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
-                                                    Starting From
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
-                                                    Quantity
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Remains</th>
+                        <div style={{ borderRadius: "10px", height: '25rem', width: '100%' }} className="scrollabler bg-red-100 w-full overflow-x-auto">
+
+                            {!loader &&
+                                <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
+                                    <thead>
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                                Starting From
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                                Quantity
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Remains</th>
 
 
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Link</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
-                                                    Charge (ETB)
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">name</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className=" ">
-                                            {data.map((items, index) => {
-                                                const isExpanded = expandedRow === index;
-                                                const truncatedLink =
-                                                    items.link.length > 20 ? `${items.link.substring(0, 20)}...` : items.link;
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Link</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                                Charge (ETB)
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">name</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className=" ">
+                                        {data.map((items, index) => {
+                                            const isExpanded = expandedRow === index;
+                                            const truncatedLink =
+                                                items.link.length > 20 ? `${items.link.substring(0, 20)}...` : items.link;
 
-                                                return (
-                                                    <tr key={index}>
-                                                        <td
-                                                            style={{
-                                                                textShadow:
-                                                                    items.status === "Canceled" ? "2px 2px 29px red" :
-                                                                        items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
-                                                                            items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
-                                                                                items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
-                                                                                    undefined
-                                                            }}
-                                                            className="px-6 py-4 text-sm ">{items.status}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.oid}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.start_count}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.quantity}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.remains}</td>
-
-
-                                                        <td className="px-6 py-4 text-sm">
-
-                                                            <span className="flex">
-                                                                {
-                                                                    items.link && (() => {
-                                                                        try {
-                                                                            const url = new URL(items.link); // Validate URL
-                                                                            return (
-                                                                                <a
-                                                                                    href={url.href}
-                                                                                    target="_blank"
-                                                                                    rel="noopener noreferrer"
-                                                                                    style={{ display: "inline-block", marginRight: '0.5rem' }}
-                                                                                >
-                                                                                    <FontAwesomeIcon
-                                                                                        icon={faLink}
-                                                                                        style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
-                                                                                        size="1x"
-                                                                                    />
-                                                                                </a>
-                                                                            );
-                                                                        } catch {
-
-                                                                            return null; // Do not render the link if invalid
-                                                                        }
-                                                                    })()
-                                                                }
-
-                                                                {isExpanded ? items.link : truncatedLink}</span>
-                                                            {items.link.length > 50 && (
-                                                                <div className="inline-flex items-center ml-2">
-                                                                    <button
-                                                                        onClick={() => handleToggle(index)}
-                                                                        className="text-blue-500 hover:underline mr-2"
-                                                                    >
-                                                                        {isExpanded ? "See less" : "See more"}
-                                                                    </button>
-                                                                    {/* Custom Link Icon */}
+                                            return (
+                                                <tr key={index}>
+                                                    <td
+                                                        style={{
+                                                            textShadow:
+                                                                items.status === "Canceled" ? "2px 2px 29px red" :
+                                                                    items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
+                                                                        items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
+                                                                            items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
+                                                                                undefined
+                                                        }}
+                                                        className="px-6 py-4 text-sm ">{items.status}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.oid}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.start_count}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.remains}</td>
 
 
+                                                    <td className="px-6 py-4 text-sm">
 
-                                                                </div>
-                                                            )}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-sm ">{items.charge}</td>
-                                                        <td className="px-6 py-4 text-sm ">{items.service}</td>
-                                                        <td className="px-6 py-4 text-sm text-nowrap ">{items.name}</td>
-                                                        <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
+                                                        <span className="flex">
+                                                            {
+                                                                items.link && (() => {
+                                                                    try {
+                                                                        const url = new URL(items.link); // Validate URL
+                                                                        return (
+                                                                            <a
+                                                                                href={url.href}
+                                                                                target="_blank"
+                                                                                rel="noopener noreferrer"
+                                                                                style={{ display: "inline-block", marginRight: '0.5rem' }}
+                                                                            >
+                                                                                <FontAwesomeIcon
+                                                                                    icon={faLink}
+                                                                                    style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
+                                                                                    size="1x"
+                                                                                />
+                                                                            </a>
+                                                                        );
+                                                                    } catch {
 
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                }
-                            </ul>
+                                                                        return null; // Do not render the link if invalid
+                                                                    }
+                                                                })()
+                                                            }
+
+                                                            {isExpanded ? items.link : truncatedLink}</span>
+                                                        {items.link.length > 50 && (
+                                                            <div className="inline-flex items-center ml-2">
+                                                                <button
+                                                                    onClick={() => handleToggle(index)}
+                                                                    className="text-blue-500 hover:underline mr-2"
+                                                                >
+                                                                    {isExpanded ? "See less" : "See more"}
+                                                                </button>
+                                                                {/* Custom Link Icon */}
+
+
+
+                                                            </div>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-sm ">{items.charge}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.service}</td>
+                                                    <td className="px-6 py-4 text-sm text-nowrap ">{items.name}</td>
+                                                    <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
+
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            }
+
 
 
                         </div>
