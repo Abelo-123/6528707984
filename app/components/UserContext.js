@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
         lastName: '',
         userId: null, //userId: undefined,
         balance: 10,
-        father: 7786592015,
+        father: 6528707984,
         rate: 10,
         allrate: 200,
         deposit: 5,
