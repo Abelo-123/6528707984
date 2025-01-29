@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
 import { supabase } from "@/app/lib/supabaseClient";
-import { useUser } from "../UserContext";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const RealTimeChart = () => {
-    const { userData } = useUser()
     const [amountData, setAmountData] = useState([]); // Amount values
     const [countData, setCountData] = useState([]); // Count values
     const [labels, setLabels] = useState([]); // Time labels
