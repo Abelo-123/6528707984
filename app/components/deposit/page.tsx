@@ -203,34 +203,48 @@ const Deposit = () => {
     useEffect(() => {
 
 
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+
+                const auth = async () => {
+
+                    setLoader(true)
+                    // Fetch the initial balance from the database
+                    const { data: initialData, error } = await supabase
+                        .from('deposit')
+                        .select('*')
+                        .eq('uid', user.id)
+                        .order('date', { ascending: false });
+
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        setLoader(false)
+                        setData(initialData);
+
+                        // Set the initial data
+                    }
+
+                    // Subscribe to real-time changes
 
 
-        const auth = async () => {
-
-            setLoader(true)
-            // Fetch the initial balance from the database
-            const { data: initialData, error } = await supabase
-                .from('deposit')
-                .select('*')
-                .eq('uid', userData.userId)
-                .order('date', { ascending: false });
-
-            if (error) {
-                console.log(error);
-            } else {
-                setLoader(false)
-                setData(initialData);
-
-                // Set the initial data
+                };
+                auth();
             }
 
-            // Subscribe to real-time changes
+        }
 
 
-        };
-
-
-        auth();
     }, []);
 
     // Generate iframe src dynamically based on the amount
