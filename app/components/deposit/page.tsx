@@ -159,37 +159,52 @@ const Deposit = () => {
     const handleConfirm = async (e) => {
         setDisable(true)
 
-        const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+
+                const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
 
-        e.preventDefault()
+                e.preventDefault()
 
 
-        const { error } = await supabase.from('deposit').insert([
-            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 7786592015 }
-        ]);
+                const { error } = await supabase.from('deposit').insert([
+                    { did: did, uid: user.id, pm: pm, amount: amount, name: name, username: user.username, username_profile: "userData.profile", father: 7786592015 }
+                ]);
 
-        if (error) {
-            console.error(error.message)
-        } else {
-            setPm(null)
-            setName('')
-            setAmount('')
-            setIsModalOpen(false);
-            setDisable(false)
-            setIsModalOpenn(false);
-            Swal.fire({
-                title: 'Success!',
-                text: 'The operation was successful.',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                if (error) {
+                    console.error(error.message)
+                } else {
+                    setPm(null)
+                    setName('')
+                    setAmount('')
+                    setIsModalOpen(false);
+                    setDisable(false)
+                    setIsModalOpenn(false);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'The operation was successful.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
                 }
-            });
+            }
         }
     }
 
@@ -256,71 +271,85 @@ const Deposit = () => {
     };
 
     const sendAmount = async (doll, mess) => {
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-        const { data: findDataa, error: findErrorDaa } = await supabase
-            .from("users")
-            .select('balance')
-            .eq("id", userData.userId)
-            .single();
-        // Pass 100 as a string
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+
+                const { data: findDataa, error: findErrorDaa } = await supabase
+                    .from("users")
+                    .select('balance')
+                    .eq("id", user.id)
+                    .single();
+                // Pass 100 as a string
 
 
-        if (findErrorDaa) {
-            console.error(findErrorDaa.message)
-        } else {
-            const newbalance = Number(findDataa.balance + Number(doll))
-
-            const { error: findErrorCa } = await supabase
-                .from("users")
-                .update({ balance: newbalance })
-                .eq("id", userData.userId); // Pass 100 as a string
-
-
-            if (findErrorCa) {
-                console.error(findErrorCa.message)
-            } else {
-                setUserData((prevNotifi) => ({
-                    ...prevNotifi, // Spread the previous state
-                    balance: newbalance,
-                    // Update the `deposit` field
-                }));
-                const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
-
-                const { error } = await supabase.from('deposit').insert([
-                    { transaction: mess, did: did, uid: userData.userId, amount: Number(doll), name: userData.firstName, username: userData.username, username_profile: userData.profile, father: 7786592015 }
-                ]);
-                if (error) {
-                    console.error(error.message)
+                if (findErrorDaa) {
+                    console.error(findErrorDaa.message)
                 } else {
+                    const newbalance = Number(findDataa.balance + Number(doll))
 
-                    // {items.status}</td>
-                    //             <td className="px-6 py-4 text-sm  ">{items.did}</td>
-                    //             <td className="px-6 py-4 text-sm  ">{items.date}</td>
-                    //             <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
-                    //             <td className="px-6 py-4 text-sm  ">{items.amount}
-
-
-                    setaAmount('')
-
-                    // Extract year, month, and day
-
-                    setData((prevData) => [
-
-                        {
-                            status: "Done",
-                            did: did,
-                            Date: new Date(),
-                            transaction: mess,
-                            amount: Number(doll),
-                        },
-                        ...prevData, // Add previous data below the new data
-                    ]);
+                    const { error: findErrorCa } = await supabase
+                        .from("users")
+                        .update({ balance: newbalance })
+                        .eq("id", user.id); // Pass 100 as a string
 
 
+                    if (findErrorCa) {
+                        console.error(findErrorCa.message)
+                    } else {
+                        setUserData((prevNotifi) => ({
+                            ...prevNotifi, // Spread the previous state
+                            balance: newbalance,
+                            // Update the `deposit` field
+                        }));
+                        const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
 
+                        const { error } = await supabase.from('deposit').insert([
+                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), name: userData.firstName, username: userData.username, username_profile: userData.profile, father: 7786592015 }
+                        ]);
+                        if (error) {
+                            console.error(error.message)
+                        } else {
+
+                            // {items.status}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.did}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.date}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
+                            //             <td className="px-6 py-4 text-sm  ">{items.amount}
+
+
+                            setaAmount('')
+
+                            // Extract year, month, and day
+
+                            setData((prevData) => [
+
+                                {
+                                    status: "Done",
+                                    did: did,
+                                    Date: new Date(),
+                                    transaction: mess,
+                                    amount: Number(doll),
+                                },
+                                ...prevData, // Add previous data below the new data
+                            ]);
+
+
+
+                        }
+
+
+                    }
                 }
-
-
             }
         }
 

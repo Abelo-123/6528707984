@@ -16,73 +16,102 @@ const RealTimeChart = () => {
 
     // Function to fetch initial data
     const fetchInitialData = async () => {
-        const { data, error } = await supabase
-            .from("deposit")
-            .select("amount, count, date")
-            .order("date", { ascending: false }) // Fetch most recent records first
-            .limit(userData.userId); // Limit to the latest 100 records
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-        if (error) {
-            console.error("Error fetching data:", error);
-        } else {
-            const initialAmountData = data.map((item) => parseInt(item.amount));
-            const initialCountData = data.map((item) => parseInt(item.count));
-            const initialLabels = data.map((item) => new Date(item.date).toLocaleTimeString());
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-            // Set the fetched data as the initial state
-            setAmountData(initialAmountData);
-            setCountData(initialCountData);
-            setLabels(initialLabels);
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                const { data, error } = await supabase
+                    .from("deposit")
+                    .select("amount, count, date")
+                    .order("date", { ascending: false }) // Fetch most recent records first
+                    .limit(user.id); // Limit to the latest 100 records
+
+                if (error) {
+                    console.error("Error fetching data:", error);
+                } else {
+                    const initialAmountData = data.map((item) => parseInt(item.amount));
+                    const initialCountData = data.map((item) => parseInt(item.count));
+                    const initialLabels = data.map((item) => new Date(item.date).toLocaleTimeString());
+
+                    // Set the fetched data as the initial state
+                    setAmountData(initialAmountData);
+                    setCountData(initialCountData);
+                    setLabels(initialLabels);
+                }
+            }
         }
     };
 
     // Fetch initial data and set up the subscription for real-time updates
     useEffect(() => {
+
         fetchInitialData(); // Fetch initial data when the component mounts
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-        const channel = supabase
-            .channel(`deposit:uid=eq.${userData.userId}`)
-            .on(
-                "postgres_changes",
-                { event: "INSERT", schema: "public", table: "deposit" },
-                (payload) => {
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-                    const newData = payload.new;
-                    const newAmount = parseInt(newData.amount); // Convert amount to a number
-                    const newCount = parseInt(newData.count); // Count value
-                    const newTimestamp = new Date(newData.date).toLocaleTimeString(); // Format the date
+                const { user } = Telegram.WebApp.initDataUnsafe;
 
-                    // Update amount data
-                    setAmountData((prevAmountData) => {
-                        if (prevAmountData.length > 100) {
-                            return [...prevAmountData.slice(1), newAmount];
+                const channel = supabase
+                    .channel(`deposit:uid=eq.${user.id}`)
+                    .on(
+                        "postgres_changes",
+                        { event: "INSERT", schema: "public", table: "deposit" },
+                        (payload) => {
+
+                            const newData = payload.new;
+                            const newAmount = parseInt(newData.amount); // Convert amount to a number
+                            const newCount = parseInt(newData.count); // Count value
+                            const newTimestamp = new Date(newData.date).toLocaleTimeString(); // Format the date
+
+                            // Update amount data
+                            setAmountData((prevAmountData) => {
+                                if (prevAmountData.length > 100) {
+                                    return [...prevAmountData.slice(1), newAmount];
+                                }
+                                return [...prevAmountData, newAmount];
+                            });
+
+                            // Update count data
+                            setCountData((prevCountData) => {
+                                if (prevCountData.length > 100) {
+                                    return [...prevCountData.slice(1), newCount];
+                                }
+                                return [...prevCountData, newCount];
+                            });
+
+                            // Update labels
+                            setLabels((prevLabels) => {
+                                if (prevLabels.length > 100) {
+                                    return [...prevLabels.slice(1), newTimestamp];
+                                }
+                                return [...prevLabels, newTimestamp];
+                            });
                         }
-                        return [...prevAmountData, newAmount];
-                    });
+                    )
+                    .subscribe();
 
-                    // Update count data
-                    setCountData((prevCountData) => {
-                        if (prevCountData.length > 100) {
-                            return [...prevCountData.slice(1), newCount];
-                        }
-                        return [...prevCountData, newCount];
-                    });
-
-                    // Update labels
-                    setLabels((prevLabels) => {
-                        if (prevLabels.length > 100) {
-                            return [...prevLabels.slice(1), newTimestamp];
-                        }
-                        return [...prevLabels, newTimestamp];
-                    });
-                }
-            )
-            .subscribe();
-
-        // Clean up subscription
-        return () => {
-            supabase.removeChannel(channel);
-        };
+                // Clean up subscription
+                return () => {
+                    supabase.removeChannel(channel);
+                };
+            }
+        }
     }, []); // Empty dependency array to run only once when the component mounts
 
     // Chart.js data for Amount

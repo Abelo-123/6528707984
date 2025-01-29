@@ -39,27 +39,41 @@ const Lays = () => {
 
 
     useEffect(() => {
-        supabase
-            .channel("paffnl_chnel")
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "adminmessage" }, (payload) => {
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-                if (payload.new.father === 7786592015 && payload.new.for === "all" && payload.new.to === "User") {
-                    setMarq(payload.new.message)
-                }
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-            })
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                supabase
+                    .channel("paffnl_chnel")
+                    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "adminmessage" }, (payload) => {
 
-                setUserData((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    balance: payload.new.balance,
-                    // Update the `deposit` field
-                }));
-                setBalance(payload.new.balance);
-            })
+                        if (payload.new.father === 7786592015 && payload.new.for === "all" && payload.new.to === "User") {
+                            setMarq(payload.new.message)
+                        }
 
-            .subscribe();
+                    })
+                    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
 
+                        setUserData((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            balance: payload.new.balance,
+                            // Update the `deposit` field
+                        }));
+                        setBalance(payload.new.balance);
+                    })
+
+                    .subscribe();
+
+            }
+        }
     }, []);
 
 
@@ -68,47 +82,61 @@ const Lays = () => {
 
     const seeNotification = async () => {
 
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
 
 
-        setNotification((prevNotification) => ({
-            ...prevNotification, // Spread the previous state
-            notificationModal: true,
-            smmModal: true,
-            // Update the `deposit` field
-        }));
-
-        const { data: setNotify, error: setError } = await supabase
-            .from('adminmessage')
-            .select('*')
-            .eq('for', userData.userId)
-
-        if (setError) {
-            console.error('Error fetching initial balance:', setError);
-        } else {
-
-            const { error: setError } = await supabase
-                .from("adminmessage")
-                .update({ seen: false })
-                .eq('for', userData.userId)
-
-
-            if (setError) {
-                console.error('Error fetching initial balance:', setError);
-            } else {
                 setNotification((prevNotification) => ({
                     ...prevNotification, // Spread the previous state
-                    notificationLoader: false,
-                    notificationData: setNotify,
-                    notificationLight: false,
+                    notificationModal: true,
+                    smmModal: true,
                     // Update the `deposit` field
                 }));
+
+                const { data: setNotify, error: setError } = await supabase
+                    .from('adminmessage')
+                    .select('*')
+                    .eq('for', user.id)
+
+                if (setError) {
+                    console.error('Error fetching initial balance:', setError);
+                } else {
+
+                    const { error: setError } = await supabase
+                        .from("adminmessage")
+                        .update({ seen: false })
+                        .eq('for', user.id)
+
+
+                    if (setError) {
+                        console.error('Error fetching initial balance:', setError);
+                    } else {
+                        setNotification((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            notificationLoader: false,
+                            notificationData: setNotify,
+                            notificationLight: false,
+                            // Update the `deposit` field
+                        }));
+                    }
+                }
+
+
+                const { error: errorb } = await supabase.from('adminmessage').update({ seen: false }).eq('for', user.id); // Update all rows where `did` is greater than 0
+                if (errorb) {
+                    console.error(errorb.message)
+                }
             }
-        }
-
-
-        const { error: errorb } = await supabase.from('adminmessage').update({ seen: false }).eq('for', userData.userId); // Update all rows where `did` is greater than 0
-        if (errorb) {
-            console.error(errorb.message)
         }
     }
 
@@ -120,48 +148,61 @@ const Lays = () => {
         //     balance: 900,
         //     // Update the `deposit` field
         // }));
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
 
 
-        const fetchBalance = async () => {
-            const { data, error } = await supabase
-                .from('users')
-                .select('balance')
-                .eq('id', userData.userId)
-                .single(); // Get a single row
+                const fetchBalance = async () => {
+                    const { data, error } = await supabase
+                        .from('users')
+                        .select('balance')
+                        .eq('id', user.id)
+                        .single(); // Get a single row
 
-            if (error) {
-                console.error('Error fetching initial balance:', error);
-            } else {
+                    if (error) {
+                        console.error('Error fetching initial balance:', error);
+                    } else {
 
-                setUserData((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    balance: data.balance,
-                    // Update the `deposit` field
-                }));
-                setBalance(data.balance)
+                        setUserData((prevNotification) => ({
+                            ...prevNotification, // Spread the previous state
+                            balance: data.balance,
+                            // Update the `deposit` field
+                        }));
+                        setBalance(data.balance)
+
+                    }
+
+
+                    supabase
+                        .channel(`users:id=eq.${user.id}`)
+                        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
+
+                            setUserData((prevNotification) => ({
+                                ...prevNotification, // Spread the previous state
+                                balance: payload.new.balance,
+                                // Update the `deposit` field
+                            }));
+                            setBalance(payload.new.balance);
+                        })
+                        .subscribe();
+
+
+
+                }
+                fetchBalance()
 
             }
-
-
-            supabase
-                .channel(`users:id=eq.${userData.userId}`)
-                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
-
-                    setUserData((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        balance: payload.new.balance,
-                        // Update the `deposit` field
-                    }));
-                    setBalance(payload.new.balance);
-                })
-                .subscribe();
-
-
-
         }
-        fetchBalance()
-
-
     }, [])
 
 
