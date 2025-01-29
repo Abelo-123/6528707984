@@ -104,74 +104,88 @@ const Smm = () => {
     //     fetchDepo()
     // }, [])
     useEffect(() => {
-        const auth = async () => {
-            // Fetch the initial balance from the database
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                const auth = async () => {
+                    // Fetch the initial balance from the database
 
 
 
-            // const { data, error } = await supabase
-            //     .from('users')
-            //     .select('balance')
-            //     .eq('id', userData.userId)
-            //     .single(); // Get a single row
+                    // const { data, error } = await supabase
+                    //     .from('users')
+                    //     .select('balance')
+                    //     .eq('id', userData.userId)
+                    //     .single(); // Get a single row
 
-            // if (error) {
-            //     console.error('Error fetching initial balance:', error);
-            // } else {
-            //     //setBalance(data.balance); // Set initial balance
-            // }
+                    // if (error) {
+                    //     console.error('Error fetching initial balance:', error);
+                    // } else {
+                    //     //setBalance(data.balance); // Set initial balance
+                    // }
 
-            const { data: seeData, error: seeEror } = await supabase
-                .from('adminmessage')
-                .select('message')
-                .eq('for', userData.userId)
-                .eq('father', 7786592015)
-                .eq('seen', true)
+                    const { data: seeData, error: seeEror } = await supabase
+                        .from('adminmessage')
+                        .select('message')
+                        .eq('for', user.id)
+                        .eq('father', 7786592015)
+                        .eq('seen', true)
 
-            if (seeEror) {
-                console.error('Error fetching initial balance:', seeEror);
-            } else {
-                if (seeData.length >= 1) {
-                    setNotification((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        notificationLight: true,
-                        // Update the `deposit` field
-                    }));
-                } else {
-                    console.log("not")
-                }
-            }
-            //const forCondition = userData?.userId || "for";
-
-
-
-
-
-            // } 31013959
-
-
-
-            // Subscribe to real-time changes
-
-            supabase
-                .channel('adminmessage')
-                .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
-                    //console.log("New order inserted:", payload.new);
-                    // Add the new order to the state
-
-                    if ((Number(payload.new.for) === userData.userId && payload.new.father === 7786592015) && payload.new.seen === true) {
-                        setNotification((prevNotification) => ({
-                            ...prevNotification, // Spread the previous state
-                            notificationLight: true
-                            // Update the `deposit` field
-                        }));
-                        // console.log(payload.new)
+                    if (seeEror) {
+                        console.error('Error fetching initial balance:', seeEror);
+                    } else {
+                        if (seeData.length >= 1) {
+                            setNotification((prevNotification) => ({
+                                ...prevNotification, // Spread the previous state
+                                notificationLight: true,
+                                // Update the `deposit` field
+                            }));
+                        } else {
+                            console.log("not")
+                        }
                     }
-                })
-                .subscribe();
-        };
+                    //const forCondition = userData?.userId || "for";
 
-        auth();
+
+
+
+
+                    // } 31013959
+
+
+
+                    // Subscribe to real-time changes
+
+                    supabase
+                        .channel('adminmessage')
+                        .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
+                            //console.log("New order inserted:", payload.new);
+                            // Add the new order to the state
+
+                            if ((Number(payload.new.for) === user.id && payload.new.father === 7786592015) && payload.new.seen === true) {
+                                setNotification((prevNotification) => ({
+                                    ...prevNotification, // Spread the previous state
+                                    notificationLight: true
+                                    // Update the `deposit` field
+                                }));
+                                // console.log(payload.new)
+                            }
+                        })
+                        .subscribe();
+                };
+
+                auth();
+            }
+        }
     }, []);
 
 
@@ -416,158 +430,172 @@ const Smm = () => {
     };
 
     const handleOrder = async () => {
-        if (quantity % 10 !== 0) {
-            Swal.fire({
-                title: 'Invalid Quantity',
-                text: 'Quantity must be a multiple of 10.',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-            // } else if (quantity > 10000) {
-            //     alert("to big")
-        } else if (link == null || link.trim() === '') {
-            Swal.fire({
-                title: 'Missing Information',
-                text: 'No link provided. Please complete all required fields',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-        } else if (quantity == null) {
-            Swal.fire({
-                title: 'Missing Information',
-                text: 'No Quantity provided. Please complete all required fields',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-        } else if (link == null && quantity == 0) {
-            Swal.fire({
-                title: 'Missing Information',
-                text: 'No Link And Quantity provided. Please complete all required fields',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-        } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
-            Swal.fire({
-                title: 'Invalid Quantity',
-                text: `The quantity must be between ${minn} and ${maxx}.`,
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-        } else if (charge > userData.balance) {
-            Swal.fire({
-                title: 'Insufficient Balance',
-                text: 'Not enough balance to complete this order. Please recharge and try again.',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                    title: 'swal2-title',    // Apply the custom class to the title
-                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                }
-            });
-        }
-        else {
-            const { data } = await supabase.from('users')
-                .select('a_balance')
-                .eq('id', 7786592015)
-                .single()
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-            if (data.a_balance > charge) {
-                setDisable(true)
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-                const response = await axios.post('/api/smm/addOrder', {
-                    username: "username",
-                    service: chosen.service,
-                    link: link,
-                    quantity: quantity,
-                    charge: charge,
-                    refill: chosen.refill,
-                    panel: 'sm',
-                    name: id,
-                    category: chosen.category,
-                    id: userData.userId
-                });
-                if (response) {
-                    // setModalE(false)
-                    const { data, error } = await supabase.from('users')
+                const { user } = Telegram.WebApp.initDataUnsafe;
+
+                if (quantity % 10 !== 0) {
+                    Swal.fire({
+                        title: 'Invalid Quantity',
+                        text: 'Quantity must be a multiple of 10.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                    // } else if (quantity > 10000) {
+                    //     alert("to big")
+                } else if (link == null || link.trim() === '') {
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No link provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                } else if (quantity == null) {
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No Quantity provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                } else if (link == null && quantity == 0) {
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No Link And Quantity provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
+                    Swal.fire({
+                        title: 'Invalid Quantity',
+                        text: `The quantity must be between ${minn} and ${maxx}.`,
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                } else if (charge > userData.balance) {
+                    Swal.fire({
+                        title: 'Insufficient Balance',
+                        text: 'Not enough balance to complete this order. Please recharge and try again.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                }
+                else {
+                    const { data } = await supabase.from('users')
                         .select('a_balance')
                         .eq('id', 7786592015)
                         .single()
 
+                    if (data.a_balance > charge) {
+                        setDisable(true)
 
-                    if (!error) {
-                        const news = data.a_balance - charge
-                        const { error } = await supabase.from('users')
-                            .update({ 'a_balance': news })
-                            .eq('id', 7786592015)
-                        if (!error) {
-                            setIsModalOpen(false);
+                        const response = await axios.post('/api/smm/addOrder', {
+                            username: "username",
+                            service: chosen.service,
+                            link: link,
+                            quantity: quantity,
+                            charge: charge,
+                            refill: chosen.refill,
+                            panel: 'sm',
+                            name: id,
+                            category: chosen.category,
+                            id: user.id
+                        });
+                        if (response) {
+                            // setModalE(false)
+                            const { data, error } = await supabase.from('users')
+                                .select('a_balance')
+                                .eq('id', 7786592015)
+                                .single()
 
-                            setDisable(false)
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'The operation was successful.',
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                customClass: {
-                                    popup: 'swal2-popup',    // Apply the custom class to the popup
-                                    title: 'swal2-title',    // Apply the custom class to the title
-                                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+
+                            if (!error) {
+                                const news = data.a_balance - charge
+                                const { error } = await supabase.from('users')
+                                    .update({ 'a_balance': news })
+                                    .eq('id', 7786592015)
+                                if (!error) {
+                                    setIsModalOpen(false);
+
+                                    setDisable(false)
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: 'The operation was successful.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        customClass: {
+                                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                                            title: 'swal2-title',    // Apply the custom class to the title
+                                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                                        }
+                                    });
                                 }
-                            });
+                            }
                         }
+                    } else {
+                        Swal.fire({
+                            title: 'Insufficient Balance',
+                            text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
+                            icon: 'warning',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                popup: 'swal2-popup',    // Apply the custom class to the popup
+                                title: 'swal2-title',    // Apply the custom class to the title
+                                confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                                cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                            }
+                        });
                     }
+
+
                 }
-            } else {
-                Swal.fire({
-                    title: 'Insufficient Balance',
-                    text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
-                    icon: 'warning',
-                    confirmButtonText: 'OK',
-                    customClass: {
-                        popup: 'swal2-popup',    // Apply the custom class to the popup
-                        title: 'swal2-title',    // Apply the custom class to the title
-                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                    }
-                });
             }
-
-
         }
-
 
     }
 
@@ -646,87 +674,101 @@ const Smm = () => {
     const { useNotification } = useNot();
 
     const checkPromo = async () => {
-        try {
-            const { data: balance, error } = await supabase
-                .from('promo')
-                .select('balance')
-                .eq('code', promoCode)
-                .single();
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-            if (error) {
-                window.alert("invalid code")
-            } else {
-                const pb = balance.balance
-                const { data, error } = await supabase
-                    .from('promo')
-                    .select('*')
-                    .eq('code', promoCode)
-                    .ilike('users', `%${userData.userId}%`); // Check if '100' exists surrounded by commas
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-                if (error) {
-                    window.alert("invalid code")
-                }
-
-                if (data.length > 0) {
-                    window.alert("contained")
-                } else {
-                    // Update the "balance" column in the "users" table
-                    const { data: rowss, error: fetchErrore } = await supabase
-                        .from('users')
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                try {
+                    const { data: balance, error } = await supabase
+                        .from('promo')
                         .select('balance')
-                        .eq('id', userData.userId)
-                        .single();  // Increment balance by 200
+                        .eq('code', promoCode)
+                        .single();
 
-                    if (fetchErrore) {
-                        console.error(fetchErrore.message)
+                    if (error) {
+                        window.alert("invalid code")
                     } else {
-                        const bala = rowss.balance;
-
-                        const { data: rows, error: fetchError } = await supabase
+                        const pb = balance.balance
+                        const { data, error } = await supabase
                             .from('promo')
-                            .select('users')
+                            .select('*')
                             .eq('code', promoCode)
-                            .single();  // Increment balance by 200
+                            .ilike('users', `%${user.id}%`); // Check if '100' exists surrounded by commas
 
-                        if (fetchError) {
+                        if (error) {
                             window.alert("invalid code")
                         }
 
-                        const currentArray = rows.users || [];
-
-                        // Step 2: Append the new value ('sd') to the array
-                        const updatedArray = `${currentArray}, ${userData.userId}`;
-
-                        // Update the "users" column in the "promo" table
-                        const { error: updateError } = await supabase
-                            .from('promo')
-                            .update({ users: updatedArray })
-                            .eq('code', promoCode);
-
-                        if (updateError) {
-                            throw new Error(`Error updating array: ${updateError.message}`);
+                        if (data.length > 0) {
+                            window.alert("contained")
                         } else {
-                            const { error } = await supabase
+                            // Update the "balance" column in the "users" table
+                            const { data: rowss, error: fetchErrore } = await supabase
                                 .from('users')
-                                .update({ balance: Number(Number(bala) + Number(pb)) }) // Increment balance
-                                .eq('id', userData.userId); // Add WHERE clause for id = 100
-                            if (error) {
-                                console.error('Error updating balance:', error.message);
+                                .select('balance')
+                                .eq('id', user.id)
+                                .single();  // Increment balance by 200
+
+                            if (fetchErrore) {
+                                console.error(fetchErrore.message)
+                            } else {
+                                const bala = rowss.balance;
+
+                                const { data: rows, error: fetchError } = await supabase
+                                    .from('promo')
+                                    .select('users')
+                                    .eq('code', promoCode)
+                                    .single();  // Increment balance by 200
+
+                                if (fetchError) {
+                                    window.alert("invalid code")
+                                }
+
+                                const currentArray = rows.users || [];
+
+                                // Step 2: Append the new value ('sd') to the array
+                                const updatedArray = `${currentArray}, ${user.id}`;
+
+                                // Update the "users" column in the "promo" table
+                                const { error: updateError } = await supabase
+                                    .from('promo')
+                                    .update({ users: updatedArray })
+                                    .eq('code', promoCode);
+
+                                if (updateError) {
+                                    throw new Error(`Error updating array: ${updateError.message}`);
+                                } else {
+                                    const { error } = await supabase
+                                        .from('users')
+                                        .update({ balance: Number(Number(bala) + Number(pb)) }) // Increment balance
+                                        .eq('id', user.id); // Add WHERE clause for id = 100
+                                    if (error) {
+                                        console.error('Error updating balance:', error.message);
+                                    }
+                                }
                             }
+
+
                         }
                     }
 
 
+
+
+
+
+                } catch (err) {
+                    console.error('Error:', err.message);
                 }
             }
-
-
-
-
-
-
-        } catch (err) {
-            console.error('Error:', err.message);
         }
     }
 
