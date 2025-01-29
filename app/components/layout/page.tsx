@@ -22,7 +22,8 @@ const Lays = () => {
                 .from('adminmessage')
                 .select('message')
                 .eq('for', 'all')
-                .eq('father', 999999999)
+                .eq('to', 'User')
+                .eq('father', 7786592015)
                 .single()
 
             if (setError) {
@@ -42,7 +43,7 @@ const Lays = () => {
             .channel("paffnl_chnel")
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "adminmessage" }, (payload) => {
 
-                if (payload.new.father === 5928771903 && payload.new.for === "all") {
+                if (payload.new.father === 7786592015 && payload.new.for === "all" && payload.new.to === "User") {
                     setMarq(payload.new.message)
                 }
 
@@ -58,56 +59,44 @@ const Lays = () => {
             balance: 900,
             // Update the `deposit` field
         }));
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
-
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-
-            if (window.Telegram && window.Telegram.WebApp) {
-
-                const { user } = Telegram.WebApp.initDataUnsafe;
 
 
+        const fetchBalance = async () => {
+            const { data, error } = await supabase
+                .from('users')
+                .select('balance')
+                .eq('id', userData.userId)
+                .single(); // Get a single row
 
-                const fetchBalance = async () => {
-                    const { data, error } = await supabase
-                        .from('users')
-                        .select('balance')
-                        .eq('id', user.id)
-                        .single(); // Get a single row
+            if (error) {
+                console.error('Error fetching initial balance:', error);
+            } else {
 
-                    if (error) {
-                        console.error('Error fetching initial balance:', error);
-                    } else {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: data.balance,
+                    // Update the `deposit` field
+                }));
+                setBalance(data.balance)
 
-                        setUserData((prevNotification) => ({
-                            ...prevNotification, // Spread the previous state
-                            balance: data.balance,
-                            // Update the `deposit` field
-                        }));
-                        setBalance(data.balance)
-
-                    }
-                }
-                fetchBalance()
-
-                supabase
-                    .channel(`users:id=eq.${user.id}`)
-                    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
-
-                        setUserData((prevNotification) => ({
-                            ...prevNotification, // Spread the previous state
-                            balance: payload.new.balance,
-                            // Update the `deposit` field
-                        }));
-                        setBalance(payload.new.balance);
-                    })
-                    .subscribe();
             }
         }
+        fetchBalance()
+
+        supabase
+            .channel(`users:id=eq.${userData.userId}`)
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
+
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    balance: payload.new.balance,
+                    // Update the `deposit` field
+                }));
+                setBalance(payload.new.balance);
+            })
+            .subscribe();
+
+
     }, [])
 
 
@@ -127,7 +116,7 @@ const Lays = () => {
         const { data: setNotify, error: setError } = await supabase
             .from('adminmessage')
             .select('*')
-            .eq('for', 99999999)
+            .eq('for', userData.userId)
 
         if (setError) {
             console.error('Error fetching initial balance:', setError);
@@ -136,7 +125,7 @@ const Lays = () => {
             const { error: setError } = await supabase
                 .from("adminmessage")
                 .update({ seen: false })
-                .eq('for', 5928771903)
+                .eq('for', userData.userId)
 
 
             if (setError) {

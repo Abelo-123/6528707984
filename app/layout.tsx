@@ -58,6 +58,7 @@ export default function RootLayout({
           src="https://js.chapa.co/v1/inline.js"
           strategy="beforeInteractive"
         /> */}
+        <script src="https://js.chapa.co/v1/inline.js"></script>
       </head>
       <body >
         <NextTWAProvider >

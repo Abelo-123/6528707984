@@ -16,13 +16,9 @@ const Deposit = () => {
     const [aamount, setaAmount] = useState('');
     const [iframeKey, setIframeKey] = useState(0); // Key to force iframe reload
     const aamountRef = useRef(''); // Create a ref to store the latest aamount value
-
     //const { userId } = useUser();  // Destructure userId from useUser hook
-
     const { setNotification } = useNot();
-
     const { userData, setUserData } = useUser();
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenn, setIsModalOpenn] = useState(false);
     const [isPreModalOpen, setIsPreModalOpen] = useState(false);
@@ -47,7 +43,7 @@ const Deposit = () => {
             const { data: desposit, error: setError } = await supabase
                 .from('panel')
                 .select('minmax')
-                .eq('owner', 5928771903)
+                .eq('owner', 7786592015)
                 .eq('key', 'minmax')
                 .single()
 
@@ -59,42 +55,43 @@ const Deposit = () => {
                     deposit: desposit.minmax,
                     // Update the `deposit` field
                 }));
+                console.log(desposit.minmax)
 
             }
         }
 
         supabase
             .channel("panel")
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.7786592015` }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.owner === 5928771903 && payload.new.key === 'minmax') {
-                    setUserData((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        deposit: payload.new.minmax,
-                        // Update the `deposit` field
-                    }))
-                    // console.log(payload.new.value)
+                //  if (payload.new.owner === 7786592015 && payload.new.key === 'minmax') {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    deposit: payload.new.minmax,
+                    // Update the `deposit` field
+                }))
+                // console.log(payload.new.value)
 
-                }
-                if (payload.new.owner === 5928771903 && payload.new.key === 'rate') {
-                    setUserData((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        rate: Number(payload.new.value),
-                        // Update the `deposit` field
-                    }))
-                    // console.log(payload.new.value)
 
-                }
-                if (payload.new.owner === 5928771903 && payload.new.key === 'rate') {
-                    setUserData((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        allrate: payload.new.allrate,
-                        // Update the `deposit` field
-                    }))
-                    // console.log(payload.new.value)
+                // if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    rate: Number(payload.new.value),
+                    // Update the `deposit` field
+                }))
+                // console.log(payload.new.value)
 
-                }
+
+                //if (payload.new.owner === 7786592015 && payload.new.key === 'rate') {
+                setUserData((prevNotification) => ({
+                    ...prevNotification, // Spread the previous state
+                    allrate: payload.new.allrate,
+                    // Update the `deposit` field
+                }))
+                // console.log(payload.new.value)
+
+
                 //console.log(payload.new)
             }).subscribe()
         fetchDeposit();
@@ -169,7 +166,7 @@ const Deposit = () => {
 
 
         const { error } = await supabase.from('deposit').insert([
-            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 5928771903 }
+            { did: did, uid: userData.userId, pm: pm, amount: amount, name: name, username: userData.username, username_profile: userData.profile, father: 7786592015 }
         ]);
 
         if (error) {
@@ -209,62 +206,27 @@ const Deposit = () => {
 
 
         const auth = async () => {
-            const script = document.createElement("script");
-            script.src = "https://telegram.org/js/telegram-web-app.js?2";
-            script.async = true;
-            document.body.appendChild(script);
 
-            script.onload = async () => {
-                const Telegram = window.Telegram;
+            setLoader(true)
+            // Fetch the initial balance from the database
+            const { data: initialData, error } = await supabase
+                .from('deposit')
+                .select('*')
+                .eq('uid', userData.userId)
+                .order('date', { ascending: false });
 
-                if (window.Telegram && window.Telegram.WebApp) {
+            if (error) {
+                console.log(error);
+            } else {
+                setLoader(false)
+                setData(initialData);
 
-                    const { user } = Telegram.WebApp.initDataUnsafe;
-
-                    setLoader(true)
-                    // Fetch the initial balance from the database
-                    const { data: initialData, error } = await supabase
-                        .from('deposit')
-                        .select('*')
-                        .eq('uid', user.id)
-                        .order('date', { ascending: false });
-
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        setLoader(false)
-                        setData(initialData);
-
-                        // Set the initial data
-                    }
-
-                    // Subscribe to real-time changes
-                    supabase
-                        .channel(`deposit:uid=eq.${user.id}`)
-                        // .on("postgres_changes", { event: "INSERT", schema: "public", table: "deposit" }, (payload) => {
-                        //     //console.log("New order inserted:", payload.new);
-                        //     // Add the new order to the state
-                        //     setData((prevData) => [...prevData, payload.new]);
-                        //     //console.log(payload.new)
-
-                        // })
-                        // .on("postgres_changes", { event: "INSERT", schema: "public", table: "adminmessage" }, (payload) => {
-                        //     //console.log("New order inserted:", payload.new);
-                        //     // Add the new order to the state
-
-                        //     if (payload.new.seen === true) {
-                        //         setNotification((prevNotification) => ({
-                        //             ...prevNotification, // Spread the previous state
-                        //             notificationLight: true
-                        //             // Update the `deposit` field
-                        //         }));
-                        //     }
-
-                        // })
-
-                        .subscribe();
-                }
+                // Set the initial data
             }
+
+            // Subscribe to real-time changes
+
+
         };
 
 
@@ -280,82 +242,70 @@ const Deposit = () => {
     };
 
     const sendAmount = async (doll, mess) => {
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
 
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-
-            if (window.Telegram && window.Telegram.WebApp) {
-
-                const { user } = Telegram.WebApp.initDataUnsafe;
-
-                const { data: findDataa, error: findErrorDaa } = await supabase
-                    .from("users")
-                    .select('balance')
-                    .eq("id", user.id)
-                    .single();
-                // Pass 100 as a string
+        const { data: findDataa, error: findErrorDaa } = await supabase
+            .from("users")
+            .select('balance')
+            .eq("id", userData.userId)
+            .single();
+        // Pass 100 as a string
 
 
-                if (findErrorDaa) {
-                    console.error(findErrorDaa.message)
+        if (findErrorDaa) {
+            console.error(findErrorDaa.message)
+        } else {
+            const newbalance = Number(findDataa.balance + Number(doll))
+
+            const { error: findErrorCa } = await supabase
+                .from("users")
+                .update({ balance: newbalance })
+                .eq("id", userData.userId); // Pass 100 as a string
+
+
+            if (findErrorCa) {
+                console.error(findErrorCa.message)
+            } else {
+                setUserData((prevNotifi) => ({
+                    ...prevNotifi, // Spread the previous state
+                    balance: newbalance,
+                    // Update the `deposit` field
+                }));
+                const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
+
+                const { error } = await supabase.from('deposit').insert([
+                    { transaction: mess, did: did, uid: userData.userId, amount: Number(doll), name: userData.firstName, username: userData.username, username_profile: userData.profile, father: 7786592015 }
+                ]);
+                if (error) {
+                    console.error(error.message)
                 } else {
-                    const newbalance = Number(findDataa.balance + Number(doll))
 
-                    const { error: findErrorCa } = await supabase
-                        .from("users")
-                        .update({ balance: newbalance })
-                        .eq("id", user.id); // Pass 100 as a string
-
-
-                    if (findErrorCa) {
-                        console.error(findErrorCa.message)
-                    } else {
-                        setUserData((prevNotifi) => ({
-                            ...prevNotifi, // Spread the previous state
-                            balance: newbalance,
-                            // Update the `deposit` field
-                        }));
-                        const did = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
-
-                        const { error } = await supabase.from('deposit').insert([
-                            { transaction: mess, did: did, uid: user.id, amount: Number(doll), status: 'Done', name: userData.firstName, username: userData.username, username_profile: userData.profile, father: 5928771903 }
-                        ]);
-                        if (error) {
-                            console.error(error.message)
-                        } else {
-
-                            // {items.status}</td>
-                            //             <td className="px-6 py-4 text-sm  ">{items.did}</td>
-                            //             <td className="px-6 py-4 text-sm  ">{items.date}</td>
-                            //             <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
-                            //             <td className="px-6 py-4 text-sm  ">{items.amount}
+                    // {items.status}</td>
+                    //             <td className="px-6 py-4 text-sm  ">{items.did}</td>
+                    //             <td className="px-6 py-4 text-sm  ">{items.date}</td>
+                    //             <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
+                    //             <td className="px-6 py-4 text-sm  ">{items.amount}
 
 
-                            setaAmount('')
+                    setaAmount('')
 
-                            // Extract year, month, and day
+                    // Extract year, month, and day
 
-                            setData((prevData) => [
+                    setData((prevData) => [
 
-                                {
-                                    status: "Done",
-                                    did: did,
-                                    Date: new Date(),
-                                    transaction: mess,
-                                    amount: Number(doll),
-                                },
-                                ...prevData, // Add previous data below the new data
-                            ]);
+                        {
+                            status: "Done",
+                            did: did,
+                            Date: new Date(),
+                            transaction: mess,
+                            amount: Number(doll),
+                        },
+                        ...prevData, // Add previous data below the new data
+                    ]);
 
 
 
-                        }
-                    }
                 }
+
 
             }
         }
@@ -433,7 +383,9 @@ const Deposit = () => {
     const setAmounts = (ee) => {
         //console.log(ee)
         setaAmount(ee)
+        console.log(aamount)
         if (mo) {
+
             setTg(true)
             setAgain(true)
         }
@@ -523,7 +475,11 @@ const Deposit = () => {
                                     placeholder="Enter amount"
                                     value={aamount}
 
-                                    onChange={(e) => setAmounts(e.target.value)}
+                                    onChange={(e) => {
+                                        setaAmount(e.target.value)
+                                        setAmounts(e.target.value)
+                                    }
+                                    }
                                 />
                                 <strong style={{ color: 'red' }}>
                                     {aamount !== '' && parseInt(aamount) <= userData.deposit && `The Minimum Deposit Amount is ${userData.deposit}`}
@@ -658,7 +614,6 @@ const Deposit = () => {
                         <table className=" min-w-full  rounded-lg shadow-md">
                             <thead>
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Order Id</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Transaction</th>
@@ -669,7 +624,6 @@ const Deposit = () => {
                             <tbody className=" ">
                                 {data.map((items, index) => (
                                     <tr key={index}>
-                                        <td className="px-6 py-4 text-sm  ">{items.status}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.did}</td>
                                         <td className="px-6 py-4 text-sm  ">{items.amount}</td>
 

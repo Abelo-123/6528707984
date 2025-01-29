@@ -124,8 +124,8 @@ const Smm = () => {
             const { data: seeData, error: seeEror } = await supabase
                 .from('adminmessage')
                 .select('message')
-                .eq('for', 5928771903)
-                .eq('father', 5928771903)
+                .eq('for', userData.userId)
+                .eq('father', 7786592015)
                 .eq('seen', true)
 
             if (seeEror) {
@@ -159,7 +159,7 @@ const Smm = () => {
                     //console.log("New order inserted:", payload.new);
                     // Add the new order to the state
 
-                    if ((Number(payload.new.for) === 5928771903 && payload.new.father === 5928771903) && payload.new.seen === true) {
+                    if ((Number(payload.new.for) === userData.userId && payload.new.father === 7786592015) && payload.new.seen === true) {
                         setNotification((prevNotification) => ({
                             ...prevNotification, // Spread the previous state
                             notificationLight: true
@@ -174,41 +174,6 @@ const Smm = () => {
         auth();
     }, []);
 
-    useEffect(() => {
-        const auth = async () => {
-            // Fetch the initial balance from the database
-
-
-
-
-
-            const { data: seeData, error: seeEror } = await supabase
-                .from('deposit')
-                .select('seen')
-                .eq('uid', userData.userId)
-                .eq('seen', true)
-
-            if (seeEror) {
-                console.error('Error fetching initial balance:', seeEror);
-            } else {
-                if (seeData.length >= 1) {
-                    setNotification((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
-                        notificationLight: true,
-                        // Update the `deposit` field
-                    }));
-                } else {
-                    console.log("not")
-                }
-            }
-
-            // Subscribe to real-time changes
-
-
-        };
-
-        auth();
-    }, []);
 
 
     useEffect(() => {
@@ -253,7 +218,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 5928771903 }
+                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 7786592015 }
                                 ]);
 
                             if (error) {
@@ -533,28 +498,63 @@ const Smm = () => {
             });
         }
         else {
-            setDisable(true)
+            const { data } = await supabase.from('users')
+                .select('a_balance')
+                .eq('id', 7786592015)
+                .single()
 
-            const response = await axios.post('/api/smm/addOrder', {
-                username: "username",
-                service: chosen.service,
-                link: link,
-                quantity: quantity,
-                charge: charge,
-                refill: chosen.refill,
-                panel: 'sm',
-                name: id,
-                category: chosen.category,
-                id: userData.userId
-            });
-            if (response) {
-                setIsModalOpen(false);
+            if (data.a_balance > charge) {
+                setDisable(true)
 
-                setDisable(false)
+                const response = await axios.post('/api/smm/addOrder', {
+                    username: "username",
+                    service: chosen.service,
+                    link: link,
+                    quantity: quantity,
+                    charge: charge,
+                    refill: chosen.refill,
+                    panel: 'sm',
+                    name: id,
+                    category: chosen.category,
+                    id: userData.userId
+                });
+                if (response) {
+                    // setModalE(false)
+                    const { data, error } = await supabase.from('users')
+                        .select('a_balance')
+                        .eq('id', 7786592015)
+                        .single()
+
+
+                    if (!error) {
+                        const news = data.a_balance - charge
+                        const { error } = await supabase.from('users')
+                            .update({ 'a_balance': news })
+                            .eq('id', 7786592015)
+                        if (!error) {
+                            setIsModalOpen(false);
+
+                            setDisable(false)
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'The operation was successful.',
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                customClass: {
+                                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                                    title: 'swal2-title',    // Apply the custom class to the title
+                                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                                }
+                            });
+                        }
+                    }
+                }
+            } else {
                 Swal.fire({
-                    title: 'Success!',
-                    text: 'The operation was successful.',
-                    icon: 'success',
+                    title: 'Insufficient Balance',
+                    text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
+                    icon: 'warning',
                     confirmButtonText: 'OK',
                     customClass: {
                         popup: 'swal2-popup',    // Apply the custom class to the popup
@@ -738,7 +738,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('owner', 5928771903)
+                .eq('owner', 7786592015)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -753,7 +753,7 @@ const Smm = () => {
                 const { data: rates, error: fetchError3 } = await supabase
                     .from('panel')
                     .select('allrate')
-                    .eq('owner', 5928771903)
+                    .eq('owner', 7786592015)
                     .eq('key', 'rate')
                     .single();  // Increment balance by 200
 
@@ -774,7 +774,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('owner', 5928771903)
+                .eq('owner', 7786592015)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -795,10 +795,10 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel")
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel" }, (payload) => {
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.7786592015` }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
-                if (payload.new.owner === 5928771903 && payload.new.kew === 'rate') {
+                if (payload.new.key === 'rate') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         rate: payload.new.value,
@@ -809,17 +809,17 @@ const Smm = () => {
                 }
                 //console.log(payload.new)
             })
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
+            // .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-                if (payload.new.owner == 5928771903) {
-                    // setUserData((prevNotification) => ({
-                    //     ...prevNotification, // Spread the previous state
-                    //     disabled: payload.new.bigvalue,
-                    //     // Update the `deposit` field
-                    // }))
-                    console.log(payload.new.bigvalue)
-                }
-            })
+            //     if (payload.new.owner == 7786592015) {
+            //         // setUserData((prevNotification) => ({
+            //         //     ...prevNotification, // Spread the previous state
+            //         //     disabled: payload.new.bigvalue,
+            //         //     // Update the `deposit` field
+            //         // }))
+            //         console.log(payload.new.bigvalue)
+            //     }
+            // })
 
 
 
@@ -831,9 +831,9 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel_56")
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel', filter: `owner=eq.7786592015` }, (payload) => {
 
-                if (payload.new.owner === 5928771903 && payload.new.key === 'disabled') {
+                if (payload.new.key === 'disabled') {
                     setUserData((prevNotification) => ({
                         ...prevNotification, // Spread the previous state
                         disabled: payload.new.bigvalue,

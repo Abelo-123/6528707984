@@ -61,14 +61,14 @@ const TelegramApp = () => {
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 const themeParams = window.Telegram.WebApp.themeParams;
                 setUserData({
-                    username: user.username,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    userId: user.id, // Store user ID
+                    username: user?.username,
+                    firstName: user?.first_name,
+                    lastName: user?.last_name,
+                    userId: user?.id, // Store user ID
                 });
                 setTheme(themeParams);
                 // Fetch user profile photos
-                fetchUserProfilePhotos(user.id);
+                fetchUserProfilePhotos(user?.id);
                 setIsAppReady(true);
             } else {
                 console.error("Telegram Web App API not loaded");
