@@ -141,6 +141,23 @@ const Lays = () => {
                 setBalance(data.balance)
 
             }
+
+
+            supabase
+                .channel(`users:id=eq.${userData.userId}`)
+                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${userData.userId}` }, (payload) => {
+
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        balance: payload.new.balance,
+                        // Update the `deposit` field
+                    }));
+                    setBalance(payload.new.balance);
+                })
+                .subscribe();
+
+
+
         }
         fetchBalance()
 
