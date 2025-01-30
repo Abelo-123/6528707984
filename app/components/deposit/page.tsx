@@ -27,7 +27,7 @@ const Deposit = () => {
     const [amount, setAmount] = useState('')
     const [inputColor, setInputColor] = useState(''); // State for dynamic color
     const [ag, setTg] = useState(false)
-    const [data, setData] = useState<any[]>([]);  // Adjust the type based on your data structure
+    const [data, setData] = useState<any[]>([]);  // Adjst the type based on your data structure
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
     const [loading, setLoading] = useState(false)
