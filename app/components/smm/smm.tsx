@@ -431,172 +431,160 @@ const Smm = () => {
     };
 
     const handleOrder = async () => {
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
 
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-            Telegram.WebApp.expand();
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-
-                const { user } = Telegram.WebApp.initDataUnsafe;
-
-                if (quantity % 10 !== 0) {
-                    Swal.fire({
-                        title: 'Invalid Quantity',
-                        text: 'Quantity must be a multiple of 10.',
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
-                    // } else if (quantity > 10000) {
-                    //     alert("to big")
-                } else if (link == null || link.trim() === '') {
-                    Swal.fire({
-                        title: 'Missing Information',
-                        text: 'No link provided. Please complete all required fields',
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
-                } else if (quantity == null) {
-                    Swal.fire({
-                        title: 'Missing Information',
-                        text: 'No Quantity provided. Please complete all required fields',
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
-                } else if (link == null && quantity == 0) {
-                    Swal.fire({
-                        title: 'Missing Information',
-                        text: 'No Link And Quantity provided. Please complete all required fields',
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
-                } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
-                    Swal.fire({
-                        title: 'Invalid Quantity',
-                        text: `The quantity must be between ${minn} and ${maxx}.`,
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
-                } else if (charge > userData.balance) {
-                    Swal.fire({
-                        title: 'Insufficient Balance',
-                        text: 'Not enough balance to complete this order. Please recharge and try again.',
-                        icon: 'warning',
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            popup: 'swal2-popup',    // Apply the custom class to the popup
-                            title: 'swal2-title',    // Apply the custom class to the title
-                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        }
-                    });
+        if (quantity % 10 !== 0) {
+            Swal.fire({
+                title: 'Invalid Quantity',
+                text: 'Quantity must be a multiple of 10.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                 }
-                else {
-                    const { data } = await supabase.from('users')
-                        .select('a_balance')
-                        .eq('id', 6187538792)
-                        .single()
+            });
+            // } else if (quantity > 10000) {
+            //     alert("to big")
+        } else if (link == null || link.trim() === '') {
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No link provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        } else if (quantity == null) {
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No Quantity provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        } else if (link == null && quantity == 0) {
+            Swal.fire({
+                title: 'Missing Information',
+                text: 'No Link And Quantity provided. Please complete all required fields',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
+            Swal.fire({
+                title: 'Invalid Quantity',
+                text: `The quantity must be between ${minn} and ${maxx}.`,
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        } else if (charge > userData.balance) {
+            Swal.fire({
+                title: 'Insufficient Balance',
+                text: 'Not enough balance to complete this order. Please recharge and try again.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal2-popup',    // Apply the custom class to the popup
+                    title: 'swal2-title',    // Apply the custom class to the title
+                    confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                }
+            });
+        }
+        else {
+            const { data } = await supabase.from('users')
+                .select('a_balance')
+                .eq('id', 6187538792)
+                .single()
 
-                    if (data.a_balance > charge) {
-                        setDisable(true)
+            if (data.a_balance > charge) {
 
-                        const response = await axios.post('https://6187538792.netlify.app/api/smm/addOrder', {
-                            username: user.first_name,
-                            service: chosen.service,
-                            link: link,
-                            quantity: quantity,
-                            charge: charge,
-                            refill: chosen.refill,
-                            panel: 'sm',
-                            name: id,
-                            category: chosen.category,
-                            id: 5928771903
-                        });
-                        if (response) {
-                            // setModalE(false)
-                            // const { data, error } = await supabase.from('users')
-                            //     .select('a_balance')
-                            //     .eq('id', 6187538792)
-                            //     .single()
+                setDisable(true)
+
+                const response = await axios.post('/api/smm/addOrder', {
+                    username: "user.first_name",
+                    service: chosen.service,
+                    link: link,
+                    quantity: quantity,
+                    charge: charge,
+                    refill: chosen.refill,
+                    panel: 'sm',
+                    name: id,
+                    category: chosen.category,
+                    id: 5928771903
+                });
+                if (response) {
+                    // setModalE(false)
+                    // const { data, error } = await supabase.from('users')
+                    //     .select('a_balance')
+                    //     .eq('id', 6187538792)
+                    //     .single()
 
 
-                            // if (!error) {
-                            //     const news = data.a_balance - charge
-                            //     const { error } = await supabase.from('users')
-                            //         .update({ 'a_balance': news })
-                            //         .eq('id', 6187538792)
-                            //     if (!error) {
-                            //         setIsModalOpen(false);
+                    // if (!error) {
+                    //     const news = data.a_balance - charge
+                    //     const { error } = await supabase.from('users')
+                    //         .update({ 'a_balance': news })
+                    //         .eq('id', 6187538792)
+                    //     if (!error) {
+                    //         setIsModalOpen(false);
 
-                            //         setDisable(false)
-                            //         Swal.fire({
-                            //             title: 'Success!',
-                            //             text: 'The operation was successful.',
-                            //             icon: 'success',
-                            //             confirmButtonText: 'OK',
-                            //             customClass: {
-                            //                 popup: 'swal2-popup',    // Apply the custom class to the popup
-                            //                 title: 'swal2-title',    // Apply the custom class to the title
-                            //                 confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                            //                 cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                            //             }
-                            //         });
-                            //     }
-                            // }
-                            alert(response.data.success)
-                        }
-                    } else {
-                        Swal.fire({
-                            title: 'Insufficient Balance',
-                            text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
-                            icon: 'warning',
-                            confirmButtonText: 'OK',
-                            customClass: {
-                                popup: 'swal2-popup',    // Apply the custom class to the popup
-                                title: 'swal2-title',    // Apply the custom class to the title
-                                confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                                cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                            }
-                        });
+                    //         setDisable(false)
+                    //         Swal.fire({
+                    //             title: 'Success!',
+                    //             text: 'The operation was successful.',
+                    //             icon: 'success',
+                    //             confirmButtonText: 'OK',
+                    //             customClass: {
+                    //                 popup: 'swal2-popup',    // Apply the custom class to the popup
+                    //                 title: 'swal2-title',    // Apply the custom class to the title
+                    //                 confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                    //                 cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                    //             }
+                    //         });
+                    //     }
+                    // }
+                    alert(response.data.success)
+                }
+            } else {
+                Swal.fire({
+                    title: 'Insufficient Balance',
+                    text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        popup: 'swal2-popup',    // Apply the custom class to the popup
+                        title: 'swal2-title',    // Apply the custom class to the title
+                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                     }
-
-
-                }
+                });
             }
+
+
+
         }
 
     }
