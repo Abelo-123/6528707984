@@ -72,7 +72,7 @@ export async function POST(req) {
         //   RETURNING id, balance;
         // `;
 
-        //     // Execute the update query for the user
+        //     Execute the update query for the user
         //     const updateValues = [charge, orderId]; // The charge to subtract and the orderId to find the user
         //     const { rows: updatedUserRows } = await pool.query(updateUserQuery, updateValues);
 
@@ -88,7 +88,7 @@ export async function POST(req) {
 
         // If everything was successful, return the order details
         return NextResponse.json({
-            success: rows.id,
+            success: rows[0].id,
             // orderId: orderId,
             // orderOid: order,
         });
