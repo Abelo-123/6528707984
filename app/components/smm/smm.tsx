@@ -57,7 +57,7 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
-        /* eslint-disable @typescript-eslint/no-unused-vars */
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [search, setSearch] = useState('');
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [searchhh, setSearchh] = useState('');
@@ -207,7 +207,7 @@ const Smm = () => {
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 setUserData({
-                    username: user.username,
+                    username: user.first_name,
                     firstName: user.first_name,
                     lastName: user.last_name,
                     userId: user.id,
@@ -233,14 +233,14 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 6187538792 }
+                                    { name: user.first_name, username: user.first_name, profile: user.photo_url, id: user.id, father: 6187538792 }
                                 ]);
 
                             if (error) {
                                 console.error(error.message)
                             }
 
-                            const userName = user.username;
+                            const userName = user.first_name;
 
                             // Set user data in localStorage with a unique key
                             localStorage.setItem(storageKey, userName);
@@ -535,7 +535,7 @@ const Smm = () => {
                         setDisable(true)
 
                         const response = await axios.post('/api/smm/addOrder', {
-                            username: "username",
+                            username: user.first_name,
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
