@@ -1255,7 +1255,7 @@ const Smm = () => {
 
                                                     </>
                                                 ) : "Order"}</button>
-                                            {messs && "true" || "false"}
+                                            {messs && messs || "false"}
 
                                         </div>
                                     </>)}

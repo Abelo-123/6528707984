@@ -84,12 +84,7 @@ export async function POST(req) {
         //         });
         //     }
 
-        let result;
-        if (id && category && username && service && link && quantity && charge && refill && panel && name) {
-            result = true;
-        } else {
-            result = false;
-        }
+        let result = `${id}, ${category}, ${username}, ${service}, ${link}, ${quantity}, ${charge},${refill}, ${panel}, ${name}`;
 
         // If everything was successful, return the order details
         return NextResponse.json({
