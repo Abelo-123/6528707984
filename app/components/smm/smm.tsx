@@ -57,8 +57,9 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
-    // const [search, setSearch] = useState('');
-
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+    const [search, setSearch] = useState('');
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
