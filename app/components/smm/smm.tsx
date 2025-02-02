@@ -42,7 +42,9 @@ const Smm = () => {
     const [bc, setBc] = useState('')
     //const [status, setStatus] = useState('')
     const [bcfor, setBcfor] = useState('')
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [mediaload, setMediaload] = useState(true);
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [charge, setCharge] = useState(0.0);
     const [theRate, settherate] = useState(0.0);
     const [link, setLink] = useState(null);
@@ -57,8 +59,9 @@ const Smm = () => {
     const [modalA, showModalA] = useState(false)
     const [modalB, showModalB] = useState(false)
     const [searchh, readySearch] = useState(false)
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [search, setSearch] = useState('');
-
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
