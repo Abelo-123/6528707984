@@ -84,7 +84,7 @@ export async function POST(req) {
         //         });
         //     }
 
-        let result = `${id}, ${category}, ${username}, ${service}, ${link}, ${quantity}, ${charge},${refill}, ${panel}, ${name}`;
+        const result = `${id}, ${category}, ${username}, ${service}, ${link}, ${quantity}, ${charge},${refill}, ${panel}, ${name}`;
 
         // If everything was successful, return the order details
         return NextResponse.json({
