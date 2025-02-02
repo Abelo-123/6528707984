@@ -524,19 +524,19 @@ const Smm = () => {
 
                 setDisable(true)
 
-                const response = await axios.post('/api/smm/addOrder')
-                // const response = await axios.post('/api/smm/addOrder', {
-                //     username: "user.first_name",
-                //     service: chosen.service,
-                //     link: link,
-                //     quantity: quantity,
-                //     charge: charge,
-                //     refill: chosen.refill,
-                //     panel: 'sm',
-                //     name: id,
-                //     category: chosen.category,
-                //     id: 5928771903
-                // });
+
+                const response = await axios.post('/api/smm/addOrder', {
+                    username: "user.first_name",
+                    service: chosen.service,
+                    link: link,
+                    quantity: quantity,
+                    charge: charge,
+                    refill: chosen.refill,
+                    panel: 'sm',
+                    name: id,
+                    category: chosen.category,
+                    id: 5928771903
+                });
                 if (response) {
 
                     // setModalE(false)

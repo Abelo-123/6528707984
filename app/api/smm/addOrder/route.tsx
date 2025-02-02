@@ -8,11 +8,10 @@ import { NextResponse } from "next/server";
 //     },
 // });
 
-//export async function POST(req) {
-export function POST() {
+export async function POST(req) {
     try {
         // Destructure the data from the request body
-        //     const { id, category, username, service, link, quantity, charge, refill, panel, name } = await req.json();
+        const { id, category, username, service, link, quantity, charge, refill, panel, name } = await req.json();
 
         //     // Construct the URL for the external API call
         //     const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
@@ -85,9 +84,16 @@ export function POST() {
         //         });
         //     }
 
+        let result;
+        if (id && category && username && service && link && quantity && charge && refill && panel && name) {
+            result = true;
+        } else {
+            result = false;
+        }
+
         // If everything was successful, return the order details
         return NextResponse.json({
-            success: true,
+            success: result,
             // orderId: orderId,
             // orderOid: order,
         });
