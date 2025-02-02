@@ -137,7 +137,7 @@ const Smm = () => {
                         .from('adminmessage')
                         .select('message')
                         .eq('for', user.id)
-                        .eq('father', 6528707984)
+                        .eq('father', 6187538792)
                         .eq('seen', true)
 
                     if (seeEror) {
@@ -171,7 +171,7 @@ const Smm = () => {
                             //console.log("New order inserted:", payload.new);
                             // Add the new order to the state
 
-                            if ((Number(payload.new.for) === user.id && payload.new.father === 6528707984) && payload.new.seen === true) {
+                            if ((Number(payload.new.for) === user.id && payload.new.father === 6187538792) && payload.new.seen === true) {
                                 setNotification((prevNotification) => ({
                                     ...prevNotification, // Spread the previous state
                                     notificationLight: true
@@ -232,7 +232,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 6528707984 }
+                                    { name: user.first_name, username: user.username, profile: user.photo_url, id: user.id, father: 6187538792 }
                                 ]);
 
                             if (error) {
@@ -319,57 +319,7 @@ const Smm = () => {
 
 
 
-    useEffect(() => {
 
-
-        async function fetchService() {
-            try {
-                const response = await axios.get('/api/smm/fetchService');
-
-                setServices([response]);
-                console.log(response)
-                if (response) {
-                    setMediaload(false)
-                    function getCategory() {
-
-
-                        setBcfor('Youtube')
-                        setBc('var(--tgui--section_header_text_color)')
-                        setCat(true)
-
-                        setIcon(() => {
-                            return ({ i: iconMap.youtube, c: '#ff0000', n: 'Youtube' })
-                        })
-
-                        setCategory(
-                            response.data.response
-                                .filter((datas) => datas.category.includes('YouTube')) // Filter by name
-                                .reduce((unique, datas) => {
-                                    // Check if the name is already in the unique array
-                                    if (!unique.some((item) => item.category === datas.category)) {
-                                        unique.push(datas); // Add unique items to the array
-                                    }
-                                    return unique;
-                                }, []) // Initialize with an empty array to accumulate unique values
-                        );
-
-                    }
-                    getCategory()
-
-                }
-            } catch (error) {
-                console.error('Error feching data:', error);
-            }
-        }
-
-
-        //const storedData = localStorage.getItem(`userdata_name_${userData.userId}`);
-
-        //setLs(storedData)
-
-
-        fetchService()
-    }, [])
 
     function getCategory(name, color, faicon, names) {
         setSer(false)
@@ -527,7 +477,7 @@ const Smm = () => {
                 else {
                     const { data } = await supabase.from('users')
                         .select('a_balance')
-                        .eq('id', 6528707984)
+                        .eq('id', 6187538792)
                         .single()
 
                     if (data.a_balance > charge) {
@@ -549,7 +499,7 @@ const Smm = () => {
                             // setModalE(false)
                             const { data, error } = await supabase.from('users')
                                 .select('a_balance')
-                                .eq('id', 6528707984)
+                                .eq('id', 6187538792)
                                 .single()
 
 
@@ -557,7 +507,7 @@ const Smm = () => {
                                 const news = data.a_balance - charge
                                 const { error } = await supabase.from('users')
                                     .update({ 'a_balance': news })
-                                    .eq('id', 6528707984)
+                                    .eq('id', 6187538792)
                                 if (!error) {
                                     setIsModalOpen(false);
 
@@ -601,19 +551,33 @@ const Smm = () => {
 
 
     useEffect(() => {
-        const fetchServices = async () => {
+        async function fetchService() {
             try {
-                const response = await axios.get('/api/smm/fetchService');
+                const response = await axios.get("/api/smm/fetchService");
 
-                setServicess([response.data]); // Store all services
-                setFilteredServices([response.data]); // Initially, show all services
+                if (response?.data?.response) {
+                    setServices(response.data.response); // Store the actual response data
+                    setMediaLoad(false);
+
+                    // Filter categories once
+                    const youtubeCategories = response.data.response
+                        .filter((data) => data.category.includes("YouTube"))
+                        .reduce((unique, data) => {
+                            if (!unique.some((item) => item.category === data.category)) {
+                                unique.push(data);
+                            }
+                            return unique;
+                        }, []);
+
+                    setCategory(youtubeCategories);
+                    setIcon({ i: iconMap.youtube, c: "#ff0000", n: "YouTube" });
+                }
             } catch (error) {
-                console.error('Error fetching services:', error);
+                console.error("Error fetching data:", error);
             }
-        };
-
-        fetchServices();
-    }, []); // Empty dependency array means this effect runs only once
+        } // Empty dependency array means this effect runs only once
+        fetchService();
+    }, []); // Empty dependency array ensures it runs only once
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
@@ -780,7 +744,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('owner', 6528707984)
+                .eq('owner', 6187538792)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -795,7 +759,7 @@ const Smm = () => {
                 const { data: rates, error: fetchError3 } = await supabase
                     .from('panel')
                     .select('allrate')
-                    .eq('owner', 6528707984)
+                    .eq('owner', 6187538792)
                     .eq('key', 'rate')
                     .single();  // Increment balance by 200
 
@@ -816,7 +780,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('owner', 6528707984)
+                .eq('owner', 6187538792)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -837,7 +801,7 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel")
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.6528707984` }, (payload) => {
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.6187538792` }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
                 if (payload.new.key === 'rate') {
@@ -853,7 +817,7 @@ const Smm = () => {
             })
             // .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-            //     if (payload.new.owner == 6528707984) {
+            //     if (payload.new.owner == 6187538792) {
             //         // setUserData((prevNotification) => ({
             //         //     ...prevNotification, // Spread the previous state
             //         //     disabled: payload.new.bigvalue,
@@ -873,7 +837,7 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel_56")
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel', filter: `owner=eq.6528707984` }, (payload) => {
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel', filter: `owner=eq.6187538792` }, (payload) => {
 
                 if (payload.new.key === 'disabled') {
                     setUserData((prevNotification) => ({
