@@ -14,14 +14,14 @@ export async function POST(req) {
         const { id, category, username, service, link, quantity, charge, refill, panel, name } = await req.json();
 
         //     // Construct the URL for the external API call
-        //     const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
+        const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
 
         //     // Make the API request to the external service
-        //     const apiResponse = await fetch(apiUrl, {
-        //         method: 'GET', // Use GET method for the request
-        //     });
+        const apiResponse = await fetch(apiUrl, {
+            method: 'GET', // Use GET method for the request
+        });
 
-        //     const apiData = await apiResponse.json(); // Parse the JSON response from the API
+        const apiData = await apiResponse.json(); // Parse the JSON response from the API
 
         //     // Check if the API was successful
         //     if (!apiData.order) {
@@ -84,11 +84,11 @@ export async function POST(req) {
         //         });
         //     }
 
-        const result = `${id}, ${category}, ${username}, ${service}, ${link}, ${quantity}, ${charge},${refill}, ${panel}, ${name}`;
+        // result = `${id}, ${category}, ${username}, ${service}, ${link}, ${quantity}, ${charge},${refill}, ${panel}, ${name}`;
 
         // If everything was successful, return the order details
         return NextResponse.json({
-            success: result,
+            success: apiData.order,
             // orderId: orderId,
             // orderOid: order,
         });
