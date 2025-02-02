@@ -547,7 +547,7 @@ const Smm = () => {
                             id: user.id
                         });
                         if (response) {
-                            alert(response.data.success)
+                            alert(response.status)
                             // setModalE(false)
                             // const { data, error } = await supabase.from('users')
                             //     .select('a_balance')
