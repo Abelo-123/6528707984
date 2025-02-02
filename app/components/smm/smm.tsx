@@ -511,7 +511,7 @@ const Smm = () => {
                             cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                         }
                     });
-                } else if (charge > userData.balance) {
+                } else if (charge < userData.balance) {
                     Swal.fire({
                         title: 'Insufficient Balance',
                         text: 'Not enough balance to complete this order. Please recharge and try again.',
@@ -534,8 +534,8 @@ const Smm = () => {
                     if (data.a_balance > charge) {
                         setDisable(true)
 
-                        const response = await axios.post('/api/smm/addOrder', {
-                            username: user.first_name,
+                        const response = await axios.post('https://6187538792.netlify.app/api/smm/addOrder', {
+                            username: "user.first_name",
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
@@ -544,10 +544,9 @@ const Smm = () => {
                             panel: 'sm',
                             name: id,
                             category: chosen.category,
-                            id: user.id
+                            id: 5928771903
                         });
                         if (response) {
-                            alert(response.status)
                             // setModalE(false)
                             // const { data, error } = await supabase.from('users')
                             //     .select('a_balance')
@@ -578,6 +577,7 @@ const Smm = () => {
                             //         });
                             //     }
                             // }
+                            alert(response.data.success)
                         }
                     } else {
                         Swal.fire({
