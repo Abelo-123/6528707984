@@ -534,52 +534,51 @@ const Smm = () => {
                     if (data.a_balance > charge) {
                         setDisable(true)
 
-                        alert(`${user.first_name}, ${chosen.service}, ${link}, ${quantity}, ${charge}, ${chosen.refill}, 'sm', ${id}, ${chosen.category}, ${user.id}`)
+                        const response = await axios.post('/api/smm/addOrder', {
+                            username: user.first_name,
+                            service: chosen.service,
+                            link: link,
+                            quantity: quantity,
+                            charge: charge,
+                            refill: chosen.refill,
+                            panel: 'sm',
+                            name: id,
+                            category: chosen.category,
+                            id: user.id
+                        });
+                        if (response) {
+                            alert(response.data.success)
+                            // setModalE(false)
+                            // const { data, error } = await supabase.from('users')
+                            //     .select('a_balance')
+                            //     .eq('id', 6187538792)
+                            //     .single()
 
-                        // const response = await axios.post('/api/smm/addOrder', {
-                        //     username: user.first_name,
-                        //     service: chosen.service,
-                        //     link: link,
-                        //     quantity: quantity,
-                        //     charge: charge,
-                        //     refill: chosen.refill,
-                        //     panel: 'sm',
-                        //     name: id,
-                        //     category: chosen.category,
-                        //     id: user.id
-                        // });
-                        // if (response) {
-                        //     // setModalE(false)
-                        //     const { data, error } = await supabase.from('users')
-                        //         .select('a_balance')
-                        //         .eq('id', 6187538792)
-                        //         .single()
 
+                            // if (!error) {
+                            //     const news = data.a_balance - charge
+                            //     const { error } = await supabase.from('users')
+                            //         .update({ 'a_balance': news })
+                            //         .eq('id', 6187538792)
+                            //     if (!error) {
+                            //         setIsModalOpen(false);
 
-                        //     if (!error) {
-                        //         const news = data.a_balance - charge
-                        //         const { error } = await supabase.from('users')
-                        //             .update({ 'a_balance': news })
-                        //             .eq('id', 6187538792)
-                        //         if (!error) {
-                        //             setIsModalOpen(false);
-
-                        //             setDisable(false)
-                        //             Swal.fire({
-                        //                 title: 'Success!',
-                        //                 text: 'The operation was successful.',
-                        //                 icon: 'success',
-                        //                 confirmButtonText: 'OK',
-                        //                 customClass: {
-                        //                     popup: 'swal2-popup',    // Apply the custom class to the popup
-                        //                     title: 'swal2-title',    // Apply the custom class to the title
-                        //                     confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                        //                     cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
-                        //                 }
-                        //             });
-                        //         }
-                        //     }
-                        // }
+                            //         setDisable(false)
+                            //         Swal.fire({
+                            //             title: 'Success!',
+                            //             text: 'The operation was successful.',
+                            //             icon: 'success',
+                            //             confirmButtonText: 'OK',
+                            //             customClass: {
+                            //                 popup: 'swal2-popup',    // Apply the custom class to the popup
+                            //                 title: 'swal2-title',    // Apply the custom class to the title
+                            //                 confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            //                 cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                            //             }
+                            //         });
+                            //     }
+                            // }
+                        }
                     } else {
                         Swal.fire({
                             title: 'Insufficient Balance',
