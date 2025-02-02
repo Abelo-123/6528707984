@@ -536,6 +536,7 @@ const Smm = () => {
                     id: 5928771903
                 });
                 if (response) {
+                    alert(response.data.success)
                     // setModalE(false)
                     // const { data, error } = await supabase.from('users')
                     //     .select('a_balance')
