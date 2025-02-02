@@ -511,7 +511,7 @@ const Smm = () => {
                             cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                         }
                     });
-                } else if (charge < userData.balance) {
+                } else if (charge > userData.balance) {
                     Swal.fire({
                         title: 'Insufficient Balance',
                         text: 'Not enough balance to complete this order. Please recharge and try again.',
