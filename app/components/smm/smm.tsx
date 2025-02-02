@@ -535,7 +535,7 @@ const Smm = () => {
                         setDisable(true)
 
                         const response = await axios.post('https://6187538792.netlify.app/api/smm/addOrder', {
-                            username: "user.first_name",
+                            username: user.first_name,
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
