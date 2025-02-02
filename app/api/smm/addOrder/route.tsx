@@ -61,8 +61,8 @@ export async function POST(req) {
         ];
 
         //     // Insert data into the 'orders' table and get the inserted row's 'id'
-        //     const { rows } = await pool.query(queryText, values);
-        //     const orderId = rows[0].id;  // Get the 'id' of the inserted order
+        const { rows } = await pool.query(queryText, values);
+        const orderId = rows[0].id;  // Get the 'id' of the inserted order
 
         //     // Prepare the update query for the user balance (we don't need to update orders anymore)
         //     const updateUserQuery = `
@@ -87,8 +87,8 @@ export async function POST(req) {
         // If everything was successful, return the order details
         return NextResponse.json({
             success: true,
-            //orderId: orderId,
-            //orderOid: order,
+            orderId: orderId,
+            orderOid: order,
         });
 
     } catch (error) {
