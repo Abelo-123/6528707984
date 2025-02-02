@@ -89,8 +89,7 @@ const Deposit = () => {
 
 
                 //console.log(payload.new)
-            }).subscribe()
-
+            })
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.779060335` }, (payload) => {
                 setUserData((prevNotification) => ({
                     ...prevNotification, // Spread the previous state
