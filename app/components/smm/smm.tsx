@@ -578,6 +578,11 @@ const Smm = () => {
                                             cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                                         }
                                     });
+                                    setUserData((prevNotification) => ({
+                                        ...prevNotification, // Spread the previous state
+                                        balance: prevNotification.balance - charge, // Decrease balance by 40
+                                    }));
+
                                 }
                             }
                         }
