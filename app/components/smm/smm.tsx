@@ -568,7 +568,7 @@ const Smm = () => {
                                     setDisable(false)
                                     Swal.fire({
                                         title: 'Success!',
-                                        text: 'The operation was successful.',
+                                        text: `The operation was successful. ${response.data.orderOid}`,
                                         icon: 'success',
                                         confirmButtonText: 'OK',
                                         customClass: {
@@ -673,7 +673,6 @@ const Smm = () => {
         setDisable(false)
         setQuantity(null)
         setCharge(0)
-        setQuantity(null)
         setLink(null)
     };
 
