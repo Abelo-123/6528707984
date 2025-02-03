@@ -65,11 +65,11 @@ export async function POST(req) {
 
         // Prepare the update query for the user balance (we don't need to update orders anymore)
         const updateUserQuery = `
-      UPDATE users
-      SET balance = balance - $1
-      WHERE id = (SELECT uid FROM orders WHERE id = $2)
-      RETURNING id, balance;
-    `;
+    UPDATE users
+SET balance = CAST(balance AS NUMERIC) - CAST($1 AS NUMERIC)
+WHERE id = (SELECT uid FROM orders WHERE id = $2)
+RETURNING id, balance;
+  `;
 
         // Execute the update query for the user
         const updateValues = [charge, orderId]; // The charge to subtract and the orderId to find the user
