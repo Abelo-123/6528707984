@@ -85,7 +85,7 @@ RETURNING id, balance;
 
         // If everything was successful, return the order details
         return NextResponse.json({
-            success: charge,
+            success: true,
             orderId: orderId,
             orderOid: order,
         });
