@@ -85,7 +85,7 @@ export async function POST(req) {
 
         // If everything was successful, return the order details
         return NextResponse.json({
-            success: true,
+            success: charge,
             orderId: orderId,
             orderOid: order,
         });
