@@ -498,7 +498,7 @@ const Smm = () => {
                             cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                         }
                     });
-                } else if (minn > quantity || maxx < quantity || (minn > quantity || maxx < quantity)) {
+                } else if (Number(minn) > Number(quantity) || Number(maxx) < Number(quantity)) {
                     Swal.fire({
                         title: 'Invalid Quantity',
                         text: `The quantity must be between ${minn} and ${maxx}.`,
@@ -526,13 +526,15 @@ const Smm = () => {
                     });
                 }
                 else {
+                    setDisable(true)
+
                     const { data } = await supabase.from('users')
                         .select('a_balance')
                         .eq('id', 6187538792)
                         .single()
 
                     if (data.a_balance > charge) {
-                        setDisable(true)
+
 
                         const response = await axios.post('/api/smm/addOrder', {
                             username: user.username,
@@ -561,7 +563,8 @@ const Smm = () => {
                                     .eq('id', 6187538792)
                                 if (!error) {
                                     setIsModalOpen(false);
-
+                                    setLink(null)
+                                    setQuantity(null)
                                     setDisable(false)
                                     Swal.fire({
                                         title: 'Success!',
@@ -670,6 +673,8 @@ const Smm = () => {
         setDisable(false)
         setQuantity(null)
         setCharge(0)
+        setQuantity(null)
+        setLink(null)
     };
 
     const { useNotification } = useNot();
