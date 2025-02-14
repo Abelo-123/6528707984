@@ -255,7 +255,6 @@ const Smmhistory = () => {
                 <Section header={(
                     <>
                         <div className="tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-d0251b46536ac046 tgui-809f1f8a3f64154d tgui-266b6ffdbad2b90e tgui-8f63cd31b2513281 tgui-9c200683b316fde6">Order history
-                            <div className="ml-auto inline w-fit text-white font-mono pl-4">24hrs: 101ETB &nbsp; Monthly: 1000ETB </div>
                         </div>
 
                     </>
