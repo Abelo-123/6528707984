@@ -89,7 +89,7 @@ const Deposit = () => {
                 // console.log(payload.new.value)
 
 
-                //console.log(payload.new)
+                //cconsole.log(payload.new)
             })
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.779060335` }, (payload) => {
                 setUserData((prevNotification) => ({
