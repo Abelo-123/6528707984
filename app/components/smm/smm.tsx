@@ -138,7 +138,7 @@ const Smm = () => {
                         .from('adminmessage')
                         .select('message')
                         .eq('for', user.id)
-                        .eq('father', 6187538792)
+                        .eq('father', 6528707984)
                         .eq('seen', true)
 
                     if (seeEror) {
@@ -172,7 +172,7 @@ const Smm = () => {
                             //console.log("New order inserted:", payload.new);
                             // Add the new order to the state
 
-                            if ((Number(payload.new.for) === user.id && payload.new.father === 6187538792) && payload.new.seen === true) {
+                            if ((Number(payload.new.for) === user.id && payload.new.father === 6528707984) && payload.new.seen === true) {
                                 setNotification((prevNotification) => ({
                                     ...prevNotification, // Spread the previous state
                                     notificationLight: true
@@ -233,7 +233,7 @@ const Smm = () => {
                             const { error } = await supabase
                                 .from('users')
                                 .insert([
-                                    { name: user.first_name, username: user?.username, profile: user.photo_url, id: user.id, father: 6187538792 }
+                                    { name: user.first_name, username: user?.username, profile: user.photo_url, id: user.id, father: 6528707984 }
                                 ]);
 
                             if (error) {
@@ -530,7 +530,7 @@ const Smm = () => {
 
                     const { data } = await supabase.from('users')
                         .select('a_balance')
-                        .eq('id', 6187538792)
+                        .eq('id', 6528707984)
                         .single()
 
                     if (data.a_balance > charge) {
@@ -552,7 +552,7 @@ const Smm = () => {
                             // setModalE(false)
                             const { data, error } = await supabase.from('users')
                                 .select('a_balance')
-                                .eq('id', 6187538792)
+                                .eq('id', 6528707984)
                                 .single()
 
 
@@ -560,7 +560,7 @@ const Smm = () => {
                                 const news = data.a_balance - charge
                                 const { error } = await supabase.from('users')
                                     .update({ 'a_balance': news })
-                                    .eq('id', 6187538792)
+                                    .eq('id', 6528707984)
                                 if (!error) {
                                     setIsModalOpen(false);
                                     setLink(null)
@@ -790,7 +790,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('value')
-                .eq('owner', 6187538792)
+                .eq('owner', 6528707984)
                 .eq('key', 'rate')
                 .single();  // Increment balance by 200
 
@@ -805,7 +805,7 @@ const Smm = () => {
                 const { data: rates, error: fetchError3 } = await supabase
                     .from('panel')
                     .select('allrate')
-                    .eq('owner', 6187538792)
+                    .eq('owner', 6528707984)
                     .eq('key', 'rate')
                     .single();  // Increment balance by 200
 
@@ -826,7 +826,7 @@ const Smm = () => {
             const { data: rate, error: fetchError2 } = await supabase
                 .from('panel')
                 .select('bigvalue')
-                .eq('owner', 6187538792)
+                .eq('owner', 6528707984)
                 .eq('key', 'disabled')
                 .single();  // Increment balance by 200
 
@@ -847,7 +847,7 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel")
-            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.6187538792` }, (payload) => {
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.6528707984` }, (payload) => {
                 //console.log("New order inserted:", payload.new);
                 // Add the new order to the state
                 if (payload.new.key === 'rate') {
@@ -863,7 +863,7 @@ const Smm = () => {
             })
             // .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-            //     if (payload.new.owner == 6187538792) {
+            //     if (payload.new.owner == 6528707984) {
             //         // setUserData((prevNotification) => ({
             //         //     ...prevNotification, // Spread the previous state
             //         //     disabled: payload.new.bigvalue,
@@ -883,11 +883,11 @@ const Smm = () => {
     useEffect(() => {
         supabase
             .channel("panel_56")
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel', filter: `owner=eq.6187538792` }, (payload) => {
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel', filter: `owner=eq.6528707984` }, (payload) => {
 
                 if (payload.new.key === 'disabled') {
-                    setUserData((prevNotification) => ({
-                        ...prevNotification, // Spread the previous state
+                    setUserData((prevNotificationl) => ({
+                        ...prevNotificationl, // Spread the previous state
                         disabled: payload.new.bigvalue,
                         // Update the `deposit` field
                     }))
@@ -1189,6 +1189,7 @@ const Smm = () => {
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
+
                                                 <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / Number(userData.allrate) * Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
                                             </div>
 

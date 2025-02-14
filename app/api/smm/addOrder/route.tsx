@@ -38,7 +38,7 @@ export async function POST(req) {
         // Prepare the SQL query to insert data into the 'orders' table
         const queryText = `
         INSERT INTO orders (category, service, quantity, link, charge, refill, panel, status, username, chat, uid, oid, name, father)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, 6187538792)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, 6528707984)
         RETURNING id;
       `;
 

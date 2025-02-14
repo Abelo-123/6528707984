@@ -23,7 +23,7 @@ const Lays = () => {
                 .select('message')
                 .eq('for', 'all')
                 .eq('to', 'User')
-                .eq('father', 6187538792)
+                .eq('father', 6528707984)
                 .single()
 
             if (setError) {
@@ -52,10 +52,11 @@ const Lays = () => {
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
                 supabase
-                    .channel("paffnl_chnel")
+                    .channel("pafcvcvfnl_chnel")
                     .on("postgres_changes", { event: "UPDATE", schema: "public", table: "adminmessage" }, (payload) => {
 
-                        if (payload.new.father === 6187538792 && payload.new.for === "all" && payload.new.to === "User") {
+
+                        if (payload.new.father === 6528707984 && payload.new.for === "all" && payload.new.to === "User") {
                             setMarq(payload.new.message)
                         }
 
