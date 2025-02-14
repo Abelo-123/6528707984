@@ -255,7 +255,7 @@ const Smmhistory = () => {
                 <Section header={(
                     <>
                         <div className="tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-d0251b46536ac046 tgui-809f1f8a3f64154d tgui-266b6ffdbad2b90e tgui-8f63cd31b2513281 tgui-9c200683b316fde6">Order history
-                            <div className="ml-auto inline w-fit text-black font-mono pl-4">24hrs: 101ETB &nbsp;&nbsp;&nbsp;&nbsp; Monthly: 1000ETB </div>
+                            <div className="ml-auto inline w-fit text-white font-mono pl-4">24hrs: 101ETB &nbsp; Monthly: 1000ETB </div>
                         </div>
 
                     </>
@@ -304,9 +304,9 @@ const Smmhistory = () => {
                                                         style={{
                                                             textShadow:
                                                                 items.status === "Canceled" ? "2px 2px 29px red" :
-                                                                    items.status === "Completed" ? "2px 2px 29px rgba(0,255,77,0.86)" :
-                                                                        items.status === "Pending" ? "2px 2px 29px rgba(255,221,45,0.86);" :
-                                                                            items.status === "In progress" ? "2px 2px 29px rgba(0,66,255,0.94)" :
+                                                                    items.status === "Completed" ? "2px 2px 29px lime" :
+                                                                        items.status === "Pending" ? "2px 2px 29px yellow" :
+                                                                            items.status === "In progress" ? "2px 2px 29px blue" :
                                                                                 undefined
                                                         }}
                                                         className="px-6 py-4 text-sm ">{items.status}</td>
