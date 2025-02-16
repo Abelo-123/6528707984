@@ -269,7 +269,7 @@ const Deposit = () => {
     // Generate iframe src dynamically based on the amount
     const generateIframeSrc = () => {
         if (parseInt(aamount) > 1) {
-            return `https://paxyo.com/chapa.html?amount=${aamount}`;
+            return `https://chapaaa.netlify.app/chapa.html?amount=${aamount}`;
         }
         return ''; // Return an empty string if the amount is not valid
     };
