@@ -273,7 +273,7 @@ const Smmhistory = () => {
                                 <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
                                     <thead>
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">
                                                 Status
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
@@ -312,7 +312,7 @@ const Smmhistory = () => {
                                                                             items.status === "In progress" ? "2px 2px 29px blue" :
                                                                                 undefined
                                                         }}
-                                                        className="px-6 py-4 text-sm ">{items.status}</td>
+                                                        className="px-6 py-4 text-sm text-nowrap">{items.status}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.oid}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.start_count}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.quantity}</td>

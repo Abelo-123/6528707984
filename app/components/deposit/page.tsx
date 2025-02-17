@@ -668,7 +668,7 @@ const Deposit = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Amount</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Transaction</th>
 
-                                    <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date</th>
+                                    <th className="px-6 py-3 text-left text-nowrap text-xs font-medium  uppercase tracking-wider">Date</th>
                                 </tr>
                             </thead>
                             <tbody className=" ">
@@ -678,7 +678,7 @@ const Deposit = () => {
                                         <td className="px-6 py-4 text-sm  ">{items.amount}</td>
 
                                         <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
-                                        <td className="px-6 py-4 text-sm  ">{items.date}</td>
+                                        <td className="px-6 py-4 text-sm text-nowrap ">{items.date}</td>
                                     </tr>
                                 ))}
 
