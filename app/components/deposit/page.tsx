@@ -362,7 +362,7 @@ const Deposit = () => {
     useEffect(() => {
         const handleMessage = (event) => {
             // Validate the origin to ensure the message is from the expected source
-            if (event.origin !== 'https://paxyo.com') return;
+            if (event.origin !== 'https://chapaaa.netlify.app') return;
 
             const { type, message } = event.data;
 
