@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 
-* {
-  background: var(--tgui--secondary_bg_color);
+body {
+  background: 'var(--tgui--secondary_bg_color)';
 }
 
 .common-styles {
