@@ -26,7 +26,7 @@ export async function POST(req) {
         }
 
         // External API URL
-        const url = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=status&order=${orderId}`;
+        const url = `https://godofpanel.com/api/v2?key=7aed775ad8b88b50a1706db2f35c5eaf&action=status&order=${orderId}`;
 
         // Fetch data from the external API with timeout
         const response = await fetch(url, { method: "GET" });

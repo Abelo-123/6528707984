@@ -14,7 +14,7 @@ export async function POST(req) {
         const { id, category, username, service, link, quantity, charge, refill, panel, name } = await req.json();
 
         // Construct the URL for the external API call
-        const apiUrl = `https://smmsocialmedia.in/api/v2?key=71f467be80d281828751dc6d796f100a&action=add&service=${service}&link=${link}&quantity=${quantity}`;
+        const apiUrl = `https://godofpanel.com/api/v2?key=7aed775ad8b88b50a1706db2f35c5eaf&action=add&service=${service}&link=${link}&quantity=${quantity}`;
 
         // Make the API request to the external service
         const apiResponse = await fetch(apiUrl, {
