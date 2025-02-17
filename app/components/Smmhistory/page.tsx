@@ -68,7 +68,11 @@ const Smmhistory = () => {
         }
 
         // Same URL, but we're using POST
-
+        //https://adminv.paxyo.com/senda.php?ama=3&rbo=0&dvo=3&hid=330030&fd=111&tid=475&sa=deposit
+        //ama -> session amount----get the balance using hid and name it session b
+        //rbo -> session rdo---get the fd balance and name it session bb 
+        //dvo -> session ddo--get the referfalcommision of the fd and name it sessio bbb
+        //fd -> sesion fd--update the balance of the fd based on the refer 
         // Simulating a 2-second delay before making the API call
 
 

@@ -525,6 +525,9 @@ const Deposit = () => {
                                     onChange={(e) => {
                                         setaAmount(e.target.value)
                                         setAmounts(e.target.value)
+                                        setBut(true)
+
+                                        setAgain(true)
                                     }
                                     }
                                 />
