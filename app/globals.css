@@ -4,7 +4,7 @@
 
 
 body {
-  background: var('--tgui--secondary_bg_color');
+  background: var(--tgui--secondary_bg_color);
 }
 
 .common-styles {

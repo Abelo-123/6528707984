@@ -267,7 +267,7 @@ const Smmhistory = () => {
                     <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
 
-                        <div style={{ borderRadius: "10px", height: '26.2rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
+                        <div style={{ borderRadius: "10px", height: '28rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
 
                             {!loader &&
                                 <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
