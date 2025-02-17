@@ -243,7 +243,7 @@ const Deposit = () => {
                         .from('deposit')
                         .select('*')
                         .eq('uid', user.id)
-                        .order('created', { ascending: true });
+                        .order('created', { ascending: false });
 
                     if (error) {
                         console.log(error);
