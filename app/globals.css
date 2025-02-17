@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 
-body {
+* {
   background: var(--tgui--secondary_bg_color);
 }
 
