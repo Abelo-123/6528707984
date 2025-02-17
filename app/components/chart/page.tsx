@@ -29,7 +29,7 @@ const RealTimeChart = () => {
                 const { data, error } = await supabase
                     .from("deposit")
                     .select("amount, count, date")
-                    .order("date", { ascending: false }) // Fetch most recent records first
+                    .order("date", { ascending: true }) // Fetch most recent records first
                     .limit(user.id); // Limit to the latest 100 records
 
                 if (error) {
