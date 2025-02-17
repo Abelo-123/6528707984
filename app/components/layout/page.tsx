@@ -82,7 +82,12 @@ const Lays = () => {
     const { useNotification } = useNot();
 
     const seeNotification = async () => {
-
+        setNotification((prevNotification) => ({
+            ...prevNotification, // Spread the previous state
+            notificationModal: true,
+            smmModal: true,
+            // Update the `deposit` field
+        }));
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
         script.async = true;
@@ -97,12 +102,7 @@ const Lays = () => {
                 const { user } = Telegram.WebApp.initDataUnsafe;
 
 
-                setNotification((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    notificationModal: true,
-                    smmModal: true,
-                    // Update the `deposit` field
-                }));
+
 
                 const { data: setNotify, error: setError } = await supabase
                     .from('adminmessage')
