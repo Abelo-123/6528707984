@@ -1116,8 +1116,8 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#111111', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faSpinner} color="#111111" style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#ffffff', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                            <FontAwesomeIcon icon={faSpinner} color="#ffffff" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
