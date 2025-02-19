@@ -389,6 +389,7 @@ const Deposit = () => {
                 });
                 setTg(false)
                 setBut(true)
+                setMo(false)
                 setaAmount(null)
                 if (aamountRef.current) {
                     sendAmount(aamountRef.current, message);
