@@ -72,6 +72,7 @@ const Smm = () => {
 
     const [disable, setDisable] = useState(false)
     const [loader, showLoad] = useState(false)
+    const [loadingBB, setLoadingbb] = useState(true);
 
     const [minn, setMin] = useState(0)
     const [maxx, setMax] = useState(0)
@@ -636,6 +637,7 @@ const Smm = () => {
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchh(value);
+        setLoadingbb(true);
     };
 
     // Handle input change and filter services by the service id
@@ -643,6 +645,7 @@ const Smm = () => {
         // Debounced search logic
         const timeout = setTimeout(() => {
             if (searchhh) {
+
                 const filtered = servicess[0].response.filter((item) =>
                     item.service.toString().includes(searchhh)
                 );
@@ -665,10 +668,12 @@ const Smm = () => {
                 });
 
                 setFilteredServices(sortedFiltered);
+                setLoadingbb(false);
             } else {
                 setFilteredServices([]);
+                setLoadingbb(false);
             }
-        }, 300); // 300ms debounce delay
+        }, 2000); // 300ms debounce delay
 
         return () => clearTimeout(timeout); // Clear timeout if input changes quickly
     }, [searchhh, servicess]);
@@ -948,35 +953,42 @@ const Smm = () => {
                                 <div className=" overflow-hidden w-full p-2">
                                     <div id="result">
                                         {/* Display filtered services here */}
-                                        {searchhh && filteredServices.length > 0 ? (
-                                            filteredServices
-                                                .filter((items) => {
-                                                    const disabledArray = String(userData.disabled || "").split(","); // Ensure it is a string
-                                                    return !disabledArray.includes(String(items.service)); // Check if service is not in the array
-                                                })
-                                                .map((service) => (
-                                                    <div
-                                                        key={service.service}
-                                                        style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
-                                                        onClick={() => clickedSearch(service)}
-                                                        className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
-                                                    >
-                                                        <h4 className="font-bold">{service.name}</h4>
-                                                        <p>
-                                                            <strong>Category</strong> {service.category}
-                                                        </p>
-                                                        <p>
-                                                            <strong>Rate</strong> {Number((service.rate * userData.allrate * userData.rate * 1000).toFixed(2))} Per 1000
-                                                        </p>
-                                                        <p>
-                                                            <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
-                                                            {service.max}
-                                                        </p>
-                                                    </div>
-                                                ))
+                                        {loadingBB ? (
+                                            <img
+                                                src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-05-37_512.gif"
+                                                alt="Loading..."
+                                                className="mx-auto w-16 h-16"
+                                            />
                                         ) : (
-                                            <p>No  matching results found.</p>
-                                        )}
+                                            searchhh && filteredServices.length > 0 ? (
+                                                filteredServices
+                                                    .filter((items) => {
+                                                        const disabledArray = String(userData.disabled || "").split(","); // Ensure it is a string
+                                                        return !disabledArray.includes(String(items.service)); // Check if service is not in the array
+                                                    })
+                                                    .map((service) => (
+                                                        <div
+                                                            key={service.service}
+                                                            style={{ color: 'var(--tgui--text_color)', borderBottom: '1px solid var(--tgui--link_color)', background: 'var(--tgui--bg_color)' }}
+                                                            onClick={() => clickedSearch(service)}
+                                                            className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
+                                                        >
+                                                            <h4 className="font-bold">{service.name}</h4>
+                                                            <p>
+                                                                <strong>Category</strong> {service.category}
+                                                            </p>
+                                                            <p>
+                                                                <strong>Rate</strong> {Number((service.rate * userData.allrate * userData.rate * 1000).toFixed(2))} Per 1000
+                                                            </p>
+                                                            <p>
+                                                                <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
+                                                                {service.max}
+                                                            </p>
+                                                        </div>
+                                                    ))
+                                            ) : (
+                                                <p>No  matching results found.</p>
+                                            ))}
                                     </div>
                                 </div>
                             </div>
@@ -1227,7 +1239,7 @@ const Smm = () => {
                 {
                     loader ? <MyLoader /> :
                         id && description && (
-                            <div className='overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                            <div className='none overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
                                 <Text style={{ fontSize: '0.8rem' }}>
                                     <div dangerouslySetInnerHTML={{ __html: description }} />
                                 </Text>

@@ -387,7 +387,8 @@ const Deposit = () => {
                         cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                     }
                 });
-                setBut(true)
+                setAgain(true);
+                setTg(true)
 
                 if (aamountRef.current) {
                     sendAmount(aamountRef.current, message);
