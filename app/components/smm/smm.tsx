@@ -1211,7 +1211,7 @@ const Smm = () => {
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
 
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / Number(userData.allrate) * Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate * Number(userData.allrate) * Number(userData.rate) * 1000).toFixed(2))} Br Per 1000</div>
                                             </div>
 
                                         </div>
