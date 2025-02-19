@@ -92,11 +92,13 @@ const Deposit = () => {
                 //cconsole.log(payload.new)
             })
             .on("postgres_changes", { event: "UPDATE", schema: "public", table: "panel", filter: `owner=eq.779060335` }, (payload) => {
-                setUserData((prevNotification) => ({
-                    ...prevNotification, // Spread the previous state
-                    allrate: payload.new.allrate,
-                    // Update the `deposit` field
-                }))
+                if (payload.new.key === 'rate') {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        allrate: payload.new.allrate,
+                        // Update the `deposit` field
+                    }))
+                }
             }).subscribe()
         fetchDeposit();
 
@@ -385,6 +387,7 @@ const Deposit = () => {
                         cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                     }
                 });
+                setBut(true)
 
                 if (aamountRef.current) {
                     sendAmount(aamountRef.current, message);

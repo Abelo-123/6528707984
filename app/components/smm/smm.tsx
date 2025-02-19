@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk, faDiscord } from '@fortawesome/free-brands-svg-icons';
-import { faAngleDown, faClose, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faClose, faOtter, faRotateBackward, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
@@ -11,6 +11,7 @@ import { useNot } from '../StatusContext';
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import MyLoader from '../Loader/page';
+import { faDotCircle } from '@fortawesome/free-regular-svg-icons';
 
 const iconMap = {
     youtube: faYoutube,
@@ -25,6 +26,7 @@ const iconMap = {
     twitch: faTwitch,
     vk: faVk,
     search: faSearch,
+    other: faSpinner,
     discord: faDiscord
 };
 
@@ -342,16 +344,21 @@ const Smm = () => {
                             return ({ i: iconMap.youtube, c: '#ff0000', n: 'Youtube' })
                         })
 
+
                         setCategory(
                             response.data.response
-                                .filter((datas) => datas.category.includes('YouTube')) // Filter by name
+                                .filter((datas) =>
+                                    name.split(/[ ,]+/).some((word) =>
+                                        datas.category.toLowerCase().includes(word.toLowerCase()) // Handle case-insensitive search
+                                    )
+                                )
                                 .reduce((unique, datas) => {
-                                    // Check if the name is already in the unique array
                                     if (!unique.some((item) => item.category === datas.category)) {
                                         unique.push(datas); // Add unique items to the array
+                                        console.log(datas);
                                     }
                                     return unique;
-                                }, []) // Initialize with an empty array to accumulate unique values
+                                }, []) // Initialize with an empty array// Initialize with an empty array to accumulate unique values
                         );
 
                     }
@@ -387,15 +394,18 @@ const Smm = () => {
 
         setCategory(
             services[0].data.response
-                .filter((datas) => datas.category.includes(name)) // Filter by name
+                .filter((datas) =>
+                    name.split(", ").some((word) => datas.category.includes(word)) // Filter by multiple words
+                )
                 .reduce((unique, datas) => {
-                    // Check if the name is already in the unique array
                     if (!unique.some((item) => item.category === datas.category)) {
                         unique.push(datas); // Add unique items to the array
+
                     }
                     return unique;
-                }, []) // Initialize with an empty array to accumulate unique values
+                }, []) // Initialize with an empty array
         );
+
     }
 
     function getService(name, data) {
@@ -426,7 +436,7 @@ const Smm = () => {
     const handleInput = (e) => {
         setQuantity(e.target.value)
         const inputValue = e.target.value;
-        setCharge(Number((inputValue * theRate / userData.allrate * userData.rate).toFixed(2)))
+        setCharge(Number((inputValue * theRate * userData.allrate * userData.rate).toFixed(2)))
         // Perform the calculation
     };
 
@@ -957,7 +967,7 @@ const Smm = () => {
                                                             <strong>Category</strong> {service.category}
                                                         </p>
                                                         <p>
-                                                            <strong>Rate</strong> {Number((service.rate / userData.allrate * userData.rate * 1000).toFixed(2))} Per 1000
+                                                            <strong>Rate</strong> {Number((service.rate * userData.allrate * userData.rate * 1000).toFixed(2))} Per 1000
                                                         </p>
                                                         <p>
                                                             <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
@@ -1041,7 +1051,7 @@ const Smm = () => {
                 </div>
                 {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}<br />
-                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '0.2rem' }}>
+                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '-1rem' }}>
 
                     <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -1083,12 +1093,6 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Twitter/X</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Discord', '#0a66c2', iconMap.discord, 'Discord')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Discord' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faDiscord} color="#0a66c2" style={{ 'margin': 'auto auto' }} size="2x" />
-                            <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Discord</Text>
-                            </div>
-                        </div>
                         <div className='common-styles' onClick={() => getCategory('Whatsapp', '#25d366', iconMap.whatsapp, 'Whatsapp')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Whatsapp' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faWhatsapp} color="#25d366" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
@@ -1099,6 +1103,12 @@ const Smm = () => {
                             <FontAwesomeIcon icon={faSpotify} color="#1DB954" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
+                            </div>
+                        </div>
+                        <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#111111', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                            <FontAwesomeIcon icon={faSpinner} color="#111111" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <div className='my-auto mx-2'>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
                         </div>
                     </div>
