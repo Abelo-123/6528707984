@@ -341,7 +341,7 @@ const Smm = () => {
                         setCat(true)
 
                         setIcon(() => {
-                            return ({ i: iconMap.youtube, c: '#ff0000', n: 'Youtube' })
+                            return ({ i: iconMap.youtube, c: '#ff0000', n: 'YouTube' })
                         })
 
 
@@ -436,7 +436,8 @@ const Smm = () => {
     const handleInput = (e) => {
         setQuantity(e.target.value)
         const inputValue = e.target.value;
-        setCharge(Number((inputValue * theRate * userData.allrate * userData.rate).toFixed(2)))
+        setCharge(Number(Number(inputValue * theRate * userData.allrate * userData.rate / 200 * 195 / 1000).toFixed(8)))
+        //  setCharge(Number((inputValue * theRate * userData.allrate * userData.rate).toFixed(2)))
         // Perform the calculation
     };
 
@@ -560,14 +561,14 @@ const Smm = () => {
                         });
                         if (response) {
                             // setModalE(false)
-                            const { data, error } = await supabase.from('users')
+                            const { data: getbala, error: geterror } = await supabase.from('users')
                                 .select('a_balance')
                                 .eq('id', 6528707984)
                                 .single()
 
 
-                            if (!error) {
-                                const news = data.a_balance - charge
+                            if (!geterror) {
+                                const news = Number(Number(getbala.a_balance) - Number(charge))
                                 const { error } = await supabase.from('users')
                                     .update({ 'a_balance': news })
                                     .eq('id', 6528707984)
@@ -1068,7 +1069,7 @@ const Smm = () => {
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                             <Spinner size="l" />
                         </div>)}
-                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div id="a" className='common-styles' onClick={() => getCategory('YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
@@ -1211,7 +1212,7 @@ const Smm = () => {
 
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
 
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((datas.rate / 200 * 195 * Number(userData.allrate) * Number(userData.rate)).toFixed(8))} Br Per 1000</div>
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((Number(datas.rate) / 200 * 195 * Number(userData.allrate) * Number(userData.rate)).toFixed(8))} Br Per 1000</div>
                                             </div>
 
                                         </div>

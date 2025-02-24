@@ -219,7 +219,7 @@ const Lays = () => {
 
                     <div className='flex flex-col justify-space-around mt-auto  ml-3'>
                         <Text weight="2">{userData.firstName} {userData.lastName}</Text>
-                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance {balance} ETB</Text>
+                        <Text weight="3" style={{ 'fontSize': '13px' }}>Balance {balance.toFixed(4)} ETB</Text>
                     </div>
                 </div>
                 <div onClick={seeNotification} style={{ position: 'relative' }} className="grid place-content-center ml-auto mr-8 ">
