@@ -341,7 +341,7 @@ const Smm = () => {
                         setCat(true)
 
                         setIcon(() => {
-                            return ({ i: iconMap.other, c: 'blue', n: '' })
+                            return ({ i: iconMap.other, c: '#24A1DE', n: '' })
                         })
 
 
@@ -1065,7 +1065,7 @@ const Smm = () => {
                 </div>
                 {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft:  '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}<br />
-                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '-1rem' }}>
+                <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '0.4rem' }}>
 
                     <div className="gap-x-9 relative px-6 gap-y-3 place-items-center   mx-auto h-auto grid grid-cols-3 px-4 ">
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
@@ -1120,7 +1120,7 @@ const Smm = () => {
                             </div>
                         </div>
                         <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#ffffff', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faSpinner} color="blue" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <FontAwesomeIcon icon={faSpinner} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>

@@ -7,6 +7,7 @@ import { useNot } from '../StatusContext';
 import MyLoader from "../Loader/page";
 import { faLink, faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 const Smmhistory = () => {
 
@@ -256,6 +257,9 @@ const Smmhistory = () => {
                         </div >
                     )
                 }
+                <div className='z-90  w-full absolute place-content-center  grid place-content-end absolute  ' style={{ height: '3rem', zIndex: 900 }} >
+                    <FontAwesomeIcon href="https://google.com" icon={faTelegram} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                </div>
                 <Section header={(
                     <>
                         <div className="tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-d0251b46536ac046 tgui-809f1f8a3f64154d tgui-266b6ffdbad2b90e tgui-8f63cd31b2513281 tgui-9c200683b316fde6">Order history
@@ -277,7 +281,7 @@ const Smmhistory = () => {
                                                 Status
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-nowrap text-left text-xs font-medium  uppercase tracking-wider">
                                                 Starting From
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
@@ -287,7 +291,7 @@ const Smmhistory = () => {
 
 
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Link</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-nowrap text-left text-xs font-medium  uppercase tracking-wider">
                                                 Charge (ETB)
                                             </th>
                                             {/* <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th> */}
