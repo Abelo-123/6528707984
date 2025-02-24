@@ -1061,7 +1061,7 @@ const Smm = () => {
                 <div className='z-90  w-full absolute mt-4 grid place-content-end absolute  ' style={{ top: '6rem' }}>
                     <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
-                {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft: '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
+                {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft:  '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}<br />
                 <Section style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '-1rem' }}>
 
