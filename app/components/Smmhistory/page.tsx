@@ -258,7 +258,7 @@ const Smmhistory = () => {
                     )
                 }
                 <div className='z-90  w-full absolute place-content-center  grid place-content-end absolute  ' style={{ height: '3rem', zIndex: 900 }} >
-                    <FontAwesomeIcon href="https://google.com" icon={faTelegram} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                    <FontAwesomeIcon xlinkHref="https://google.com" icon={faTelegram} style={{ 'margin': '1rem 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
                 </div>
                 <Section header={(
                     <>
