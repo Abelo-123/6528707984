@@ -290,8 +290,8 @@ const Smmhistory = () => {
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
                                                 Charge (ETB)
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">name</th>
+                                            {/* <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th> */}
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Service</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
                                         </tr>
                                     </thead>
@@ -364,7 +364,7 @@ const Smmhistory = () => {
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 text-sm ">{items.charge}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.service}</td>
+                                                    {/* <td className="px-6 py-4 text-sm ">{items.service}</td> */}
                                                     <td className="px-6 py-4 text-sm text-nowrap ">{items.name}</td>
                                                     <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
 

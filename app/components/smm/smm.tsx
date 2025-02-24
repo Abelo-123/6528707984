@@ -336,12 +336,12 @@ const Smm = () => {
                     function getCategory() {
 
 
-                        setBcfor('Youtube')
-                        setBc('var(--tgui--section_header_text_color)')
+                        // setBcfor('Youtube')
+                        // setBc('var(--tgui--section_header_text_color)')
                         setCat(true)
 
                         setIcon(() => {
-                            return ({ i: iconMap.youtube, c: '#ff0000', n: 'YouTube' })
+                            return ({ i: iconMap.other, c: 'blue', n: '' })
                         })
 
 
@@ -393,7 +393,7 @@ const Smm = () => {
         })
 
         setCategory(
-            services[0].data.response
+            services[0]?.data?.response
                 .filter((datas) =>
                     name.split(", ").some((word) => datas.category.includes(word)) // Filter by multiple words
                 )
@@ -633,6 +633,7 @@ const Smm = () => {
         };
 
         fetchServices();
+
     }, []); // Empty dependency array means this effect runs only once
 
     const handleSearchChange = (e) => {
@@ -918,6 +919,7 @@ const Smm = () => {
 
 
 
+
     return (
         <>
             <List>
@@ -1069,7 +1071,7 @@ const Smm = () => {
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                             <Spinner size="l" />
                         </div>)}
-                        <div id="a" className='common-styles' onClick={() => getCategory('YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
@@ -1118,7 +1120,7 @@ const Smm = () => {
                             </div>
                         </div>
                         <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#ffffff', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faSpinner} color="#ffffff" style={{ 'margin': 'auto auto' }} size="2x" />
+                            <FontAwesomeIcon icon={faSpinner} color="blue" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
