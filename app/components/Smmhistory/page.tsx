@@ -205,7 +205,7 @@ const Smmhistory = () => {
                 };
             }
         }
-    }, []); // Empty dependency array ensures this effect runs only once on mount
+    }, []); // Emptdependency array ensures this effect runs only once on mount
 
     return (
         <>
