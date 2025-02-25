@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk, faDiscord } from '@fortawesome/free-brands-svg-icons';
-import { faAngleDown, faClose, faDiceFour, faRotateBackward, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faClose, faDiceFour, faRotateBackward, faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
@@ -64,14 +64,17 @@ const Smm = () => {
     const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
     const [filteredServices, setFilteredServices] = useState([]); // Filtered services
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [description, setDescription] = useState("")
-
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [promoModal, setpromoModal] = useState(false)
 
     const [promoCode, setPromoCode] = useState('')
 
     const [disable, setDisable] = useState(false)
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loader, showLoad] = useState(false)
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loadingBB, setLoadingbb] = useState(true);
 
     const [minn, setMin] = useState(0)
