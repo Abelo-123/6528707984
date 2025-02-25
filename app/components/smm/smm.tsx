@@ -339,8 +339,8 @@ const Smm = () => {
                     function getCategory() {
 
 
-                        // setBcfor('Youtube')
-                        // setBc('var(--tgui--section_header_text_color)')
+                        //setBcfor('Other')
+                        setBc('var(--tgui--section_header_text_color)')
                         setCat(true)
 
                         setIcon(() => {
@@ -1074,7 +1074,7 @@ const Smm = () => {
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                             <Spinner size="l" />
                         </div>)}
-                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube, YouTube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
@@ -1122,7 +1122,7 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
