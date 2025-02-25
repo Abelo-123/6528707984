@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Section, Spinner, List, Text, Input } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from 'react';
 import { faYoutube, faFacebook, faXTwitter, faLinkedin, faTelegram, faTiktok, faInstagram, faSpotify, faWhatsapp, faTwitch, faVk, faDiscord } from '@fortawesome/free-brands-svg-icons';
-import { faAngleDown, faClose, faRotateBackward, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faClose, faDiceFour, faRotateBackward, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios"
 import { useUser } from '../UserContext'; // Adjust the path as necessary
 import { supabase } from '../../lib/supabaseClient'
@@ -25,7 +25,7 @@ const iconMap = {
     twitch: faTwitch,
     vk: faVk,
     search: faSearch,
-    other: faSpinner,
+    other: faDiceFour,
     discord: faDiscord
 };
 
@@ -1071,7 +1071,7 @@ const Smm = () => {
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                             <Spinner size="l" />
                         </div>)}
-                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>YouTube</Text>
@@ -1119,8 +1119,8 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#ffffff', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faSpinner} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
+                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Other' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                            <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
@@ -1239,7 +1239,7 @@ const Smm = () => {
                 >
                     Order
                 </Button>
-                {
+                {/* {
                     loader ? <MyLoader /> :
                         id && description && (
                             <div className='none overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
@@ -1249,7 +1249,7 @@ const Smm = () => {
                             </div>
                         )
                 }
-                <br /><br /><br />
+                <br /><br /><br /> */}
                 {
                     isModalOpen && (
                         <div

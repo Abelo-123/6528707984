@@ -257,8 +257,12 @@ const Smmhistory = () => {
                         </div >
                     )
                 }
-                <div className='z-90  w-full absolute place-content-center  grid place-content-end absolute  ' style={{ height: '3rem', zIndex: 900 }} >
-                    <FontAwesomeIcon xlinkHref="https://google.com" icon={faTelegram} style={{ 'margin': '1rem 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                <div className='z-90   w-full absolute place-content-center grid place-content-end absolute  ' onClick={() => window.location.href = 'https://www.google.com'} style={{ margin: '1rem -0.9rem', fontSize: '0.8rem', height: '3rem', zIndex: 900, }} >
+                    <div className="flex">
+
+                        <FontAwesomeIcon icon={faTelegram} style={{ 'margin': '1rem 0.3rem', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
+                        <div className="font-sans inline mx-auto my-auto">Support</div>
+                    </div>
                 </div>
                 <Section header={(
                     <>

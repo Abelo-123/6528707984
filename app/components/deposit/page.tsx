@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 import MyLoader from "../Loader/page";
 import { useNot } from '../StatusContext';
 import { supabase } from "@/app/lib/supabaseClient";
+import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 const Deposit = () => {
     const [again, setAgain] = useState(true); // Initially set to true to show the container
     const [iframeVisible, setIframeVisible] = useState(false); // Control iframe visibility
@@ -662,7 +663,13 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
+                <div className='z-90   w-full absolute place-content-center grid place-content-end absolute  ' onClick={() => window.location.href = 'https://www.google.com'} style={{ margin: '-0.5rem -1rem', fontSize: '0.8rem', height: '3rem', zIndex: 900, }} >
+                    <div className="flex">
 
+                        <FontAwesomeIcon icon={faTelegram} style={{ 'margin': '1rem 0.3rem', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
+                        <div className="font-sans inline mx-auto my-auto">Support</div>
+                    </div>
+                </div>
                 <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '10px', height: '25rem', width: '100%' }} className="scrollabler overflow-x-auto">
 
