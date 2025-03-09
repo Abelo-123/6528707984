@@ -126,17 +126,17 @@ const Smmhistory = () => {
                         });
 
                         // Create intervals for polling, only for non-completed or non-cancelled orders
-                        const intervals = initialData
-                            .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
-                            .map((item) => {
+                        // const intervals = initialData
+                        //     .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
+                        //     .map((item) => {
 
-                                return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
-                            });
+                        //         return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
+                        //     });
 
-                        // Cleanup intervals when the component unmounts or when data changes
-                        return () => {
-                            intervals.forEach(clearInterval); // Clear all intervals
-                        };
+                        // // Cleanup intervals when the component unmounts or when data changes
+                        // return () => {
+                        //     intervals.forEach(clearInterval); // Clear all intervals
+                        // };
                     }
                 }
 
@@ -167,7 +167,7 @@ const Smmhistory = () => {
                     .channel("orders_channel")
                     .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders", filter: `uid=eq.${user.id}` }, (payload) => {
                         //console.log("New order inserted:", payload.new);
-                        // Add the new order to the state
+                        // Add the new order to the stats
                         //  if (payload.new.uid == 5928771903) {
                         setData((prevData) => [payload.new, ...prevData]);
 
