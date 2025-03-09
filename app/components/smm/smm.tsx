@@ -562,7 +562,7 @@ const Smm = () => {
                             category: chosen.category,
                             id: user.id
                         });
-                        if (response) {
+                        if (response.data.success) {
                             // setModalE(false)
                             const { data: getbala, error: geterror } = await supabase.from('users')
                                 .select('a_balance')
@@ -927,12 +927,12 @@ const Smm = () => {
         <>
             <List>
                 {/* {authmessage}<br /> */}
-                {/* {<button onClick={() => {
+                {<button onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
-                </button>}<br /> */}
+                </button>}<br />
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
