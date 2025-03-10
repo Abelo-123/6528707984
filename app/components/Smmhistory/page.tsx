@@ -329,7 +329,7 @@ const Smmhistory = () => {
                                                         }}
                                                         className="px-6 py-4 text-sm text-nowrap">{items.status}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.oid}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.start_count}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.start_from}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.quantity}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.remains}</td>
 
