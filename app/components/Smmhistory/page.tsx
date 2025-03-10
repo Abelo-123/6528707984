@@ -120,7 +120,7 @@ const Smmhistory = () => {
                         // Immediately call fetchOrderStatus for each order to fetch the initial status
                         initialData.forEach((item) => {
                             // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                            if (item.status === "Pending" && (item.status !== "Completed" && item.status !== "Canceled")) {
+                            if ((item.status === "Pending" || item.status === "In progress") && (item.status !== "Completed" && item.status !== "Canceled")) {
                                 fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
                             }
                         });
@@ -190,7 +190,7 @@ const Smmhistory = () => {
                         );
 
                         // If the updated order's status is not "Completed", call fetchOrderStatus
-                        if (payload.new.status === "Pending" && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
+                        if ((payload.new.status === "Pending" || payload.new.status === "In progress") && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
                             fetchOrderStatus(payload.new.oid); // Fetch status for updated order
                         }
 
