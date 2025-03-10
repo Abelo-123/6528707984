@@ -32,8 +32,8 @@ const Smmhistory = () => {
         const currentStatus = data.find((item) => item.oid === orderId)?.status;
 
         // If the status is already "Completed", skip the API call
-        // if (currentStatus === "Completed" || currentStatus === "Canceled") {
-        if (currentStatus === "Canceled") {
+        if (currentStatus === "Completed" || currentStatus === "Canceled") {
+
             console.log(`Skipping API call for order ${orderId}, status is already 'Completed'.`);
             return; // Exit the function early, skipping the API request
         } else {
@@ -48,15 +48,16 @@ const Smmhistory = () => {
 
                 const result = response.data; // Axios response contains data directly
 
+
                 // // Assuming the result is structured like { orderId: { status: "someStatus", ... }}
                 if (result[orderId]) {
-                    const { status, charge, start_count, remains, currency } = result[orderId];
+                    const { status, start_count, remains } = result[orderId];
 
                     //     // If the response contains status for the given orderId, update the relevant data
                     setData((prevData) =>
                         prevData.map((item) =>
                             item.oid === orderId
-                                ? { ...item, status, charge, start_count, remains, currency } // Update relevant fields
+                                ? { ...item, status, start_count, remains } // Update relevant fields
                                 : item
                         )
                     );
@@ -110,7 +111,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // Filter by user id or another parameter as needed
+                        //  .eq("uid", user.id) // Filter by user id or another parameter as needed
                         .order('date', { ascending: true });
 
                     if (error) {
@@ -121,8 +122,7 @@ const Smmhistory = () => {
                         // Immediately call fetchOrderStatus for each order to fetch the initial status
                         initialData.forEach((item) => {
                             // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                            // if ((item.status === "Pending" || item.status === "In progress") && (item.status !== "Completed" && item.status !== "Canceled")) {
-                            if ((item.status === "Pending" || item.status === "In progress") && item.status !== "Canceled") {
+                            if ((item.status === "Pending" || item.status === "In progress") && (item.status !== "Completed" && item.status !== "Canceled")) {
                                 fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
                             }
                         });
@@ -174,8 +174,8 @@ const Smmhistory = () => {
                         setData((prevData) => [payload.new, ...prevData]);
 
                         // If the new order status is not "Completed", call fetchOrderStatus
-                        // if (payload.new.status !== "Completed" && payload.new.status !== "Canceled") {
-                        if (payload.new.status !== "Canceled") {
+                        if (payload.new.status !== "Completed" && payload.new.status !== "Canceled") {
+
                             fetchOrderStatus(payload.new.oid); // Fetch status for new order
                         }
 
@@ -193,8 +193,7 @@ const Smmhistory = () => {
                         );
 
                         // If the updated order's status is not "Completed", call fetchOrderStatus
-                        // if ((payload.new.status === "Pending" || payload.new.status === "In progress") && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
-                        if ((payload.new.status === "Pending" || payload.new.status === "In progress") && payload.new.status !== "Cancelled") {
+                        if ((payload.new.status === "Pending" || payload.new.status === "In progress") && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
                             fetchOrderStatus(payload.new.oid); // Fetch status for updated order
                         }
 
