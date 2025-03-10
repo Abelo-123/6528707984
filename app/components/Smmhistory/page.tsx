@@ -111,7 +111,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // FiltS by user id or another parameter as needed
+                        //.eq("uid", user.id) // FiltS by user id or another parameter as needed
                         .order('date', { ascending: true });
 
                     if (error) {
@@ -122,14 +122,17 @@ const Smmhistory = () => {
                         // Immediately call fetchOrderStatus for each order to fetch the initial status
                         initialData.forEach((item) => {
                             // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                            if ((item.status === "Pending" || item.status === "In progress") && (item.status !== "Completed" && item.status !== "Canceled")) {
+                            if (["Pending", "In progress"].includes(item.status)) {
+
+
                                 fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
                             }
                         });
 
                         // Create intervals for polling, only for non-completed or non-cancelled orders
                         const intervals = initialData
-                            .filter((item) => item.status !== "Canceled") // Filter out completed/cancelled orders
+                            .filter((item) => item.status !== "Canceled" && item.status !== "Completed") // Filter out completed/canceled orders
+
                             .map((item) => {
 
                                 return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
@@ -193,7 +196,8 @@ const Smmhistory = () => {
                         );
 
                         // If the updated order's status is not "Completed", call fetchOrderStatus
-                        if ((payload.new.status === "Pending" || payload.new.status === "In progress") && (payload.new.status !== "Cancelled" || payload.new.status !== "Completed")) {
+                        if (["Pending", "In progress"].includes(payload.new.status) && !["Cancelled", "Completed"].includes(payload.new.status)) {
+
                             fetchOrderStatus(payload.new.oid); // Fetch status for updated order
                         }
 
