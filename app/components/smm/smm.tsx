@@ -459,6 +459,7 @@ const Smm = () => {
                 const { user } = Telegram.WebApp.initDataUnsafe;
 
                 if (quantity % 10 !== 0) {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Invalid Quantity',
                         text: 'Quantity must be a multiple of 10.',
@@ -474,6 +475,7 @@ const Smm = () => {
                     // } else if (quantity > 10000) {
                     //     alert("to big")
                 } else if (link == null || link.trim() === '') {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Missing Information',
                         text: 'No link provided. Please complete all required fields',
@@ -487,6 +489,7 @@ const Smm = () => {
                         }
                     });
                 } else if (quantity == null) {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Missing Information',
                         text: 'No Quantity provided. Please complete all required fields',
@@ -500,6 +503,7 @@ const Smm = () => {
                         }
                     });
                 } else if (link == null && quantity == 0) {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Missing Information',
                         text: 'No Link And Quantity provided. Please complete all required fields',
@@ -513,6 +517,7 @@ const Smm = () => {
                         }
                     });
                 } else if (Number(minn) > Number(quantity) || Number(maxx) < Number(quantity)) {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Invalid Quantity',
                         text: `The quantity must be between ${minn} and ${maxx}.`,
@@ -526,6 +531,7 @@ const Smm = () => {
                         }
                     });
                 } else if (charge > userData.balance) {
+                    setDisable(false)
                     Swal.fire({
                         title: 'Insufficient Balance',
                         text: 'Not enough balance to complete this order. Please recharge and try again.',
@@ -540,7 +546,6 @@ const Smm = () => {
                     });
                 }
                 else {
-                    setDisable(true)
 
                     const { data } = await supabase.from('users')
                         .select('a_balance')
@@ -601,6 +606,8 @@ const Smm = () => {
                             }
                         }
                     } else {
+                        setDisable(false)
+
                         Swal.fire({
                             title: 'Insufficient Balance',
                             text: 'Not enough balance in admin  to complete this order. Please recharge and try again.',
@@ -1287,7 +1294,11 @@ const Smm = () => {
                                         <div className="flex mt-6  justify-between">
                                             <button
                                                 disabled={disable === true}
-                                                onClick={handleOrder}
+                                                onClick={() => {
+                                                    setDisable(true)
+                                                    handleOrder();
+
+                                                }}
                                                 style={{ background: 'var(--tgui--button_color)' }}
                                                 className=" w-10/12 mx-auto text-white  px-6 py-4 rounded-md"
                                             >
