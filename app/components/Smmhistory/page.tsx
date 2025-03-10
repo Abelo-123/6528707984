@@ -126,17 +126,17 @@ const Smmhistory = () => {
                         });
 
                         // Create intervals for polling, only for non-completed or non-cancelled orders
-                        // const intervals = initialData
-                        //     .filter((item) => item.status !== "Completed" && item.status !== "Canceled") // Filter out completed/cancelled orders
-                        //     .map((item) => {
+                        const intervals = initialData
+                            .filter((item) => item.status !== "Canceled") // Filter out completed/cancelled orders
+                            .map((item) => {
 
-                        //         return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
-                        //     });
+                                return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
+                            });
 
                         // // Cleanup intervals when the component unmounts or when data changes
-                        // return () => {
-                        //     intervals.forEach(clearInterval); // Clear all intervals
-                        // };
+                        return () => {
+                            intervals.forEach(clearInterval); // Clear all intervals
+                        };
                     }
                 }
 
