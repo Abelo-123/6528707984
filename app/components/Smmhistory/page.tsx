@@ -112,7 +112,7 @@ const Smmhistory = () => {
                         .from("orders")
                         .select("*")
                         .eq("uid", user.id) // FiltS by user id or another parameter as needed
-                        .order('date', { ascending: true });
+                        .order('created', { ascending: false });
 
                     if (error) {
                         console.log(error);
