@@ -3,9 +3,7 @@
 @tailwind utilities;
 
 
-body {
-  background: var(--tgui--bg_color);
-}
+
 
 .common-styles {
   @apply flex p-2 border-2 border-blue-200; /* Using Tailwind's @apply directive */
