@@ -150,9 +150,9 @@ const Telegram = () => {
           {/* <div id="5"
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Account /></div> */}
           <div id="5"
-            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><TelegramApp /></div>
+            className={`w-screen ${activePage === 4 ? '' : 'hidden'}`}><TelegramApp /></div>
           <div id="7"
-            className={`w-screen ${activePage === 6 ? '' : 'hidden'}`}><Admin /></div>
+            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><Admin /></div>
 
         </div>
 
