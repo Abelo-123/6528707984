@@ -111,7 +111,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // FiltS by user id or another parameter as needed
+                        //.eq("uid", user.id) // FiltS by user id or another parameter as needed
                         .order('created', { ascending: false });
 
                     if (error) {
