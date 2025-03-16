@@ -10,8 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 const Smmhistory = () => {
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loadingd, setLoadingd] = useState(null);
-
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loader, setLoader] = useState(false)
     //const { userData } = useUser();
     const delay = (ms: number) => new Promise(resolve => {
@@ -112,7 +113,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        // .eq("uid", user.id) // FiltS by user id or another parameter as needed
+                        .eq("uid", user.id) // FiltS by user id or another parameter as needed
                         .order('created', { ascending: false });
 
                     if (error) {
@@ -215,36 +216,36 @@ const Smmhistory = () => {
         }
     }, []); // Emptdependency array ensures this effect runs only once on mount
 
-    const handleRefill = async (orderId) => {
-        if (!orderId) {
-            alert("Order ID is missing");
-            return;
-        }
+    // const handleRefill = async (orderId) => {
+    //     if (!orderId) {
+    //         alert("Order ID is missing");
+    //         return;
+    //     }
 
-        setLoadingd(orderId);
+    //     setLoadingd(orderId);
 
-        try {
-            const response = await fetch("../../api/smm/RefillButton", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ order: orderId }),
-            });
+    //     try {
+    //         const response = await fetch("../../api/smm/RefillButton", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ order: orderId }),
+    //         });
 
-            const data = await response.json();
-            console.log("API Response:", data);
+    //         const data = await response.json();
+    //         console.log("API Response:", data);
 
-            if (response.ok) {
-                alert("Refill request sent successfully!");
-            } else {
-                alert(`Error: ${data.error || "Something went wrong"}`);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Failed to send refill request.");
-        } finally {
-            setLoadingd(false);
-        }
-    };
+    //         if (response.ok) {
+    //             alert("Refill request sent successfully!");
+    //         } else {
+    //             alert(`Error: ${data.error || "Something went wrong"}`);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //         alert("Failed to send refill request.");
+    //     } finally {
+    //         setLoadingd(false);
+    //     }
+    // };
 
     return (
         <>
