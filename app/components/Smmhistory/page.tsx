@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 const Smmhistory = () => {
+    const [loadingd, setLoadingd] = useState(null);
 
     const [loader, setLoader] = useState(false)
     //const { userData } = useUser();
@@ -111,7 +112,7 @@ const Smmhistory = () => {
                     const { data: initialData, error } = await supabase
                         .from("orders")
                         .select("*")
-                        .eq("uid", user.id) // FiltS by user id or another parameter as needed
+                        // .eq("uid", user.id) // FiltS by user id or another parameter as needed
                         .order('created', { ascending: false });
 
                     if (error) {
@@ -214,6 +215,37 @@ const Smmhistory = () => {
         }
     }, []); // Emptdependency array ensures this effect runs only once on mount
 
+    const handleRefill = async (orderId) => {
+        if (!orderId) {
+            alert("Order ID is missing");
+            return;
+        }
+
+        setLoadingd(orderId);
+
+        try {
+            const response = await fetch("../../api/smm/RefillButton", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order: orderId }),
+            });
+
+            const data = await response.json();
+            console.log("API Response:", data);
+
+            if (response.ok) {
+                alert("Refill request sent successfully!");
+            } else {
+                alert(`Error: ${data.error || "Something went wrong"}`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to send refill request.");
+        } finally {
+            setLoadingd(false);
+        }
+    };
+
     return (
         <>
 
@@ -288,6 +320,7 @@ const Smmhistory = () => {
                                 <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
                                     <thead>
                                         <tr>
+                                            {/* <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th> */}
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">
                                                 Status
                                             </th>
@@ -318,6 +351,15 @@ const Smmhistory = () => {
 
                                             return (
                                                 <tr key={index}>
+                                                    {/* <td className="px-6 py-4 text-sm ">
+                                                        <button
+                                                            onClick={() => handleRefill(items.oid)}
+                                                            className="bg-blue-500 text-white px-4 py-2 rounded"
+                                                            disabled={loadingd === items.oid}
+                                                        >
+                                                            {loadingd === items.oid ? "Processing..." : "Refill Order"}
+                                                        </button>
+                                                    </td> */}
                                                     <td
                                                         style={{
                                                             textShadow:
