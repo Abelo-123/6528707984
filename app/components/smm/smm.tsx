@@ -576,7 +576,7 @@ const Smm = () => {
 
 
                             if (!geterror) {
-                                const news = Number(Number(getbala.a_balance) - Number(charge))
+                                const news = parseFloat(getbala.a_balance.toString()) - parseFloat(charge.toString())
                                 const { error } = await supabase.from('users')
                                     .update({ 'a_balance': news })
                                     .eq('id', 6528707984)
