@@ -986,12 +986,12 @@ const Smm = () => {
                                                             onClick={() => clickedSearch(service)}
                                                             className="p-2 mb-2 overflow-hidden bg-white text-black rounded-md"
                                                         >
-                                                            <h4 className="font-bold">{service.name}</h4>
+                                                            <h4 className="font-bold">{service.service} - {service.name}</h4>
                                                             <p>
                                                                 <strong>Category</strong> {service.category}
                                                             </p>
                                                             <p>
-                                                                <strong>Rate</strong> {Number((service.rate / 200 * 195 * userData.allrate * userData.rate * 1000).toFixed(8))} Per 1000
+                                                                <strong>Rate</strong> {Number((service.rate / 200 * 195 * userData.allrate * userData.rate).toFixed(8))} Per 1000
                                                             </p>
                                                             <p>
                                                                 <strong>Min</strong> {service.min} <strong>Max</strong>{" "}
