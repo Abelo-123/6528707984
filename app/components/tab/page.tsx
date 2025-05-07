@@ -1,7 +1,7 @@
 "use client"
 import { Tabbar, Text } from "@telegram-apps/telegram-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faClock, faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { useActivePage } from "../ActivePageContext";
 import { faCartShopping, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 // import { useNot } from '../StatusContext';
@@ -57,14 +57,14 @@ const Tab = () => {
                     </div>
                 </div>)
             } */}
-            <Tabbar style={{ background: ' var(--tgui--bg_color)', border: '2px solid transparent', display: 'grid', margin: '0', placeItems: 'center', gridTemplateColumns: 'repeat(3, 0.5fr)' }}>
+            <Tabbar style={{ background: ' var(--tgui--bg_color)', border: '2px solid transparent', display: 'grid', margin: '0', placeItems: 'center', gridTemplateColumns: 'repeat(4, 0.5fr)' }}>
                 {/* <Tabbar style={{ background: ' var(--tgui--section_bg_color)', border: '2px solid transparent', display: 'grid', paddingBottom: '1rem', margin: '0', placeItems: 'center', gridTemplateColumns: 'repeat(3, 1fr)' }}> */}
 
                 <Tabbar.Item onClick={() => updateActivePage(1)}>
                     <div className='flex flex-col '>
 
                         <FontAwesomeIcon icon={faCartShopping} style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} />
-                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.72rem', textWrap: 'nowrap' }}>New Order</Text>
+                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>New Order</Text>
 
                     </div>
                 </Tabbar.Item>
@@ -89,6 +89,13 @@ const Tab = () => {
                     <div className='flex flex-col '>
                         <FontAwesomeIcon icon={faMoneyBill} style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
                         <Text weight="3" style={{ color: activePage === 3 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Deposit</Text>
+                    </div>
+                </Tabbar.Item>
+
+                <Tabbar.Item onClick={() => updateActivePage(4)}>
+                    <div className='flex flex-col '>
+                        <FontAwesomeIcon icon={faQuestionCircle} style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
+                        <Text weight="3" style={{ color: activePage === 4 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Ticket</Text>
                     </div>
                 </Tabbar.Item>
                 {/* <Tabbar.Item onClick={() => setNotification((prevNotification) => ({

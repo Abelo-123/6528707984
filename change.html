@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Time Converter</title>
+</head>
+<body>
+  <h2>Convert SQL Queries</h2>
+  <textarea id="inputQueries" rows="6" cols="50" placeholder="Paste your SQL queries here"></textarea><br><br>
+  <button onclick="convertQueries()">Convert Queries</button><br><br>
+  <h3>Converted Queries:</h3>
+  <textarea id="outputQueries" rows="6" cols="50" readonly></textarea>
+
+  <script>
+    function convertQueries() {
+      // Get the input SQL queries from the textarea
+      let inputQueries = document.getElementById('inputQueries').value;
+      
+      // Split the queries by line breaks to process each one
+      let queries = inputQueries.split('\n');
+      let outputQueries = [];
+      
+      queries.forEach(query => {
+        // Match the pattern in the query to extract service number and time
+        let regex = /UPDATE\s+Desc\s+SET\s+average_time\s+=\s+(\d+)\s+hour\s+(\d+)\s+minutes\s+WHERE\s+SERVICE\s+=\s+(\d+)/;
+        let match = query.match(regex);
+        
+        if (match) {
+          let hours = match[1];
+          let minutes = match[2];
+          let serviceId = match[3];
+          
+          // Convert the hours and minutes into total minutes
+          let totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
+          
+          // Format the new SQL query
+          let newQuery = `UPDATE public."desc" SET average_time = '${totalMinutes} hours ${minutes} minutes' WHERE service = '${serviceId}';`;
+          outputQueries.push(newQuery);
+        }
+      });
+      
+      // Display the converted queries in the output textarea
+      console.log(outputQueries.join('\n'))
+    }
+  </script>
+</body>
+</html>

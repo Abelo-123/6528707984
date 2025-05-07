@@ -144,11 +144,11 @@ const Lays = () => {
 
 
     useEffect(() => {
-        // setUserData((prevNotification) => ({
-        //     ...prevNotification, // Spread the previous state
-        //     balance: 900,
-        //     // Update the `deposit` field
-        // }));
+        setUserData((prevNotification) => ({
+            ...prevNotification, // Spread the previous state
+            balance: 900,
+            // Update the `deposit` field
+        }));
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
         script.async = true;
@@ -185,8 +185,9 @@ const Lays = () => {
 
 
                     supabase
+                        // .channel(`users:id=eq.${user.id}`)
                         .channel(`users:id=eq.${user.id}`)
-                        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
+                        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.6528707984` }, (payload) => {
 
                             setUserData((prevNotification) => ({
                                 ...prevNotification, // Spread the previous state

@@ -8,248 +8,416 @@ import MyLoader from "../Loader/page";
 import { faLink, faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
+import Swal from "sweetalert2";
 
 const Smmhistory = () => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loadingd, setLoadingd] = useState(null);
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const [loader, setLoader] = useState(false)
-    //const { userData } = useUser();
-    const delay = (ms: number) => new Promise(resolve => {
-        const interval = setInterval(() => {
-            clearInterval(interval);
-            resolve(true);
-        }, ms);
-    });
+    const [loader, setLoader] = useState(false);
+    const [refillCooldowns, setRefillCooldowns] = useState<Record<string, number>>({});
+    const [loadingRefill, setLoadingRefill] = useState<Record<string, boolean>>({}); // Track loading state for each order
 
     const { useNotification, setNotification } = useNot();
-
+    const [userid, setUserId] = useState<number | null>(null);
     const [data, setData] = useState<any[]>([]); // Adjust the type based on your data structure
+    const [isFetchingStatuses, setIsFetchingStatuses] = useState(false); // Flag to prevent overlapping executions
 
     // Fetch order status for each order
     const fetchOrderStatus = async (orderId: string) => {
-        await delay(9000); // Wait for 2 seconds
-
-        // Find the current status of the order from the state (data array)
-        const currentStatus = data.find((item) => item.oid === orderId)?.status;
-
-        // If the status is already "Completed", skip the API call
-        if (currentStatus === "Completed" || currentStatus === "Canceled") {
-
-            console.log(`Skipping API call for order ${orderId}, status is already 'Completed'.`);
-            return; // Exit the function early, skipping the API request
-        } else {
-            const url = '../../api/smm/fetchStatus';
-            try {
-                // console.log(orderId)
-
-                // // Sending the orderId in the request body using POST
-                const response = await axios.post(url, {
-                    orderId: orderId, // Sending orderId as JSON in the body
-                });
-
-                const result = response.data; // Axios response contains data directly
-
-
-                // // Assuming the result is structured like { orderId: { status: "someStatus", ... }}
-                if (result[orderId]) {
-                    const { status, start_count, remains } = result[orderId];
-
-                    //     // If the response contains status for the given orderId, update the relevant data
-                    setData((prevData) =>
-                        prevData.map((item) =>
-                            item.oid === orderId
-                                ? { ...item, status, start_count, remains } // Update relevant fields
-                                : item
-                        )
-                    );
-                }
-            } catch (error) {
-                console.error("Failed to fetch order status:", error);
-                if (axios.isAxiosError(error)) {
-                    console.error("Axios error:", error.response?.data || error.message);
-                }
-            }
+        // Ensure the order is not already "refunded" before proceeding
+        const order = data.find((item) => String(item.oid) === String(orderId));
+        if (!order || order.status === "refunded") {
+            console.log(`Skipping fetchOrderStatus for order ${orderId}, status is "refunded" or order not found.`);
+            return;
         }
 
-        // Same URL, but we're using POST
-        //https://adminv.paxyo.com/senda.php?ama=3&rbo=0&dvo=3&hid=330030&fd=111&tid=475&sa=deposit
-        //ama -> session amount----get the balance using hid and name it session b
-        //rbo -> session rdo---get the fd balance and name it session bb 
-        //dvo -> session ddo--get the referfalcommision of the fd and name it sessio bbb
-        //fd -> sesion fd--update the balance of the fd based on the refer 
-        // Simulating a 2-second delay before making the API call
+        // Check if the order's status is "refunded"
+        if (order.status === "refunded") {
+            console.log(`Skipping API call for order ${orderId}, status is "refunded".`);
+            return;
+        }
 
+        // If the status is already "Completed" or "Canceled", skip the API call
+        if (order.status === "Completed" || order.status === "Canceled") {
+            console.log(`Skipping API call for order ${orderId}, status is already '${order.status}'.`);
+            return;
+        }
 
+        // Proceed with the API call for other statuses
+        const url = '../../api/smm/fetchStatus';
+        try {
+            const response = await axios.post(url, {
+                orderId: orderId, // Sending orderId as JSON in the body
+            });
 
+            const result = response.data; // Axios response contains data directly
+
+            if (result.status) {
+                const { status, start_count, remains } = result;
+
+                setData((prevData) =>
+                    prevData.map((item) =>
+                        item.oid === orderId
+                            ? { ...item, status: result.status, start_count: result.start_count, remains: result.remains } // Update relevant fields
+                            : item
+                    )
+                );
+            }
+        } catch (error) {
+            console.error("Failed to fetch order status:", error);
+            if (axios.isAxiosError(error)) {
+                console.error("Axios error:", error.response?.data || error.message);
+            }
+        }
+    };
+
+    const fetchOrderStatusesConcurrently = async (orders: any[], maxConcurrent: number) => {
+        if (isFetchingStatuses) {
+            console.log("Already fetching statuses, skipping...");
+            return; // Prevent overlapping executions
+        }
+
+        setIsFetchingStatuses(true); // Set the flag to indicate fetching has started
+
+        const queue = [...orders.filter(order => ["Pending", "In progress", "Processing", "Partial"].includes(order.status))];
+        const activeRequests: Promise<void>[] = [];
+
+        const processQueue = async () => {
+            while (queue.length > 0) {
+                const order = queue.shift();
+                if (order) {
+                    await fetchOrderStatus(order.oid);
+                }
+            }
+        };
+
+        for (let i = 0; i < maxConcurrent; i++) {
+            activeRequests.push(processQueue());
+        }
+
+        await Promise.all(activeRequests); // Wait for all requests to complete
+        setIsFetchingStatuses(false); // Reset the flag after fetching is complete
+    };
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                setUserId(user.id);
+            }
+        }
+    }, [])
+    useEffect(() => {
+        // Load cooldowns from localStorage on component mount
+        const storedCooldowns = localStorage.getItem("refillCooldowns");
+        const now = Date.now();
+        let validCooldowns: Record<string, number> = {};
+
+        if (storedCooldowns) {
+            const parsedCooldowns = JSON.parse(storedCooldowns);
+
+            // Filter out expired cooldowns
+            validCooldowns = Object.fromEntries(
+                Object.entries(parsedCooldowns).filter(([orderId, cooldownEnd]) => cooldownEnd > now)
+            );
+        }
+
+        // Only set valid cooldowns from storage, do not modify based on data/status
+        setRefillCooldowns(validCooldowns);
+    }, []); // Only run on mount
+
+    useEffect(() => {
+        // Save cooldowns to localStorage whenever they change
+        localStorage.setItem("refillCooldowns", JSON.stringify(refillCooldowns));
+    }, [refillCooldowns]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRefillCooldowns((prevCooldowns) => {
+                const updatedCooldowns = { ...prevCooldowns };
+                Object.keys(updatedCooldowns).forEach((orderId) => {
+                    if (updatedCooldowns[orderId] !== undefined && updatedCooldowns[orderId] <= Date.now()) {
+                        // Remove cooldown entry when expired
+                        delete updatedCooldowns[orderId];
+                    }
+                });
+                return updatedCooldowns;
+            });
+        }, 1000); // Update every second
+
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, []);
+
+    const handleRefillClick = async (orderId: string) => {
+        // Only allow if cooldown is undefined (never set)
+        if (refillCooldowns[orderId] !== undefined) {
+            console.log(`Cooldown is already set for order ${orderId}.`);
+            return; // Exit early if cooldown is already set
+        }
+
+        setLoadingRefill((prev) => ({ ...prev, [orderId]: true })); // Set loading state for this order
+
+        try {
+            const response = await fetch(`/api/refill?order=${orderId}`, {
+                method: 'GET',
+            });
+
+            const result = await response.json();
+
+            if (result.error === "Refill is disabled for this service") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Refill Disabled',
+                    text: 'Refill is disabled for this service.',
+                });
+                return; // Exit early if refill is disabled
+            }
+
+            if (result.error === "The order was completed or refill was requested less than 24 hours ago") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Refill Not Allowed',
+                    text: 'Try requesting after 24 hours',
+                });
+                return; // Exit early if refill is not allowed
+            }
+
+            const now = Date.now();
+            setRefillCooldowns((prevCooldowns) => {
+                const updatedCooldowns = {
+                    ...prevCooldowns,
+                    [orderId]: now + 24 * 60 * 60 * 1000, // Ensure cooldown is set to 24 hours (1440 minutes)
+                };
+                localStorage.setItem("refillCooldowns", JSON.stringify(updatedCooldowns)); // Save immediately
+                return updatedCooldowns;
+            });
+
+            console.log(`Refill requested for order ${orderId}`);
+        } catch (error) {
+            console.error(`Failed to request refill for order ${orderId}:`, error);
+        } finally {
+            setLoadingRefill((prev) => ({ ...prev, [orderId]: false })); // Reset loading state
+        }
+    };
+
+    const getCooldownTimeLeft = (orderId: string) => {
+        const cooldownEnd = refillCooldowns[orderId];
+        if (!cooldownEnd) return { hours: 0, minutes: 0, seconds: 0 };
+        const timeLeft = Math.max(0, cooldownEnd - Date.now());
+        const hours = Math.floor(timeLeft / 1000 / 60 / 60);
+        const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+        const seconds = Math.floor((timeLeft / 1000) % 60);
+        return { hours, minutes, seconds };
+    };
+
+    const parseDuration = (duration: string) => {
+        if (typeof duration !== "string") {
+            console.error("Invalid duration:", duration);
+            return 0; // Return 0 if duration is not a string
+        }
+
+        // Adjust regex to handle cases like "14seconds" or "14 seconds"
+        const match = duration.match(/(\d+)\s*(\w+)/);
+        if (!match) return 0;
+
+        const value = parseInt(match[1], 10);
+        const unit = match[2].toLowerCase();
+
+        switch (unit) {
+            case "second":
+            case "seconds":
+                return value * 1000;
+            case "minute":
+            case "minutes":
+                return value * 60 * 1000;
+            case "hour":
+            case "hours":
+                return value * 60 * 60 * 1000;
+            case "day":
+            case "days":
+                return value * 24 * 60 * 60 * 1000;
+            default:
+                return 0;
+        }
+    };
+
+    const canShowRefillButton = (createdTime: string, duration: string | null) => {
+        if (!duration) return false; // Return false if duration is null
+        const createdTimestamp = parseInt(createdTime, 10); // Parse createdTime as a number
+        if (isNaN(createdTimestamp)) return false; // Return false if parsing fails
+        const now = Date.now();
+        const durationMs = parseDuration(duration);
+        return now - createdTimestamp <= durationMs; // Check if within the duration
     };
 
     const [expandedRow, setExpandedRow] = useState(null);
+    const [expandedNameRow, setExpandedNameRow] = useState<number | null>(null);
 
     const handleToggle = (index) => {
         setExpandedRow(expandedRow === index ? null : index);
     };
 
-
-
+    const handleNameToggle = (index: number) => {
+        setExpandedNameRow(expandedNameRow === index ? null : index);
+    };
 
     useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
+        const fetch = async () => {
+            setLoader(true);
+            // Fetch the initial data (orders) from Supabase or any other source
+            const { data: initialData, error } = await supabase
+                .from("orders")
+                .select("*")
+                .eq("uid", userid)
+                .order('created', { ascending: false });
 
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-            Telegram.WebApp.expand();
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
+            if (error) {
+                console.log(error);
+            } else {
+                setData(initialData); // Set the initial data
+                setLoader(false);
+            }
+        };
 
-                const { user } = Telegram.WebApp.initDataUnsafe;
-                const auth = async () => {
+        fetch();
+    }, []); // Empty dependency array ensures this effect runs only once after initial render
 
-                    setLoader(true)
-                    // Fetch the initial data (orders) from Supabase or any other source
-                    const { data: initialData, error } = await supabase
-                        .from("orders")
-                        .select("*")
-                        .eq("uid", user.id) // FiltS by user id or another parameter as needed
-                        .order('created', { ascending: false });
+    useEffect(() => {
+        if (data.length > 0) {
+            // Filter orders that need status updates
+            const ordersToUpdate = data.filter(
+                (item) => ["Pending", "In progress", "Processing", "Partial"].includes(item.status)
+            );
 
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        setData(initialData); // Set the initial data
-                        setLoader(false)
-                        // Immediately call fetchOrderStatus for each order to fetch the initial status
-                        initialData.forEach((item) => {
-                            // Ensure we're only fetching for orders that are not "Completed" or "Cancelled"
-                            if (["Pending", "In progress"].includes(item.status)) {
+            // Call the function to fetch statuses concurrently
+            fetchOrderStatusesConcurrently(ordersToUpdate, 3); // Process up to 3 requests at once
+        }
+    }, [data]); // Dependency on `data`
 
+    useEffect(() => {
+        // Create a real-time channel for the 'orders' table
+        const channel = supabase
+            .channel("orders_channel")
+            .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders", filter: `uid=eq.393383708` }, (payload) => {
+                setData((prevData) => [payload.new, ...prevData]);
 
-                                fetchOrderStatus(item.oid); // Fetch status immediately for non-completed orders
-                            }
-                        });
+                // If the new order status is not "Completed", call fetchOrderStatus
+                if (payload.new.status !== "Completed" && payload.new.status !== "Canceled" && payload.new.status !== "refunded") {
+                    fetchOrderStatus(payload.new.oid); // Fetch status for new order
+                }
+            })
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders", filter: `uid=eq.393383708` }, (payload) => {
+                setData((prevData) =>
+                    prevData.map((item) =>
+                        item.oid === payload.new.oid
+                            ? { ...item, status: payload.new.status, start_count: payload.new.start_from, remains: payload.new.remains } // Update the status in the state
+                            : item
+                    )
+                );
 
-                        // Create intervals for polling, only for non-completed or non-cancelled orders
-                        const intervals = initialData
-                            .filter((item) => item.status !== "Canceled" && item.status !== "Completed") // Filter out completed/canceled orders
+                // If the updated order's status is not "Completed", call fetchOrderStatus
+                if (["Pending", "In progress", "Processing", "Partial"].includes(payload.new.status) && !["Cancelled", "Completed"].includes(payload.new.status)) {
+                    fetchOrderStatus(payload.new.oid); // Fetch status for updated order
+                }
+            })
+            .subscribe();
 
-                            .map((item) => {
+        // Cleanup the subscription on component unmount
+        return () => {
+            channel.unsubscribe();
+        };
+    }, []); // Empty dependency array ensures this effect runs only once on mount
 
-                                return setInterval(() => fetchOrderStatus(item.oid), 9000); // Polling only for non-completed orders every 2 seconds
-                            });
+    useEffect(() => {
+        const updateCanceledOrders = async () => {
+            // Filter out already refunded orders
+            const canceledItems = data.filter(
+                (item) => item.status === "Canceled" && item.uid === userid && item.status !== "refunded"
+            );
 
-                        // // Cleanup intervals when the component unmounts or when data changes
-                        return () => {
-                            intervals.forEach(clearInterval); // Clear all intervals
-                        };
-                    }
+            if (canceledItems.length === 0) {
+                console.log("No eligible canceled items found for user 6528707984.");
+                return;
+            }
+
+            for (const item of canceledItems) {
+                console.log("Refunding:", item.oid);
+
+                // Update the status to "refunded" in the database
+                const { error: updateError } = await supabase
+                    .from("orders")
+                    .update({ status: "refunded" })
+                    .eq("oid", item.oid);
+
+                if (updateError) {
+                    console.error(`Failed to update status for order ${item.oid}:`, updateError);
+                    continue;
                 }
 
+                console.log(`Order ${item.oid} status updated to "refunded" in database.`);
 
+                // Update the status to "refunded" in the state
+                setData((prevData) =>
+                    prevData.map((order) =>
+                        order.oid === item.oid ? { ...order, status: "refunded" } : order
+                    )
+                );
 
-                auth();
+                // Fetch the user's balance and refund the charge
+                const { data: userData, error: userError } = await supabase
+                    .from("users")
+                    .select("balance")
+                    .eq("id", item.uid)
+                    .single();
+
+                if (userError) {
+                    console.error(`Failed to fetch balance for user ${item.uid}:`, userError);
+                    continue;
+                }
+
+                const userBalance = userData?.balance || 0;
+
+                const { error: refundError } = await supabase
+                    .from("users")
+                    .update({ balance: item.charge + userBalance })
+                    .eq("id", item.uid);
+
+                if (refundError) {
+                    console.error(`Failed to refund charge for user ${item.uid}:`, refundError);
+                } else {
+                    console.log(`Refunded ${item.charge} to user ${item.uid}'s balance.`);
+                }
             }
-        }
-        // Call the auth function when the component is mounted
-    }, []); // Empty dependency array ensures this effect runs only once after initial render
-    // Empty dependency array ensures this effect runs only once on mount
+        };
+
+        updateCanceledOrders();
+    }, [data]);
 
     useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://telegram.org/js/telegram-web-app.js?2";
-        script.async = true;
-        document.body.appendChild(script);
+        const handleNewOrder = (event: CustomEvent) => {
+            const newOrder = event.detail;
+            setData((prevData) => [newOrder, ...prevData]); // Add the new order to the top of the table
+        };
 
-        script.onload = async () => {
-            const Telegram = window.Telegram;
-            Telegram.WebApp.expand();
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
+        window.addEventListener("newOrder", handleNewOrder);
 
-                const { user } = Telegram.WebApp.initDataUnsafe;
-                // Create a real-time channel for the 'orders' table
-                const channel = supabase
-                    .channel("orders_channel")
-                    .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders", filter: `uid=eq.${user.id}` }, (payload) => {
-                        //console.log("New order inserted:", payload.new);
-                        // Add the new order to the stats
-                        //  if (payload.new.uid == 5928771903) {
-                        setData((prevData) => [payload.new, ...prevData]);
-
-                        // If the new order status is not "Completed", call fetchOrderStatus
-                        if (payload.new.status !== "Completed" && payload.new.status !== "Canceled") {
-
-                            fetchOrderStatus(payload.new.oid); // Fetch status for new order
-                        }
-
-                    })
-                    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders", filter: `uid=eq.${user.id}` }, (payload) => {
-                        //console.log("Order updated:", payload.new.status, "for oid", payload.new.oid);
-                        // if (payload.new.uid == 5928771903) {
-                        // Find the updated order in the current state
-                        setData((prevData) =>
-                            prevData.map((item) =>
-                                item.oid === payload.new.oid
-                                    ? { ...item, status: payload.new.status, start_count: payload.new.start_from, remains: payload.new.remains } // Update the status in the state
-                                    : item
-                            )
-                        );
-
-                        // If the updated order's status is not "Completed", call fetchOrderStatus
-                        if (["Pending", "In progress"].includes(payload.new.status) && !["Cancelled", "Completed"].includes(payload.new.status)) {
-
-                            fetchOrderStatus(payload.new.oid); // Fetch status for updated order
-                        }
-
-                    })
-
-
-                    .subscribe();
-
-                // Cleanup the subscription on component unmount
-                return () => {
-                    channel.unsubscribe();
-                };
-            }
-        }
-    }, []); // Emptdependency array ensures this effect runs only once on mount
-
-    // const handleRefill = async (orderId) => {
-    //     if (!orderId) {
-    //         alert("Order ID is missing");
-    //         return;
-    //     }
-
-    //     setLoadingd(orderId);
-
-    //     try {
-    //         const response = await fetch("../../api/smm/RefillButton", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ order: orderId }),
-    //         });
-
-    //         const data = await response.json();
-    //         console.log("API Response:", data);
-
-    //         if (response.ok) {
-    //             alert("Refill request sent successfully!");
-    //         } else {
-    //             alert(`Error: ${data.error || "Something went wrong"}`);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //         alert("Failed to send refill request.");
-    //     } finally {
-    //         setLoadingd(false);
-    //     }
-    // };
+        return () => {
+            window.removeEventListener("newOrder", handleNewOrder);
+        };
+    }, []);
 
     return (
         <>
-
             <List
                 style={{
                     padding: "0px 0px",
@@ -265,18 +433,14 @@ const Smmhistory = () => {
                             <div style={{ height: '85%' }} className='mt-2 '>
                                 <div className="  w-screen " >
                                     {
-
                                         !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
-
                                             <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
                                                 <div className="block w-full px-2">
                                                     <div className="text-right ml-auto"> {items.from}</div>
                                                     <div className="text ml-2"> {items.message}</div>
                                                 </div>
                                             </li>
-
                                         ))
-
                                     }
                                 </div>
                             </div>
@@ -287,7 +451,6 @@ const Smmhistory = () => {
                                         notificationModal: false,
                                         notificationData: [],
                                         notificationLoader: true,
-                                        // Update the `deposit` field
                                     }));
                                 }} className="p-3 ">
                                     <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
@@ -298,8 +461,7 @@ const Smmhistory = () => {
                     )
                 }
                 <div className='z-90   w-full absolute place-content-center grid place-content-end absolute  ' onClick={() => window.location.href = 'https://www.google.com'} style={{ margin: '1rem -0.9rem', fontSize: '0.8rem', height: '3rem', zIndex: 900, }} >
-                    <div className="flex">
-
+                    <div className="flex" style={{ zIndex: 1 }}>
                         <FontAwesomeIcon icon={faTelegram} style={{ 'margin': '1.3rem 0.3rem', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
                         <div className="font-sans inline mx-auto my-auto">Support</div>
                     </div>
@@ -308,20 +470,15 @@ const Smmhistory = () => {
                     <>
                         <div className="tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-d0251b46536ac046 tgui-809f1f8a3f64154d tgui-266b6ffdbad2b90e tgui-8f63cd31b2513281 tgui-9c200683b316fde6">Order history
                         </div>
-
                     </>
                 )} style={{ marginTop: '-0.5rem', border: "1px solid var(--tgui--section_bg_color)" }}>
-
                     <div style={{ width: "100%" }} className=" mx-auto">
                         {loader && <MyLoader />}
-
                         <div style={{ borderRadius: "10px", height: '31rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
-
                             {!loader &&
                                 <table style={{ width: "100%" }} className="   rounded-lg shadow-md">
                                     <thead>
                                         <tr>
-                                            {/* <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th> */}
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">
                                                 Status
                                             </th>
@@ -333,14 +490,15 @@ const Smmhistory = () => {
                                                 Quantity
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Remains</th>
-
-
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Link</th>
+                                            <th className="px-6 py-3 text-sm text-nowrap">Link</th>
                                             <th className="px-6 py-3 text-nowrap text-left text-xs font-medium  uppercase tracking-wider">
                                                 Charge (ETB)
                                             </th>
-                                            {/* <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Service</th> */}
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Service</th>
+                                            <th className="px-6 py-3 text-nowrap text-left text-xs font-medium  uppercase tracking-wider">
+                                                Refill
+                                            </th>
+
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
                                         </tr>
                                     </thead>
@@ -352,15 +510,6 @@ const Smmhistory = () => {
 
                                             return (
                                                 <tr key={index}>
-                                                    {/* <td className="px-6 py-4 text-sm ">
-                                                        <button
-                                                            onClick={() => handleRefill(items.oid)}
-                                                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                                                            disabled={loadingd === items.oid}
-                                                        >
-                                                            {loadingd === items.oid ? "Processing..." : "Refill Order"}
-                                                        </button>
-                                                    </td> */}
                                                     <td
                                                         style={{
                                                             textShadow:
@@ -368,73 +517,128 @@ const Smmhistory = () => {
                                                                     items.status === "Completed" ? "2px 2px 29px lime" :
                                                                         items.status === "Pending" ? "2px 2px 29px yellow" :
                                                                             items.status === "In progress" ? "2px 2px 29px blue" :
-                                                                                undefined
+                                                                                items.status === "Processing" ? "2px 2px 29px blue" :
+                                                                                    items.status === "Partial" ? "2px 2px 29px blue" :
+                                                                                        items.status === "refunded" ? "2px 2px 29px red" :
+                                                                                            undefined
                                                         }}
                                                         className="px-6 py-4 text-sm text-nowrap">{items.status}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.oid}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.start_from}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.quantity}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.uid}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.remains}</td>
-
-
                                                     <td className="px-6 py-4 text-sm">
+                                                        <div style={{ display: 'flex' }}>
+                                                            <span className="flex">
+                                                                {
+                                                                    items.link && (() => {
+                                                                        try {
+                                                                            const url = new URL(items.link); // Validate URL
+                                                                            return (
+                                                                                <a
+                                                                                    href={url.href}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    style={{ display: "inline-block", marginRight: '0.5rem' }}
+                                                                                >
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={faLink}
+                                                                                        style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
+                                                                                        size="1x"
+                                                                                    />
+                                                                                </a>
+                                                                            );
+                                                                        } catch (error) {
+                                                                            //console.error("Invalid link:", items.link, error); // Log invalid link
+                                                                            return <span style={{ color: "red" }}>Invalid Link</span>; // Display fallback text
+                                                                        }
+                                                                    })()
+                                                                }
 
-                                                        <span className="flex">
-                                                            {
-                                                                items.link && (() => {
-                                                                    try {
-                                                                        const url = new URL(items.link); // Validate URL
-                                                                        return (
-                                                                            <a
-                                                                                href={url.href}
-                                                                                target="_blank"
-                                                                                rel="noopener noreferrer"
-                                                                                style={{ display: "inline-block", marginRight: '0.5rem' }}
-                                                                            >
-                                                                                <FontAwesomeIcon
-                                                                                    icon={faLink}
-                                                                                    style={{ margin: 'auto', color: "var(--tgui--section_header_text_color)" }}
-                                                                                    size="1x"
-                                                                                />
-                                                                            </a>
-                                                                        );
-                                                                    } catch {
-
-                                                                        return null; // Do not render the link if invalid
-                                                                    }
-                                                                })()
-                                                            }
-
-                                                            {isExpanded ? items.link : truncatedLink}</span>
-                                                        {items.link.length > 50 && (
-                                                            <div className="inline-flex items-center ml-2">
+                                                                <span>
+                                                                    {isExpanded ? items.link : truncatedLink}
+                                                                </span>
+                                                            </span>
+                                                            {items.link.length > 20 && (
                                                                 <button
+                                                                    style={{ display: 'inline' }}
                                                                     onClick={() => handleToggle(index)}
-                                                                    className="text-blue-500 hover:underline mr-2"
+                                                                    className="text-blue-500 hover:underline ml-2"
                                                                 >
                                                                     {isExpanded ? "See less" : "See more"}
                                                                 </button>
-                                                                {/* Custom Link Icon */}
-
-
-
-                                                            </div>
-                                                        )}
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td className="px-6 py-4 text-sm ">{items.charge}</td>
-                                                    {/* <td className="px-6 py-4 text-sm ">{items.service}</td> */}
-                                                    <td className="px-6 py-4 text-sm text-nowrap ">{items.name}</td>
+                                                    <td className="px-6 py-4 text-sm text-nowrap ">
+                                                        <span>
+                                                            {expandedNameRow === index ? items.name : items.name.length > 20 ? `${items.name.substring(0, 20)}...` : items.name}
+                                                        </span>
+                                                        {items.name.length > 20 && (
+                                                            <button
+                                                                onClick={() => handleNameToggle(index)}
+                                                                className="text-blue-500 hover:underline ml-2"
+                                                            >
+                                                                {expandedNameRow === index ? "See less" : "See more"}
+                                                            </button>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-sm text-nowrap ">
+                                                        {items.refill && (
+                                                            <>
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation(); // Prevent triggering other click events
+                                                                        // Only allow refill if cooldown is undefined and status is "Completed"
+                                                                        if (refillCooldowns[items.oid] === undefined && items.status === "Completed") {
+                                                                            handleRefillClick(items.oid); // Only trigger refill if no cooldown exists
+                                                                        } else if (refillCooldowns[items.oid]) {
+                                                                            console.log(`Cooldown already active for order ${items.oid}.`);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            loadingRefill[items.oid]
+                                                                                ? "orange" // Loading state
+                                                                                : refillCooldowns[items.oid] > Date.now()
+                                                                                    ? "gray" // Cooldown period
+                                                                                    : items.status === "Completed" && refillCooldowns[items.oid] === undefined
+                                                                                        ? "blue" // Enabled after cooldown
+                                                                                        : "rgba(0, 0, 0, 0.5)",
+                                                                        color: "white",
+                                                                        padding: "0.5rem 1rem",
+                                                                        borderRadius: "5px",
+                                                                        border: "none",
+                                                                        cursor:
+                                                                            loadingRefill[items.oid] ||
+                                                                                refillCooldowns[items.oid] > Date.now() ||
+                                                                                items.status !== "Completed"
+                                                                                ? "not-allowed"
+                                                                                : "pointer",
+                                                                    }}
+                                                                    disabled={
+                                                                        loadingRefill[items.oid] ||
+                                                                        refillCooldowns[items.oid] > Date.now() ||
+                                                                        items.status !== "Completed"
+                                                                    }
+                                                                >
+                                                                    {loadingRefill[items.oid]
+                                                                        ? "Loading..." // Show loading state
+                                                                        : refillCooldowns[items.oid] > Date.now()
+                                                                            ? `Cooldown (${getCooldownTimeLeft(items.oid).minutes}m ${getCooldownTimeLeft(items.oid).seconds}s)` // Show timer
+                                                                            : "Refill"}
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </td>
                                                     <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
-
                                                 </tr>
                                             );
                                         })}
                                     </tbody>
                                 </table>
                             }
-
-
-
                         </div>
                     </div>
                 </Section>
@@ -444,3 +648,4 @@ const Smmhistory = () => {
 };
 
 export default Smmhistory;
+

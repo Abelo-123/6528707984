@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-100 flex items-center justify-center min-h-screen">
+    <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-2xl overflow-hidden w-full max-w-5xl">
+        <!-- Contact Info Section -->
+        <div class="bg-red-500 text-white p-10 md:w-1/3 flex flex-col justify-center">
+            <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+            <ul class="space-y-6">
+                <li class="flex items-start">
+                    <i class="fas fa-map-marker-alt text-xl mr-4"></i>
+                    <span class="leading-relaxed">32, Avenue ve Newyork<br>321994 Newyork</span>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-envelope text-xl mr-4"></i>
+                    <span>hello@loremipsum.com</span>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-phone text-xl mr-4"></i>
+                    <span>+3356 1589 2105</span>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-phone text-xl mr-4"></i>
+                    <span>+3356 1589 2100</span>
+                </li>
+            </ul>
+        </div>
+        <!-- Contact Form Section -->
+        <div class="p-10 md:w-2/3">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
+            <p class="text-gray-600 mb-8">Feel free to drop us a line below!</p>
+            <form id="contactForm" action="#" method="POST" class="space-y-6">
+                <div>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required 
+                        class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-700">
+                </div>
+                <div>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required 
+                        class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-700">
+                </div>
+                <div>
+                    <textarea id="message" name="message" placeholder="Typing your message here..." required 
+                        class="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-700 h-32"></textarea>
+                </div>
+                <button type="submit" id="submitButton" 
+                    class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition text-lg font-semibold">
+                    SEND
+                </button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</body>
+</html>

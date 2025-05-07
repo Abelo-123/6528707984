@@ -33,7 +33,7 @@ const Smm = () => {
     const { setNotification } = useNot();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [services, setServices] = useState([])
+    const [services, setServices] = useState<AxiosResponse<any, any>[]>([])
     const [category, setCategory] = useState([])
     const [service, setService] = useState([])
     const [chosen, setChosen] = useState<string | any>([])
@@ -63,9 +63,10 @@ const Smm = () => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [searchhh, setSearchh] = useState('');
     const [servicess, setServicess] = useState([]); // All services
-    const [filteredServices, setFilteredServices] = useState([]); // Filtered services
+    const [filteredServices, setFilteredServices] = useState<any[]>([]); // Filtered services
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [description, setDescription] = useState("")
+    const [at, setAt] = useState("")
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [promoModal, setpromoModal] = useState(false)
 
@@ -77,13 +78,24 @@ const Smm = () => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loadingBB, setLoadingbb] = useState(true);
 
+    const [type, serviceType] = useState('')
     const [minn, setMin] = useState(0)
     const [maxx, setMax] = useState(0)
     // const [marq, setMarq] = useState('')
+    const [comment, setComment] = useState(null)
+    const [answernumber, setanswerNumber] = useState(null);
 
+    const [usernameowner, setusernameOwner] = useState('')
 
-
-
+    const [serviceId, setServiceId] = useState(null)
+    const handleTextareaChange = (e) => {
+        const value = e.target.value;
+        // Optional: normalize line endings to "\n" if you're concerned about cross-platform consistency
+        const withEscapedLineBreaks = value.replace(/\n/g, '\\n');
+        setComment(withEscapedLineBreaks);
+        setCharge(Number(Number(value.split('\n').length * theRate * userData.allrate * userData.rate / 200 * 195 / 1000).toFixed(8)))
+        setQuantity(value.split('\n').length); // Count the number of lines
+    };
 
     // useEffect(() => {
     //     const fetchDepo = async () => {
@@ -198,6 +210,7 @@ const Smm = () => {
 
     useEffect(() => {
 
+
         // Load the Telegram Web App JavaScript SDK
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -302,13 +315,14 @@ const Smm = () => {
 
             const ser = chosen.service;
             showLoad(true)
-            const { data, error } = await supabase.from('desc').select('description').eq('service', ser);
+            const { data, error } = await supabase.from('desc').select('description, average_time').eq('service', ser);
             // setDescription([response.data.success[0]])
             if (error) {
                 console.error(error.message)
             } else {
                 showLoad(false)
                 setDescription(data[0].description)
+                setAt(data[0].average_time)
             }
 
         }
@@ -358,7 +372,7 @@ const Smm = () => {
                                 .reduce((unique, datas) => {
                                     if (!unique.some((item) => item.category === datas.category)) {
                                         unique.push(datas); // Add unique items to the array
-                                        console.log(datas);
+
                                     }
                                     return unique;
                                 }, []) // Initialize with an empty array// Initialize with an empty array to accumulate unique values
@@ -387,6 +401,7 @@ const Smm = () => {
         setId(null)
         setChosen(null)
         setDescription(null)
+        setAt(null)
         setBcfor(name)
         setBc('var(--tgui--section_header_text_color)')
         setCat(true)
@@ -411,11 +426,68 @@ const Smm = () => {
 
     }
 
+    function getRecommendedService() {
+        setSer(true); // Set to true to enable service modal
+        setId(null);
+        setChosen(null);
+        setDescription(null);
+        setAt(null);
+        setBcfor('recommended');
+        setBc('var(--tgui--section_header_text_color)');
+        setCat(false); // Disable category modal
+
+        setIcon(() => {
+            return { i: iconMap.other, c: '#24A1DE', n: 'Recommended Service' };
+        });
+
+        const fetchRecommendedServices = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('adminmessage')
+                    .select('message')
+                    .eq('father', 6528707984)
+                    .eq('from', 'Admin-re');
+
+                if (error) {
+                    console.error('Error fetching recommended services:', error);
+                    return;
+                }
+
+                if (data.length > 0) {
+                    const serviceIds = data[0].message.split(',').map((id) => id.trim());
+                    const recommendedServices = services[0]?.data?.response.filter((service) =>
+                        serviceIds.includes(String(service.service))
+                    );
+
+                    setService(recommendedServices); // Populate modalB with recommended services
+                    //showModalB(true); // Open the service modal
+                }
+            } catch (err) {
+                console.error('Error:', err.message);
+            }
+        };
+
+        fetchRecommendedServices();
+
+        // Subscribe to real-time changes in the adminmessage table
+        supabase
+            .channel('adminmessage-realtime')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'adminmessage', filter: `father=eq.6528707984,from=eq.Admin-re` }, (payload) => {
+                const serviceIds = payload.new.message.split(',').map((id) => id.trim());
+                const updatedServices = services[0]?.data?.response.filter((service) =>
+                    serviceIds.includes(String(service.service))
+                );
+                setService(updatedServices); // Update services in real-time
+            })
+            .subscribe();
+    }
+
     function getService(name, data) {
         setId(null)
         setChosen(data)
         setSer(true)
         setDescription(null)
+        setAt(null)
         showModalA(false)
 
         const ser = services[0].data.response.filter((datas) => datas.category.includes(name))
@@ -427,6 +499,7 @@ const Smm = () => {
     function setChose(data) {
         setId(data.name)
         setSer(true)
+
         setChosen(data)
         showModalB(false)
         settherate(data.rate)
@@ -434,7 +507,11 @@ const Smm = () => {
         console.log(data)
         setMax(data.max)
         setLabel(`Min: ${data.min} Max: ${data.max}`)
+
+        // Fetch request to send '13' as the service parameter
+
     }
+
 
     const handleInput = (e) => {
         setQuantity(e.target.value)
@@ -474,7 +551,58 @@ const Smm = () => {
                     });
                     // } else if (quantity > 10000) {
                     //     alert("to big")
-                } else if (link == null || link.trim() === '') {
+
+
+
+
+                } else if (type === 'Custome Comment' && comment == null) {
+                    setDisable(false)
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No Comment Provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+
+
+
+                } else if ((serviceId == 5836 || serviceId == 5648) && usernameowner == '') {
+                    setDisable(false)
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No username of comment owner Provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                }
+                else if (type === 'Poll' && answernumber == null) {
+                    setDisable(false)
+                    Swal.fire({
+                        title: 'Missing Information',
+                        text: 'No answer number Provided. Please complete all required fields',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-popup',    // Apply the custom class to the popup
+                            title: 'swal2-title',    // Apply the custom class to the title
+                            confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                            cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                        }
+                    });
+                }
+                else if (link == null || link.trim() === '') {
                     setDisable(false)
                     Swal.fire({
                         title: 'Missing Information',
@@ -554,9 +682,8 @@ const Smm = () => {
 
                     if (data.a_balance > charge) {
 
-
                         const response = await axios.post('/api/smm/addOrder', {
-                            username: user.username,
+                            usernames: 'user.username',
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
@@ -565,9 +692,35 @@ const Smm = () => {
                             panel: 'sm',
                             name: id,
                             category: chosen.category,
-                            id: user.id
+                            id: user.id,
+                            answer_number: answernumber || null,
+                            comments: comment ? comment.replace(/\\\\n/g, '\n') : null,
+                            username: usernameowner || null,
+                            type: type,
+                            rt: description.match(/\d+(?=\s*Days)/)?.[0] || null,
                         });
                         if (response.data.success) {
+                            // setModalE(false)
+
+                            // Notify the Smmhistory component about the new order
+                            const newOrder = {
+                                oid: response.data.orderOid, // Assuming the API returns the new order ID
+                                status: "Pending",
+                                start_from: 0,
+                                remains: quantity,
+                                link: link,
+                                charge: charge,
+                                name: id,
+                                refill: response.data.refill,
+                                rtime: Date.now().toString(),
+                                rt: description.match(/\d+(?=\s*Days)/)?.[0] || null,
+                                date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+                                uid: user.id,
+                            };
+
+                            const event = new CustomEvent("newOrder", { detail: newOrder });
+                            window.dispatchEvent(event);
+
                             // setModalE(false)
                             const { data: getbala, error: geterror } = await supabase.from('users')
                                 .select('a_balance')
@@ -693,6 +846,8 @@ const Smm = () => {
     const clickedSearch = (service) => {
         setChose(service);
         readySearch(false);
+        setServiceId(service.service)
+        serviceType(service.type);
         settherate(service.rate);
         setIcon(() => {
             return { i: iconMap.search, c: "white", n: search };
@@ -887,17 +1042,17 @@ const Smm = () => {
                 }
                 //console.log(payload.new)
             })
-            // .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'panel' }, (payload) => {
 
-            //     if (payload.new.owner == 6528707984) {
-            //         // setUserData((prevNotification) => ({
-            //         //     ...prevNotification, // Spread the previous state
-            //         //     disabled: payload.new.bigvalue,
-            //         //     // Update the `deposit` field
-            //         // }))
-            //         console.log(payload.new.bigvalue)
-            //     }
-            // })
+                if (payload.new.owner == 6528707984) {
+                    setUserData((prevNotification) => ({
+                        ...prevNotification, // Spread the previous state
+                        disabled: payload.new.bigvalue,
+                        // Update the `deposit` field
+                    }))
+                    console.log(payload.new.bigvalue)
+                }
+            })
 
 
 
@@ -927,9 +1082,6 @@ const Smm = () => {
 
     }, [])
 
-
-
-
     return (
         <>
             <List>
@@ -939,6 +1091,7 @@ const Smm = () => {
 
                 }}>
                     Clean
+                    {comment}
                 </button>}<br />
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
@@ -1123,16 +1276,24 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Spotify', '#1DB954', iconMap.spotify, 'Spotify')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Spotify' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
-                            <FontAwesomeIcon icon={faSpotify} color="#1DB954" style={{ 'margin': 'auto auto' }} size="2x" />
-                            <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Spotify</Text>
-                            </div>
-                        </div>
-                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Spotify, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
+                            </div>
+                        </div>
+                        <div
+                            className='common-styles'
+                            onClick={getRecommendedService}
+                            style={{
+                                borderRadius: '10px',
+                                fontSize: '0.6rem',
+                                border: `2px solid ${bcfor == 'recommended' ? bc : 'rgba(112, 117, 121, 0.4)'}`,
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ margin: 'auto auto' }} size="2x" />
+                            <div className='my-auto mx-2'>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Recommendations</Text>
                             </div>
                         </div>
                     </div>
@@ -1158,20 +1319,23 @@ const Smm = () => {
 
                 {
                     modalA &&
-                    //  <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-center bottom-0 left-0 right-0 p-2'>
                     <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '90%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
-
-                            {category.map((datas, index) => (
-                                <div key={index} className="px-1 py-3" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
-                                    <div className=" text-wrap flex">
-                                        <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-                                        <div className='ml-4' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.category}</div>
+                            {bcfor === 'recommended' ? (
+                                <Text style={{ fontSize: '1rem', color: 'var(--tgui--hint_color)', textAlign: 'center', marginTop: '2rem' }}>
+                                    Check on Service
+                                </Text>
+                            ) : (
+                                category.map((datas, index) => (
+                                    <div key={index} className="px-1 py-3" onClick={() => getService(datas.category, datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }}>
+                                        <div className="text-wrap flex">
+                                            <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
+                                            <div className='ml-4' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.category}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-
+                                ))
+                            )}
                         </div>
                         <div onClick={() => showModalA(false)} className='absolute  text-white mt-4 w-11/12 ml-2 grid place-content-center p-3'>
                             <div className='flex'>
@@ -1195,44 +1359,41 @@ const Smm = () => {
                                 <FontAwesomeIcon className={(cat && !id && chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
                             </div>
                         </div>
-
-
-
-
-
                     </div>
+
                 </Section>
+
+
+
 
                 {
                     modalB &&
-                    // <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='  modal-pop h-screen bg-red-100 absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
-
+                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='modal-pop h-screen w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '90%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
-
-
                             {ser ? service
                                 .filter((items) => {
                                     const disabledArray = String(userData.disabled || "").split(","); // Ensure it is a string
                                     return !disabledArray.includes(String(items.service)); // Check if service is not in the array
                                 })
                                 .map((datas, index) => (
-
-                                    <div className="p-2 py-4" key={index} onClick={() => setChose(datas)} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }} >
+                                    <div className="p-2 py-4" key={index} onClick={() => {
+                                        setChose(datas);
+                                        setServiceId(datas.service);
+                                        serviceType(datas.type);
+                                    }} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }}>
                                         <div className="text-wrap flex">
                                             <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
-
-                                            <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>{datas.service} {datas.name}
-
-                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className=' m-3 rounded-lg  p-1 inline'>{Number((Number(datas.rate) / 200 * 195 * Number(userData.allrate) * Number(userData.rate)).toFixed(8))} Br Per 1000</div>
+                                            <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>
+                                                {datas.service} {datas.name}
+                                                <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className='m-3 rounded-lg p-1 inline'>
+                                                    {Number((Number(datas.rate) / 200 * 195 * Number(userData.allrate) * Number(userData.rate)).toFixed(8))} Br Per 1000
+                                                </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 )) : <Text>Choose Category</Text>}
-
                         </div>
-                        <div onClick={() => showModalB(false)} className='absolute mt-4 text-white  w-11/12 ml-2 grid place-content-center p-3'>
+                        <div onClick={() => showModalB(false)} className='absolute mt-4 text-white w-11/12 ml-2 grid place-content-center p-3'>
                             <div className='flex'>
                                 <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
                                 <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
@@ -1249,17 +1410,26 @@ const Smm = () => {
                 >
                     Order
                 </Button>
-                {/* {
-                    loader ? <MyLoader /> :
-                        id && description && (
-                            <div className='none overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
-                                <Text style={{ fontSize: '0.8rem' }}>
-                                    <div dangerouslySetInnerHTML={{ __html: description }} />
-                                </Text>
-                            </div>
-                        )
-                }
-                <br /><br /><br /> */}
+                <p>{description ? description.match(/\d+(?=\s*Days)/)?.[0] || 'N/A' : 'N/A'}</p>
+                {loader ? (
+                    <div className="text-center mt-4">
+                        <Spinner size="m" />
+                        <Text style={{ fontSize: '0.8rem', color: 'var(--tgui--hint_color)' }}>Loading description...</Text>
+                    </div>
+                ) : (
+                    id && description && (
+                        <div className='none Text-black overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
+                            <Text style={{ color: 'black', fontSize: '0.8rem' }}>
+                                <strong>Average Time: {at}</strong>
+                                <div dangerouslySetInnerHTML={{ __html: description }} />
+                            </Text>
+                        </div>
+                    )
+                )}
+                <br />
+
+                <br />
+                <br />
                 {
                     isModalOpen && (
                         <div
@@ -1284,10 +1454,38 @@ const Smm = () => {
                                     {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
                                         <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 
-                                        <Input header="Link" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Enter the link" />
+                                        <Input header="Link" disabled={type === 'Custom Comments' && true} value={link} onChange={(e) => setLink(e.target.value)} placeholder="Enter the link" />
 
-                                        <Input type="number" header="Quantity" value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
+                                        <Input type="number" header="Quantity" readOnly={type === 'Custom Comments'} value={quantity} onInput={handleInput} placeholder="Enter the quantity" />
 
+                                        <div style={{ display: type === 'Poll' ? 'block' : 'none' }}>
+                                            <Input type="text" header={type === 'Poll' ? 'Answer number' : ''} value={answernumber} onInput={(e) => setanswerNumber(e.target.value)} placeholder="Enter the Answer Number" />
+                                        </div>
+
+                                        <div style={{ display: (serviceId == 5836 || serviceId == 5648) ? 'block' : 'none' }}>
+                                            <Input
+                                                type="text"
+                                                header="Username of the comment owner"
+                                                value={usernameowner}
+                                                disabled={type === 'Custom Comments' && true}
+                                                onInput={(e) => setusernameOwner(e.target.value)}
+                                                placeholder="Enter the username of the comment owner"
+                                            />
+                                        </div>
+                                        <div style={{ display: type === 'Custom Comments' ? 'none' : 'none' }}>
+
+                                            {type === 'Custom Comments' && (
+                                                <>
+                                                    <strong>Comment</strong>
+                                                    <textarea
+                                                        onChange={handleTextareaChange}
+                                                        placeholder="Enter your comments here"
+                                                        style={{ width: '100%', height: '100px', resize: 'none', color: 'black', border: '2px solid gray', padding: '5px', marginRight: '3rem', borderRadius: '10px' }}
+                                                    ></textarea>
+
+                                                </>
+                                            )}
+                                        </div>
                                         <div className='p-2 ml-4'>  {labelel}</div>
                                         <div className='p-2 ml-4'> Charge: <strong>{charge} ETB</strong></div>
                                         <div className='p-2 ml-4'> Service: {id}</div>

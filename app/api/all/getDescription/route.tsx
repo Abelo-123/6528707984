@@ -14,14 +14,13 @@
 //     try {
 
 //         const updateUserQuery = `
-//         SELECT (description) FROM "desc"
-// WHERE service = $1;
-//     `;
+//          SELECT (description) FROM "desc"
+//  WHERE service = $1;
+//      `;
 
 //         const values = [service];
 
 //         const { rows } = await pool.query(updateUserQuery, values);
-
 //         return NextResponse.json({ success: rows });
 //     } catch (error) {
 //         console.error("Error inserting data:", error);

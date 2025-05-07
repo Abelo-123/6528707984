@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
 import Smm from './components/smm/smm';
+import Ticket from "./components/ticket/page";
 import Admin from "./components/admin/page";
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
@@ -147,12 +148,15 @@ const Telegram = () => {
           <div
             id="3"
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Deposit /></div>
+          <div
+            id="4"
+            className={`w-screen ${activePage === 4 ? '' : 'hidden'}`}><Ticket /></div>
           {/* <div id="5"
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Account /></div> */}
           <div id="5"
-            className={`w-screen ${activePage === 4 ? '' : 'hidden'}`}><TelegramApp /></div>
+            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><TelegramApp /></div>
           <div id="7"
-            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><Admin /></div>
+            className={`w-screen ${activePage === 6 ? '' : 'hidden'}`}><Admin /></div>
 
         </div>
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SQL Fixer for Unescaped Quotes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    pre {
+      white-space: pre-wrap;
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Fix SQL INSERTs with Unescaped Quotes</h2>
+
+<label for="inputSql">Paste your raw SQL INSERT statements below:</label>
+<textarea id="inputSql" rows="12" placeholder="Paste SQL INSERT statements here..."></textarea>
+
+<button onclick="fixSQL()">Fix SQL</button>
+
+<h3>Corrected SQL Output:</h3>
+<pre id="outputSql"></pre>
+
+<script>
+function fixSQL() {
+  const input = document.getElementById('inputSql').value;
+  const fixedSql = input.replace(/VALUES\s*\(\s*'(.*?)'\s*,\s*(\d+)\s*\);/gs, (match, desc, serviceId) => {
+    // Escape single quotes within the description string
+    const escapedDesc = desc.replace(/'/g, "''");
+    return `VALUES ('${escapedDesc}', ${serviceId});`;
+  });
+
+  document.getElementById('outputSql').textContent = fixedSql;
+}
+</script>
+
+</body>
+</html>

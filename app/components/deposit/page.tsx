@@ -186,7 +186,7 @@ const Deposit = () => {
 
 
                 const { error } = await supabase.from('deposit').insert([
-                    { did: did, uid: user.id, pm: pm, amount: amount, name: name, username: user.first_name, username_profile: "userData.profile", father: 6528707984 }
+                    { did: did, uid: user.id, pm: pm, amount: amount, name: name, username: user.first_name, username_profile: userData.profile, father: 6528707984 }
                 ]);
 
                 if (error) {
