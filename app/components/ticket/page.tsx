@@ -1,5 +1,5 @@
 "use client"
-import { List, Select, Text, Input, Button, Section, Modal } from "@telegram-apps/telegram-ui";
+import { List, Select, Text, Input, Button, Section } from "@telegram-apps/telegram-ui";
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import Swal from 'sweetalert2';

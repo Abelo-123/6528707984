@@ -391,7 +391,7 @@ const Deposit = () => {
                 setTg(false)
                 setBut(true)
                 setMo(false)
-                setaAmount(null)
+                setaAmount("")
                 if (aamountRef.current) {
                     sendAmount(aamountRef.current, message);
                 } else {
@@ -606,7 +606,7 @@ const Deposit = () => {
                             </div>
                             <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold mb-4">Make Deposit</h2>
                             <p className="mb-4">Enter the amount you want to deposit:</p>
-                            <Select header="Select" value={pm} onChange={handleChange}>
+                            <Select header="Select" value={pm || ""} onChange={handleChange}>
                                 <option value="">Select an option</option>
                                 <option>Hello</option>
                                 <option>Okay</option>

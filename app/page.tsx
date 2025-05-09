@@ -4,11 +4,11 @@ import '@telegram-apps/telegram-ui/dist/styles.css';
 import { AppRoot } from '@telegram-apps/telegram-ui';// Adjust as necessary
 import Smm from './components/smm/smm';
 import Ticket from "./components/ticket/page";
-import Admin from "./components/admin/page";
+//import Admin from "./components/admin/page";
 import Smmhistory from './components/Smmhistory/page';
 import Deposit from './components/deposit/page';
 //import Account from './components/Account/account';
-import TelegramApp from './components/theme/theme';
+//import TelegramApp from './components/theme/theme';
 import React from "react";
 //import { useNot } from "./components/StatusContext";
 import { useActivePage } from './components/ActivePageContext';
@@ -153,10 +153,10 @@ const Telegram = () => {
             className={`w-screen ${activePage === 4 ? '' : 'hidden'}`}><Ticket /></div>
           {/* <div id="5"
             className={`w-screen ${activePage === 3 ? '' : 'hidden'}`}><Account /></div> */}
-          <div id="5"
-            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><TelegramApp /></div>
-          <div id="7"
-            className={`w-screen ${activePage === 6 ? '' : 'hidden'}`}><Admin /></div>
+          {/* <div id="5"
+            className={`w-screen ${activePage === 5 ? '' : 'hidden'}`}><TelegramApp /></div> */}
+          {/* <div id="7"
+            className={`w-screen ${activePage === 6 ? '' : 'hidden'}`}><Admin /></div> */}
 
         </div>
 

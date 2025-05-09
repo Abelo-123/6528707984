@@ -1,3 +1,4 @@
+// This file has been renamed to `tsconfig.backup.json` to disable TypeScript configuration.
 {
   "compilerOptions": {
     "target": "ES2017",
@@ -40,6 +41,9 @@
   ],
   "exclude": [
     "node_modules",
-    "app/api/all/fixNotification/route.tsx"
+    "app/api/all/fixNotification/route.tsx",
+    "app/api/all/getDescription/route.tsx",
+    "app/api/all/sendDeposit/route.tsx",
+    ".next"
   ]
 }

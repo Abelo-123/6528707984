@@ -1,9 +1,10 @@
-// next.config.js
-const NextConfig = {
-  // Your configuration options here
+const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    appDir: true,
+  },
 };
 
-module.exports = NextConfig;
+module.exports = nextConfig;

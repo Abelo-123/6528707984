@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
+export const revalidate = 60;
+export const dynamic = 'force-dynamic'; // <-- Tell Next.js this route can't be statically rendered
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const order = searchParams.get('order');

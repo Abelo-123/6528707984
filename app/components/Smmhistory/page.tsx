@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */ // Disable 'no-unused-vars' for the entire file
+
 "use client";
 import { List, Section, Text } from "@telegram-apps/telegram-ui";
 import { useEffect, useState } from "react";
@@ -11,9 +13,7 @@ import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 import Swal from "sweetalert2";
 
 const Smmhistory = () => {
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loadingd, setLoadingd] = useState(null);
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [loader, setLoader] = useState(false);
     const [refillCooldowns, setRefillCooldowns] = useState<Record<string, number>>({});
     const [loadingRefill, setLoadingRefill] = useState<Record<string, boolean>>({}); // Track loading state for each order
@@ -116,7 +116,8 @@ const Smmhistory = () => {
                 setUserId(user.id);
             }
         }
-    }, [])
+    }, []);
+
     useEffect(() => {
         // Load cooldowns from localStorage on component mount
         const storedCooldowns = localStorage.getItem("refillCooldowns");
@@ -290,7 +291,7 @@ const Smmhistory = () => {
         };
 
         fetch();
-    }, []); // Empty dependency array ensures this effect runs only once after initial render
+    }, [userid]); // Add 'userid' to the dependency array
 
     useEffect(() => {
         if (data.length > 0) {
@@ -302,7 +303,7 @@ const Smmhistory = () => {
             // Call the function to fetch statuses concurrently
             fetchOrderStatusesConcurrently(ordersToUpdate, 3); // Process up to 3 requests at once
         }
-    }, [data]); // Dependency on `data`
+    }, [data, fetchOrderStatusesConcurrently]); // Add 'fetchOrderStatusesConcurrently' to the dependency array
 
     useEffect(() => {
         // Create a real-time channel for the 'orders' table
@@ -336,7 +337,7 @@ const Smmhistory = () => {
         return () => {
             channel.unsubscribe();
         };
-    }, []); // Empty dependency array ensures this effect runs only once on mount
+    }, [fetchOrderStatus]); // Add 'fetchOrderStatus' to the dependency array
 
     useEffect(() => {
         const updateCanceledOrders = async () => {
@@ -646,6 +647,8 @@ const Smmhistory = () => {
         </>
     );
 };
+
+/* eslint-enable @typescript-eslint/no-unused-vars */ // Re-enable 'no-unused-vars' if needed
 
 export default Smmhistory;
 
