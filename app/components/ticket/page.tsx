@@ -3,8 +3,10 @@ import { List, Select, Text, Input, Button, Section } from "@telegram-apps/teleg
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import Swal from 'sweetalert2';
+import MyLoader from "../Loader/page";
+import { useNot } from '../StatusContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faRotateBackward } from '@fortawesome/free-solid-svg-icons';
 const Ticket = () => {
     const [selectedOption, setSelectedOption] = useState("1");
     const [subject, setSubject] = useState("");
@@ -14,6 +16,8 @@ const Ticket = () => {
     const [tickets, setTickets] = useState([]); // State to store fetched tickets
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
     const [userId, setUserId] = useState(""); // State to store the user ID
+    const { setNotification } = useNot();
+    const { useNotification } = useNot();
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -104,6 +108,48 @@ const Ticket = () => {
                     position: 'relative',
                 }}
             >
+                 {
+                    useNotification.notificationModal && (
+                        <div style={{
+                            zIndex: 9000, background: 'var(--tgui--section_bg_color)'
+                        }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
+
+                            {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
+                            <div style={{ height: '85%' }} >
+                                <div className="  w-screen " >
+                                    {
+
+                                        !useNotification.notifcationLoader && useNotification.notificationData && useNotification.notificationData.map((items, index) => (
+
+                                            <li key={index} className="flex w-11/12 p-3 mx-auto" style={{ borderTop: '2px solid black' }}>
+                                                <div className="block w-full px-2">
+                                                    <div className="text-right ml-auto"> {items.from}</div>
+                                                    <div className="text ml-2"> {items.message}</div>
+                                                </div>
+                                            </li>
+
+                                        ))
+
+                                    }
+                                </div>
+                            </div>
+                            <div className='absolute  w-full grid place-content-center bottom-4'>
+                                < div onClick={() => {
+                                    setNotification((prevNotification) => ({
+                                        ...prevNotification, // Spread the previous state
+                                        notificationModal: false,
+                                        notificationData: [],
+                                        notificationLoader: true,
+                                        // Update the `deposit` field
+                                    }));
+                                }} className="p-3 ">
+                                    <FontAwesomeIcon icon={faRotateBackward} style={{ 'margin': 'auto auto', color: "var(--tgui--section_header_text_color)" }} size="2x" />
+                                    <Text style={{ display: 'inline', margin: 'auto 0.5rem', fontWeight: '700', color: 'var(--tgui--section_header_text_color)' }}>Back</Text>
+                                </div>
+                            </div>
+                        </div >
+                    )
+                }
                 <Button
                     color="primary"
                     style={{
