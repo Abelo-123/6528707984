@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: my-nextjs-app
+    env: node
+    repo: https://github.com/Abelo-123/6528707984
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
