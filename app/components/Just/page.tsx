@@ -12,7 +12,7 @@ const ChapaPayment = () => {
             script.src = 'https://js.chapa.co/v1/inline.js';
             script.async = true;
             script.onload = () => {
-                // Initialize ChapaCheckout after the script is loaded
+                // Initialize ChapaCheckot after the script is loaded
                 const chapa = new ChapaCheckout({
                     publicKey: 'CHAPUBK-jAUMgGr2eCLXX2isTp3nu5qhfuKBROQb',
                     amount: '100',
