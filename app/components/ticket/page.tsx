@@ -117,14 +117,14 @@ const Ticket = () => {
                     Open Ticket Form
                 </Button>
                 <Section style={{ marginTop: '1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: "10px", height: '31rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
+                    <div style={{ borderRadius: "10px", height: '25rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
                         <Text header="Submitted Tickets" />
 
                         <table className="min-w-full rounded-lg shadow-md">
                             <thead>
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type</th>
+                                    <th className="px-6 py-3 text-nowrap text-left text-xs font-medium uppercase tracking-wider">Type</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Subject</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-nowrap tracking-wider">Order ID</th>
@@ -148,7 +148,7 @@ const Ticket = () => {
                                                         ticket.status === "Pending" ? "2px 2px 29px yellow" :
                                                             undefined
                                             }}>{ticket.status || "-"}</td>
-                                        <td className="px-6 py-4 text-sm">{ticket.optionType == 1? "Human Support": "AI Support"}</td>
+                                        <td className="px-6 py-4 text-nowrap text-sm">{ticket.optionType == 1? "Human Support": "AI Support"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.subject || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.action || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.orderId || "-"}</td>

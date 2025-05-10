@@ -429,12 +429,13 @@ const Smm = () => {
     function getRecommendedService() {
         setSer(true); // Set to true to enable service modal
         setId(null);
+        setCat(true);
         setChosen(null);
         setDescription(null);
         setAt(null);
         setBcfor('recommended');
         setBc('var(--tgui--section_header_text_color)');
-        setCat(false); // Disable category modal
+    // Disable category modal
 
         setIcon(() => {
             return { i: iconMap.other, c: '#24A1DE', n: 'Recommended Service' };
@@ -1245,7 +1246,7 @@ const Smm = () => {
                         >
                           
                             <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Reccomandation</Text>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Recommendation</Text>
                             </div>
                         </div>
                         <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube, YouTube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
@@ -1323,7 +1324,7 @@ const Smm = () => {
 
                 {
                     modalA &&
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop    h-screen  w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop inset-0  h-screen  w-screen absolute  fixed top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '90%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
                             {bcfor === 'recommended' ? (
@@ -1455,6 +1456,7 @@ const Smm = () => {
                                     <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                                 </div>
                                 <div style={{ paddingLeft: '1rem' }}>
+                               
                                     {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
                                         <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 
