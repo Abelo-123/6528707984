@@ -438,7 +438,7 @@ const Smm = () => {
     // Disable category modal
 
         setIcon(() => {
-            return { i: iconMap.other, c: '#24A1DE', n: 'Recommended Service' };
+            return { i: iconMap.other, c: '#24A1DE', n: 'Top Service' };
         });
 
         const fetchRecommendedServices = async () => {
@@ -1245,10 +1245,14 @@ const Smm = () => {
                             }}
                         >
                           
+                            <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Recommendation</Text>
-                            </div>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Top</Text>
+                           </div>
+                            
+                            
                         </div>
+                        
                         <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube, YouTube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
@@ -1307,7 +1311,10 @@ const Smm = () => {
                {bcfor !== "recommended" && (
                 
                 <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>1. Category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div onClick={() => showModalA(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+                    <div onClick={() => {
+                        showModalA(true)
+                        window.scrollTo(0, 0);
+                    }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                             <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
@@ -1353,7 +1360,10 @@ const Smm = () => {
 
 
                 <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} onClick={() => showModalB(true)} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>2. Service</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div onClick={() => showModalB(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+                    <div onClick={() => {
+                        showModalB(true)
+                        window.scrollTo(0, 0);
+                        }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
                             <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />

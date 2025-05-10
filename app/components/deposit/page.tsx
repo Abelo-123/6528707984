@@ -670,8 +670,8 @@ const Deposit = () => {
                         <div className="font-sans inline mx-auto my-auto">Support</div>
                     </div>
                 </div>
-                <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: '10px', height: '27rem', width: '100%' }} className="scrollabler overflow-x-auto">
+                <Section header="Deposit History" style={{ marginTop: '0rem', border: '1px solid var(--tgui--section_bg_color)' }}>
+                    <div style={{ borderRadius: '10px', height: '28rem', width: '100%' }} className="scrollabler overflow-x-auto">
 
                         <table className=" min-w-full  rounded-lg shadow-md">
                             <thead>

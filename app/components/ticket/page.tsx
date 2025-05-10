@@ -3,7 +3,8 @@ import { List, Select, Text, Input, Button, Section } from "@telegram-apps/teleg
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import Swal from 'sweetalert2';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 const Ticket = () => {
     const [selectedOption, setSelectedOption] = useState("1");
     const [subject, setSubject] = useState("");
@@ -117,7 +118,7 @@ const Ticket = () => {
                     Open Ticket Form
                 </Button>
                 <Section style={{ marginTop: '1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: "10px", height: '25rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
+                    <div style={{ borderRadius: "10px", height: '28rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
                         <Text header="Submitted Tickets" />
 
                         <table className="min-w-full rounded-lg shadow-md">
@@ -177,33 +178,25 @@ const Ticket = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <button
-                        style={{
-                            position: 'absolute',
-                            top: '10px',
-                            right: '10px',
-                            background: 'transparent',
-                            border: 'none',
-                            fontSize: '4rem',
-                            cursor: 'pointer',
-                            color: 'white',
-                        }}
-                        onClick={() => setIsModalOpen(false)}
-                    >
-                        &times;
-                    </button>
-                    <Section
-                        style={{
-                            backgroundColor: 'white', // Ensure modal content is visible
-                            padding: '1rem',
-                            borderRadius: '0.5rem',
-                            border: '1px solid var(--tgui--section_bg_color)',
-                            width: '90%', // Adjust width for responsiveness
-                            maxWidth: '500px', // Limit maximum width
-                        }}
-                    >
+          =
+                    
+                    <div
+                            className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
+                        // Prevent clicking inside the modal from closing it
+                        >
+                                                           <div
+style={{zIndex:90000}}
+className="  text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+onClick={() => setIsModalOpen(false)}
+>
+<FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+</div>
                         <Select
+                            className="m-4"
                             header="Support Type"
+                            placeholder="Choose support"
                             onChange={(e) => setSelectedOption(e.target.value)}
                         >
                             <option value="1">Human Support</option>
@@ -213,6 +206,7 @@ const Ticket = () => {
                             <Select
                                 header="Action"
                                 value={action}
+                                     placeholder="Choose action"
                                 onChange={(e) => setAction(e.target.value)}
                             >
                                 <option value="cancel">Cancel</option>
@@ -221,10 +215,10 @@ const Ticket = () => {
                             </Select>
                         )}
                         {selectedOption === "1" && (
-                            <Input header="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                            <Input header="Subject"      placeholder="Enter subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                         )}
                         {selectedOption === "2" && (
-                            <Input header="Order IDs" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
+                            <Input header="Order IDs"      placeholder="Enter Order ID" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
                         )}
                         {selectedOption === "1" && (
                             <textarea
@@ -234,6 +228,7 @@ const Ticket = () => {
                                     margin: '10px',
                                     padding: '10px',
                                     width: '90%',
+                                    color: 'black',
                                     border: '3px solid darkblue',
                                     borderRadius: '7px',
                                 }}
@@ -254,7 +249,7 @@ const Ticket = () => {
                         >
                             Send
                         </Button>
-                    </Section>
+                    </div>
                 </div>
             )}
         </>
