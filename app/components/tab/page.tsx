@@ -64,7 +64,7 @@ const Tab = () => {
                     <div className='flex flex-col '>
 
                         <FontAwesomeIcon icon={faCartShopping} style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} />
-                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>New Order</Text>
+                        <Text weight="3" style={{ color: activePage === 1 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Order</Text>
 
                     </div>
                 </Tabbar.Item>
@@ -72,7 +72,7 @@ const Tab = () => {
                     <div className='flex flex-col'>
 
                         <FontAwesomeIcon icon={faClock} style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '1.2rem' }} size="1x" />
-                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>Orders</Text>
+                        <Text weight="3" style={{ color: activePage === 2 ? 'var(--tgui--link_color)' : 'var(--tgui--subtitle_text_color)', fontSize: '0.82rem' }}>History</Text>
 
                     </div>
                 </Tabbar.Item>

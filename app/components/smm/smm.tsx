@@ -1086,13 +1086,13 @@ const Smm = () => {
         <>
             <List>
                 {/* {authmessage}<br /> */}
-                {<button onClick={() => {
+                {/* {<button onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                     {comment}
-                </button>}<br />
+                </button>}<br /> */}
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
@@ -1175,7 +1175,7 @@ const Smm = () => {
                 {
                     useNotification.notificationModal && (
                         <div style={{
-                            zIndex: 900, background: 'var(--tgui--section_bg_color)'
+                            zIndex: 9000, background: 'var(--tgui--section_bg_color)'
                         }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
 
                             {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
@@ -1234,6 +1234,20 @@ const Smm = () => {
                         {mediaload && (<div style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', background: 'rgba(125, 125, 125, 0.2)' }} className='grid place-content-center absolute  top-0 bottom-0 left-0 right-0'>
                             <Spinner size="l" />
                         </div>)}
+                        <div
+                            className='common-styles'
+                            onClick={getRecommendedService}
+                            style={{
+                                borderRadius: '10px',
+                                fontSize: '0.6rem',
+                                border: `2px solid ${bcfor == 'recommended' ? bc : 'rgba(112, 117, 121, 0.4)'}`,
+                            }}
+                        >
+                          
+                            <div className='my-auto mx-2'>
+                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Reccomandation</Text>
+                            </div>
+                        </div>
                         <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube, YouTube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
@@ -1276,31 +1290,21 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Whatsapp</Text>
                             </div>
                         </div>
-                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Spotify, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Linkedin, Discord, Threads, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
+                        <div className='common-styles' onClick={() => getCategory('Linkedin, Discord, Threads, Spotify, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee', '#24A1DE', iconMap.other, 'Other')} style={{ 'borderRadius': '10px', fontSize: '0.6rem', border: `2px solid ${bcfor == 'Linkedin, Discord, Threads, Spotify, Pinterest, Clubhouse, Twitch, Kick, Bigo, Trovo, Kwai, Shopee' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
                         </div>
-                        <div
-                            className='common-styles'
-                            onClick={getRecommendedService}
-                            style={{
-                                borderRadius: '10px',
-                                fontSize: '0.6rem',
-                                border: `2px solid ${bcfor == 'recommended' ? bc : 'rgba(112, 117, 121, 0.4)'}`,
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ margin: 'auto auto' }} size="2x" />
-                            <div className='my-auto mx-2'>
-                                <Text weight="2" style={{ fontSize: '0.9rem' }}>Recommendations</Text>
-                            </div>
-                        </div>
+                       
                     </div>
                 </Section>
 
 
 
+                
+               {bcfor !== "recommended" && (
+                
                 <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>1. Category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div onClick={() => showModalA(true)} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
@@ -1314,8 +1318,8 @@ const Smm = () => {
                             </div>
                         </div>
                     </div>
-                </Section>
-
+                </Section>)}
+              
 
                 {
                     modalA &&
@@ -1410,7 +1414,7 @@ const Smm = () => {
                 >
                     Order
                 </Button>
-                <p>{description ? description.match(/\d+(?=\s*Days)/)?.[0] || 'N/A' : 'N/A'}</p>
+                {/* <p>{description ? description.match(/\d+(?=\s*Days)/)?.[0] || 'N/A' : 'N/A'}</p> */}
                 {loader ? (
                     <div className="text-center mt-4">
                         <Spinner size="m" />
@@ -1419,7 +1423,7 @@ const Smm = () => {
                 ) : (
                     id && description && (
                         <div className='none Text-black overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
-                            <Text style={{ color: 'black', fontSize: '0.8rem' }}>
+                            <Text style={{  fontSize: '0.8rem' }}>
                                 <strong>Average Time: {at}</strong>
                                 <div dangerouslySetInnerHTML={{ __html: description }} />
                             </Text>

@@ -148,7 +148,7 @@ const Ticket = () => {
                                                         ticket.status === "Pending" ? "2px 2px 29px yellow" :
                                                             undefined
                                             }}>{ticket.status || "-"}</td>
-                                        <td className="px-6 py-4 text-sm">{ticket.optionType}</td>
+                                        <td className="px-6 py-4 text-sm">{ticket.optionType == 1? "Human Support": "AI Support"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.subject || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.action || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.orderId || "-"}</td>
