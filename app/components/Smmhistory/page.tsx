@@ -192,6 +192,14 @@ const Smmhistory = () => {
                 });
                 return; // Exit early if refill is not allowed
             }
+            if (result.error === "Refill days are over") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Refill expired',
+                    text: 'Refill days are over',
+                });
+                return; // Exit early if refill is not allowed
+            }
 
             const now = Date.now();
             setRefillCooldowns((prevCooldowns) => {
@@ -279,7 +287,7 @@ const Smmhistory = () => {
             const { data: initialData, error } = await supabase
                 .from("orders")
                 .select("*")
-                .eq("uid", userid)
+                .eq("uid", 5928771903)
                 .order('created', { ascending: false });
 
             if (error) {
@@ -292,6 +300,7 @@ const Smmhistory = () => {
                 }));
                 setData(parsedData); // Set the parsed data
                 setLoader(false);
+                console.log(parsedData)
             }
         };
 
@@ -594,7 +603,7 @@ const Smmhistory = () => {
 
                                                     <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
                                                     <td className="px-6 py-4 text-sm text-nowrap ">
-                                                        {items.refill && (
+                                                        {Boolean(items.refill) && (
                                                             <>
                                                                 <button
                                                                     onClick={(e) => {
@@ -641,7 +650,6 @@ const Smmhistory = () => {
                                                                 </button>
                                                             </>
                                                         )}
-                                                        {items.refill && "true"}
                                                     </td>
                                                 </tr>
                                             );
