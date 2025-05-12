@@ -88,6 +88,7 @@ const Smm = () => {
     const [usernameowner, setusernameOwner] = useState('')
 
     const [serviceId, setServiceId] = useState(null)
+    const [refill, setRefill] = useState(false)
     const handleTextareaChange = (e) => {
         const value = e.target.value;
         // Optional: normalize line endings to "\n" if you're concerned about cross-platform consistency
@@ -205,9 +206,6 @@ const Smm = () => {
             }
         }
     }, []);
-
-
-
     useEffect(() => {
 
 
@@ -309,7 +307,6 @@ const Smm = () => {
 
         };
     }, []);
-
     useEffect(() => {
         const fetchDescc = async () => {
 
@@ -333,12 +330,6 @@ const Smm = () => {
     const openModal = () => {
         setIsModalOpen(true);
     };
-
-    // Function to close the modal
-
-
-
-
     useEffect(() => {
 
 
@@ -435,10 +426,10 @@ const Smm = () => {
         setAt(null);
         setBcfor('recommended');
         setBc('var(--tgui--section_header_text_color)');
-    // Disable category modal
+        // Disable category modal
 
         setIcon(() => {
-            return { i: iconMap.other, c: '#24A1DE', n: 'Top Service' };
+            return { i: iconMap.other, c: '#24A1DE', n: 'Top' };
         });
 
         const fetchRecommendedServices = async () => {
@@ -486,6 +477,8 @@ const Smm = () => {
     function getService(name, data) {
         setId(null)
         setChosen(data)
+        setRefill(data.refill)
+        console.log(data)
         setSer(true)
         setDescription(null)
         setAt(null)
@@ -502,6 +495,7 @@ const Smm = () => {
         setSer(true)
 
         setChosen(data)
+        setRefill(data.refill)
         showModalB(false)
         settherate(data.rate)
         setMin(data.min)
@@ -684,12 +678,12 @@ const Smm = () => {
                     if (data.a_balance > charge) {
 
                         const response = await axios.post('/api/smm/addOrder', {
-                            usernames: 'user.username',
+                            usernames: user.usernam,
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
                             charge: charge,
-                            refill: chosen.refill,
+                            refill: refill,
                             panel: 'sm',
                             name: id,
                             category: chosen.category,
@@ -808,29 +802,27 @@ const Smm = () => {
 
     // Handle input change and filter services by the service id
     useEffect(() => {
-        // Debounced search logic
         const timeout = setTimeout(() => {
             if (searchhh) {
-
                 const filtered = servicess[0].response.filter((item) =>
-                    item.service.toString().includes(searchhh)
+                    item.service.toString().includes(searchhh) ||
+                    item.name.toLowerCase().includes(searchhh.toLowerCase()) // NEW: match by name
                 );
 
                 const sortedFiltered = filtered.sort((a, b) => {
                     const aService = a.service.toString();
                     const bService = b.service.toString();
+                    const aName = a.name.toLowerCase();
+                    const bName = b.name.toLowerCase();
+                    const searchLower = searchhh.toLowerCase();
 
-                    const aMatch = aService === searchhh;
-                    const bMatch = bService === searchhh;
+                    const aMatch = aService === searchhh || aName === searchLower;
+                    const bMatch = bService === searchhh || bName === searchLower;
 
-                    if (aMatch && !bMatch) {
-                        return -1; // "a" should come first if it's an exact match
-                    }
-                    if (!aMatch && bMatch) {
-                        return 1; // "b" should come first if it's an exact match
-                    }
+                    if (aMatch && !bMatch) return -1;
+                    if (!aMatch && bMatch) return 1;
 
-                    return aService.localeCompare(bService); // Otherwise, sort lexicographically
+                    return aService.localeCompare(bService);
                 });
 
                 setFilteredServices(sortedFiltered);
@@ -839,13 +831,15 @@ const Smm = () => {
                 setFilteredServices([]);
                 setLoadingbb(false);
             }
-        }, 2000); // 300ms debounce delay
+        }, 2000); // 2 second debounce
 
-        return () => clearTimeout(timeout); // Clear timeout if input changes quickly
+        return () => clearTimeout(timeout);
     }, [searchhh, servicess]);
+
 
     const clickedSearch = (service) => {
         setChose(service);
+        console.log(service)
         readySearch(false);
         setServiceId(service.service)
         serviceType(service.type);
@@ -1099,7 +1093,7 @@ const Smm = () => {
                 promo</button> */}
                 {searchh && (
                     <div
-                        style={{ background: 'var(--tgui--section_bg_color)', zIndex: 9000 }}
+                        style={{ background: 'var(--tgui--section_bg_color)', zIndex: 90000 }}
                         className="modal-popp  fixed overflow-y-hidden min-w-screen top-0 bottom-0  "
                     >
 
@@ -1176,7 +1170,7 @@ const Smm = () => {
                 {
                     useNotification.notificationModal && (
                         <div style={{
-                            zIndex: 9000, background: 'var(--tgui--section_bg_color)'
+                            zIndex: 90000, background: 'var(--tgui--section_bg_color)'
                         }} className=" modal-popp fixed inset-0 top-0 bottom-0 w-screen ">
 
                             {useNotification.notificationLoader && <MyLoader style={{ marginTop: '2rem' }} />}
@@ -1224,8 +1218,8 @@ const Smm = () => {
                         </div>
                     )
                 }
-                <div className='z-90  w-full absolute mt-4 grid place-content-end absolute  ' style={{ top: '6rem' }}>
-                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 1rem', color: 'var(--tgui--section_header_text_color)' }} size="1x" />
+                <div className='z-90  w-full absolute mt-4 grid place-content-end absolute  ' style={{ top: '5.3rem' }}>
+                    <FontAwesomeIcon onClick={() => readySearch(true)} icon={faSearch} style={{ 'margin': 'auto 2rem', fontSize: '1.5rem', zIndex: 9000, color: 'var(--tgui--section_header_text_color)' }} />
                 </div>
                 {/* <Section header={(<div style={{ fontWeight: '500', paddingLeft:  '1rem', color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }}>1.order</div>)} style={{ position: 'relative', border: '1px solid var(--tgui--section_bg_color)', marginTop: '1rem' }}>
  */}<br />
@@ -1244,15 +1238,16 @@ const Smm = () => {
                                 border: `2px solid ${bcfor == 'recommended' ? bc : 'rgba(112, 117, 121, 0.4)'}`,
                             }}
                         >
-                          
-                            <FontAwesomeIcon icon={faDiceFour} color="#24A1DE" style={{ 'margin': 'auto auto' }} size="2x" />
+
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Telegram_Premium.png" alt="Telegram Premium" style={{ height: '1.3rem', margin: 'auto auto', width: 'auto' }} />
+
                             <div className='my-auto mx-2'>
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Top</Text>
-                           </div>
-                            
-                            
+                            </div>
+
+
                         </div>
-                        
+
                         <div id="a" className='common-styles' onClick={() => getCategory('Youtube, YouTube', '#ff0000', iconMap.youtube, 'Youtube')} style={{ 'borderRadius': '10px', fontSize: '0.5rem', border: `2px solid ${bcfor == 'Youtube, YouTube' ? bc : 'rgba(112, 117, 121, 0.4)'}` }}>
                             <FontAwesomeIcon icon={faYoutube} color="#ff0000" style={{ 'margin': 'auto auto' }} size="2x" />
                             <div className='my-auto mx-2'>
@@ -1301,33 +1296,34 @@ const Smm = () => {
                                 <Text weight="2" style={{ fontSize: '0.9rem' }}>Other</Text>
                             </div>
                         </div>
-                       
+
                     </div>
                 </Section>
 
 
 
-                
-               {bcfor !== "recommended" && (
-                
-                <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>1. Category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div onClick={() => {
-                        showModalA(true)
-                        window.scrollTo(0, 0);
-                    }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
-                        <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
-                            <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
-                            <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
-                                <div style={{ color: (cat && !ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{chosen?.category || `Select ${icon.n} Category`}</div>
-                            </div>
-                            <div className='my-4  ml-auto mx-4 justify-self-end'>
-                                <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                {bcfor !== "recommended" && (
+
+                    <Section header={(<div style={{ color: 'var(--tgui--section_header_text_color)', fontSize: '0.9rem' }} className=' pl-2 tgui-c3e2e598bd70eee6 tgui-080a44e6ac3f4d27 tgui-809f1f8a3f64154d   '>1. Category</div>)} style={{ marginTop: '1rem', color: 'var(--tgui--button_text_color)', paddingLeft: '10px', border: '1px solid var(--tgui--section_bg_color)' }}>
+                        <div onClick={() => {
+                            showModalA(true)
+                            window.scrollTo(0, 0);
+                        }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+
+                            <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
+
+                                <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
+                                <div className='mx-4  font-bold text-nowrap overflow-hidden   my-auto' style={{ fontSize: '1rem' }}>
+                                    <div style={{ color: (cat && !ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{chosen?.category || `Select ${icon.n} Category`}</div>
+                                </div>
+                                <div className='my-4  ml-auto mx-4 justify-self-end'>
+                                    <FontAwesomeIcon className={(cat && !id && !chosen?.category) && "fa-lock"} icon={faAngleDown} color="var(--tgui--subtitle_text_color)" style={{ 'margin': 'auto auto' }} size="2x" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Section>)}
-              
+                    </Section>)}
+
 
                 {
                     modalA &&
@@ -1363,10 +1359,14 @@ const Smm = () => {
                     <div onClick={() => {
                         showModalB(true)
                         window.scrollTo(0, 0);
-                        }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
+                    }} className="w-12/12 mx-auto  rounded-lg" style={{ fontSize: '0.8rem' }}>
 
                         <div style={{ background: 'var(--tgui--bg_color)' }} className='rounded-lg flex px-2  '>
-                            <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
+                            {icon.n === "Top" && (
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Telegram_Premium.png" alt="Telegram Premium" style={{ height: '1.3rem', margin: 'auto 0.4rem', width: 'auto' }} />
+                            ) || (
+                                    <FontAwesomeIcon icon={icon.i} color={icon.c} className=' my-auto' size="2x" />
+                                )}
                             <div className='mx-4  font-bold text-nowrap overflow-hidden  my-auto' style={{ fontSize: '1rem' }}>
                                 <div style={{ color: (!id && ser) ? "var(--tgui--text_color)" : "var(--tgui--hint_color)" }}>{!id ? `Select ${icon.n} Service` : id}</div>
                             </div>
@@ -1434,7 +1434,7 @@ const Smm = () => {
                 ) : (
                     id && description && (
                         <div className='none Text-black overflow-hidden w-11/12 mx-auto p-2' style={{ height: 'auto', borderRadius: '8px', border: '2px groove var(--tgui--subtitle_text_color)' }}>
-                            <Text style={{  fontSize: '0.8rem' }}>
+                            <Text style={{ fontSize: '0.8rem' }}>
                                 <strong>Average Time: {at}</strong>
                                 <div dangerouslySetInnerHTML={{ __html: description }} />
                             </Text>
@@ -1448,8 +1448,8 @@ const Smm = () => {
                 {
                     isModalOpen && (
                         <div
-
-                            className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-75 grid content-center  z-50"
+                            style={{ zIndex: 90000 }}
+                            className="fixed inset-0 modal-pops  w-screen h-screen  bg-black bg-opacity-75 grid content-center  "
                             onClick={closeModal}
                         >
                             <div
@@ -1466,7 +1466,7 @@ const Smm = () => {
                                     <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
                                 </div>
                                 <div style={{ paddingLeft: '1rem' }}>
-                               
+
                                     {!cat && 'Choose Media' || !chosen?.name && `Choose ${icon.n} Category And Service` || (chosen.name && !id) && `Choose ${icon.n} Service` || cat && ser && (<>
                                         <h2 style={{ color: 'var(--tgui--section_header_text_color)' }} className="text-xl font-semibold ml-4 mb-4">Order Detail</h2>
 

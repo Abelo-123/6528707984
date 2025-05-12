@@ -687,7 +687,7 @@ const Deposit = () => {
                                 {data.map((items, index) => (
                                     <tr key={index}>
                                         <td className="px-6 py-4 text-sm  ">{items.did}</td>
-                                        <td className="px-6 py-4 text-sm  ">{items.amount}</td>
+                                        <td className="px-6 py-4 text-sm  ">{items.amount} Br</td>
 
                                         <td className="px-6 py-4 text-sm  ">{items.transaction}</td>
                                         <td className="px-6 py-4 text-sm text-nowrap ">{items.date}</td>

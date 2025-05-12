@@ -164,7 +164,7 @@ const Ticket = () => {
                     Open Ticket Form
                 </Button>
                 <Section style={{ marginTop: '1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: "10px", height: '28rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
+                    <div style={{ borderRadius: "10px", height: '24rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
                         <Text header="Submitted Tickets" />
 
                         <table className="min-w-full rounded-lg shadow-md">
@@ -191,7 +191,7 @@ const Ticket = () => {
 
                                             style={{
                                                 textShadow:
-                                                    ticket.status === "done" ? "2px 2px 29px lime" :
+                                                    ticket.status === "Answered" ? "2px 2px 29px lime" :
                                                         ticket.status === "Pending" ? "2px 2px 29px yellow" :
                                                             undefined
                                             }}>{ticket.status || "-"}</td>
@@ -206,7 +206,9 @@ const Ticket = () => {
                             </tbody>
                         </table>
                     </div>
+                    
                 </Section>
+                <Text style={{fontSize:'0.7rem' }}>If you're interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
             </List>
 
             {isModalOpen && (

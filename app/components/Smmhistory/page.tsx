@@ -197,7 +197,7 @@ const Smmhistory = () => {
             setRefillCooldowns((prevCooldowns) => {
                 const updatedCooldowns = {
                     ...prevCooldowns,
-                    [orderId]: now + 24 * 60 * 60 * 1000, // Ensure cooldown is set to 24 hours (1440 minutes)
+                    [orderId]: now + 25 * 60 * 60 * 1000, // Set cooldown to exactly 24 hours
                 };
                 localStorage.setItem("refillCooldowns", JSON.stringify(updatedCooldowns)); // Save immediately
                 return updatedCooldowns;
@@ -496,11 +496,12 @@ const Smmhistory = () => {
                                                 Charge (ETB)
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Service</th>
+
+
+                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
                                             <th className="px-6 py-3 text-nowrap text-left text-xs font-medium  uppercase tracking-wider">
                                                 Refill
                                             </th>
-
-                                            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider text-nowrap">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody className=" ">
@@ -523,10 +524,10 @@ const Smmhistory = () => {
                                                                                         items.status === "refunded" ? "2px 2px 29px red" :
                                                                                             undefined
                                                         }}
-                                                        className="px-6 py-4 text-sm text-nowrap">{items.status}</td>
+                                                        className="px-6 py-4 text-sm text-nowrap">{items.status === "refunded" && "Cancelled" || items.status}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.oid}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.start_from}</td>
-                                                    <td className="px-6 py-4 text-sm ">{items.uid}</td>
+                                                    <td className="px-6 py-4 text-sm ">{items.quantity}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.remains}</td>
                                                     <td className="px-6 py-4 text-sm">
                                                         <div style={{ display: 'flex' }}>
@@ -572,7 +573,7 @@ const Smmhistory = () => {
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4 text-sm ">{items.charge}</td>
-                                                    <td className="px-6 py-4 text-sm text-nowrap ">
+                                                    <td className="px-6 py-4 text-sm text-nowrap "> {items.service} &nbsp;
                                                         <span>
                                                             {expandedNameRow === index ? items.name : items.name.length > 20 ? `${items.name.substring(0, 20)}...` : items.name}
                                                         </span>
@@ -585,6 +586,8 @@ const Smmhistory = () => {
                                                             </button>
                                                         )}
                                                     </td>
+
+                                                    <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
                                                     <td className="px-6 py-4 text-sm text-nowrap ">
                                                         {items.refill && (
                                                             <>
@@ -627,13 +630,14 @@ const Smmhistory = () => {
                                                                     {loadingRefill[items.oid]
                                                                         ? "Loading..." // Show loading state
                                                                         : refillCooldowns[items.oid] > Date.now()
-                                                                            ? `Cooldown (${getCooldownTimeLeft(items.oid).minutes}m ${getCooldownTimeLeft(items.oid).seconds}s)` // Show timer
+
+                                                                            ? `${getCooldownTimeLeft(items.oid).hours}h ${getCooldownTimeLeft(items.oid).minutes}m ${getCooldownTimeLeft(items.oid).seconds}s` // Show timer
                                                                             : "Refill"}
                                                                 </button>
                                                             </>
                                                         )}
+                                                        {items.refill && "true"}
                                                     </td>
-                                                    <td className="px-6 py-4 text-sm text-nowrap">{items.date}</td>
                                                 </tr>
                                             );
                                         })}
