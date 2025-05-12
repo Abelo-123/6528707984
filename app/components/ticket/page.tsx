@@ -108,7 +108,7 @@ const Ticket = () => {
                     position: 'relative',
                 }}
             >
-                 {
+                {
                     useNotification.notificationModal && (
                         <div style={{
                             zIndex: 9000, background: 'var(--tgui--section_bg_color)'
@@ -195,7 +195,7 @@ const Ticket = () => {
                                                         ticket.status === "Pending" ? "2px 2px 29px yellow" :
                                                             undefined
                                             }}>{ticket.status || "-"}</td>
-                                        <td className="px-6 py-4 text-nowrap text-sm">{ticket.optionType == 1? "Human Support": "AI Support"}</td>
+                                        <td className="px-6 py-4 text-nowrap text-sm">{ticket.optionType == 1 ? "Human Support" : "AI Support"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.subject || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.action || "-"}</td>
                                         <td className="px-6 py-4 text-sm">{ticket.orderId || "-"}</td>
@@ -206,9 +206,9 @@ const Ticket = () => {
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </Section>
-                <Text style={{fontSize:'0.7rem' }}>If you're interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
+                <Text style={{ fontSize: '0.7rem' }}>If you&apos;re interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
             </List>
 
             {isModalOpen && (
@@ -226,21 +226,21 @@ const Ticket = () => {
                         alignItems: 'center',
                     }}
                 >
-          =
-                    
+                    =
+
                     <div
-                            className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
-                        // Prevent clicking inside the modal from closing it
+                        className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ 'width': '90%', background: 'var(--tgui--bg_color)' }}
+                    // Prevent clicking inside the modal from closing it
+                    >
+                        <div
+                            style={{ zIndex: 90000 }}
+                            className="  text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
+                            onClick={() => setIsModalOpen(false)}
                         >
-                                                           <div
-style={{zIndex:90000}}
-className="  text-gray-500 absolute m-2 right-4 top-2 px-4 py-3 rounded-md"
-onClick={() => setIsModalOpen(false)}
->
-<FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
-</div>
+                            <FontAwesomeIcon icon={faClose} style={{ 'margin': 'auto auto' }} size="2x" />
+                        </div>
                         <Select
                             className="m-4"
                             header="Support Type"
@@ -254,7 +254,7 @@ onClick={() => setIsModalOpen(false)}
                             <Select
                                 header="Action"
                                 value={action}
-                                     placeholder="Choose action"
+                                placeholder="Choose action"
                                 onChange={(e) => setAction(e.target.value)}
                             >
                                 <option value="cancel">Cancel</option>
@@ -263,10 +263,10 @@ onClick={() => setIsModalOpen(false)}
                             </Select>
                         )}
                         {selectedOption === "1" && (
-                            <Input header="Subject"      placeholder="Enter subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                            <Input header="Subject" placeholder="Enter subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                         )}
                         {selectedOption === "2" && (
-                            <Input header="Order IDs"      placeholder="Enter Order ID" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
+                            <Input header="Order IDs" placeholder="Enter Order ID" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
                         )}
                         {selectedOption === "1" && (
                             <textarea
