@@ -543,9 +543,9 @@ const Smmhistory = () => {
                                                     <td className="px-6 py-4 text-sm ">{items.start_from}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.quantity}</td>
                                                     <td className="px-6 py-4 text-sm ">{items.remains}</td>
-                                                    <td className="px-6 py-4 text-sm">
-                                                        <div style={{ display: 'flex' }}>
-                                                            <span className="flex">
+                                                    <td className="px-6 py-4 text-sm text-nowrap ">
+                                                        <div className=" text-nowrap" style={{ display: 'flex' }}>
+                                                            <span className="flex text-nowrap">
                                                                 {
                                                                     items.link && (() => {
                                                                         try {

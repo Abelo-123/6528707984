@@ -501,7 +501,8 @@ const Deposit = () => {
                 }
                 {isPreModalOpen && (
                     <div
-                        className="fixed  modal-pops inset-0  h-screen bg-black bg-opacity-75 grid content-center z-50"
+                        className="fixed  modal-pops inset-0  h-screen bg-black bg-opacity-75 grid content-center "
+                        style={{ zIndex: 90000 }}
                         onClick={closeModal}
                     >
                         <div
@@ -588,8 +589,9 @@ const Deposit = () => {
                 )}
                 {isModalOpen && (
                     <div
-                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-25 grid content-center z-50"
+                        className="fixed  modal-pops inset-0 absolute h-screen bg-black bg-opacity-25 grid content-center "
                         onClick={closeModal}
+                        style={{ zIndex: 90000 }}
                     >
                         <div
                             className="bg-white mx-auto modal-pop lg:w-4/12 p-8 rounded-lg relative w-96"
@@ -630,7 +632,8 @@ const Deposit = () => {
                 )}
                 {isModalOpenn && (
                     <div
-                        className="fixed  modal-pops grid content-center inset-0  bg-opacity-75 grid content-center z-50"
+                        className="fixed  modal-pops grid content-center inset-0  bg-opacity-75 grid content-center "
+                        style={{ zIndex: 90000 }}
                     >
                         <div style={{ height: '30rem', background: 'var(--tgui--bg_color)' }} className="mx-auto my-auto modal-pop relative  p-6 rounded-lg w-11/12">
                             <div
@@ -670,7 +673,7 @@ const Deposit = () => {
                         <div className="font-sans inline mx-auto my-auto">Support</div>
                     </div>
                 </div>
-                <Section header="Deposit History" style={{ marginTop: '0rem', border: '1px solid var(--tgui--section_bg_color)' }}>
+                <Section header="Deposit History" style={{ marginTop: '-1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
                     <div style={{ borderRadius: '10px', height: '26rem', width: '100%' }} className="scrollabler overflow-x-auto">
 
                         <table className=" min-w-full  rounded-lg shadow-md">
