@@ -1327,7 +1327,7 @@ const Smm = () => {
 
                 {
                     modalA &&
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop inset-0  h-screen  w-screen absolute  fixed top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'zIndex': '90000', background: 'var(--tgui--section_bg_color)' }} className=' modal-pop inset-0  h-screen  w-screen absolute  fixed top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
 
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '90%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
                             {bcfor === 'recommended' ? (
@@ -1383,7 +1383,7 @@ const Smm = () => {
 
                 {
                     modalB &&
-                    <div style={{ 'zIndex': '90', background: 'var(--tgui--section_bg_color)' }} className='modal-pop h-screen w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
+                    <div style={{ 'zIndex': '90000', background: 'var(--tgui--section_bg_color)' }} className='modal-pop h-screen w-screen absolute top-0 grid place-content-start bottom-0 left-0 right-0 p-2'>
                         <div style={{ 'borderRadius': '10px', 'overflow': 'auto', 'height': '90%', 'width': '100%', 'background': 'var(--tgui--section_bg_color)', 'color': ' var(--tgui--text_color)', 'border': '1px solid var(--tgui--bg_color)' }} className='scrollable mx-auto p-8 '>
                             {ser ? service
                                 .filter((items) => {
@@ -1397,7 +1397,12 @@ const Smm = () => {
                                         serviceType(datas.type);
                                     }} style={{ borderBottom: '1px solid var(--tgui--header_bg_color)', display: 'flex' }}>
                                         <div className="text-wrap flex">
-                                            <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
+                                            {icon.n === "Top" && (
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Telegram_Premium.png" alt="Telegram Premium" style={{ height: '1.3rem', margin: 'auto 0.4rem', width: 'auto' }} />
+                                            ) || (
+                                                    <FontAwesomeIcon icon={icon.i} color={icon.c} style={{ 'margin': 'auto auto' }} size="1x" />
+                                                )}
+
                                             <div className='ml-4 text-wrap' style={{ fontSize: '0.8rem', color: 'var(--tgui--text_color)' }}>
                                                 {datas.service} {datas.name}
                                                 <div style={{ background: 'var(--tgui--secondary_bg_color)', color: 'var(--tgui--text_color)' }} className='m-3 rounded-lg p-1 inline'>

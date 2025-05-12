@@ -164,7 +164,7 @@ const Ticket = () => {
                     Open Ticket Form
                 </Button>
                 <Section style={{ marginTop: '1rem', border: '1px solid var(--tgui--section_bg_color)' }}>
-                    <div style={{ borderRadius: "10px", height: '24rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
+                    <div style={{ borderRadius: "10px", height: '22rem', width: '100%' }} className="scrollabler  w-full overflow-x-auto">
                         <Text header="Submitted Tickets" />
 
                         <table className="min-w-full rounded-lg shadow-md">

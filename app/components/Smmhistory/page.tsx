@@ -285,7 +285,12 @@ const Smmhistory = () => {
             if (error) {
                 console.log(error);
             } else {
-                setData(initialData); // Set the initial data
+                // Ensure 'refill' is parsed as a boolean
+                const parsedData = initialData.map((item) => ({
+                    ...item,
+                    refill: Boolean(item.refill), // Convert refill to a boolean
+                }));
+                setData(parsedData); // Set the parsed data
                 setLoader(false);
             }
         };
