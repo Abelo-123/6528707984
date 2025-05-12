@@ -187,7 +187,7 @@ const Lays = () => {
                     supabase
                         // .channel(`users:id=eq.${user.id}`)
                         .channel(`users:id=eq.${user.id}`)
-                        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.6528707984` }, (payload) => {
+                        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${user.id}` }, (payload) => {
 
                             setUserData((prevNotification) => ({
                                 ...prevNotification, // Spread the previous state
