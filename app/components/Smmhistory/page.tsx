@@ -287,7 +287,7 @@ const Smmhistory = () => {
             const { data: initialData, error } = await supabase
                 .from("orders")
                 .select("*")
-                .eq("uid", 5928771903)
+                .eq("uid", userid)
                 .order('created', { ascending: false });
 
             if (error) {

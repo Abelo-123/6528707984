@@ -678,7 +678,7 @@ const Smm = () => {
                     if (data.a_balance > charge) {
 
                         const response = await axios.post('/api/smm/addOrder', {
-                            usernames: user.usernam,
+                            usernames: user.username,
                             service: chosen.service,
                             link: link,
                             quantity: quantity,
@@ -704,6 +704,7 @@ const Smm = () => {
                                 start_from: 0,
                                 remains: quantity,
                                 link: link,
+                                service: chosen.service,
                                 charge: charge,
                                 name: id,
                                 refill: response.data.refill,
