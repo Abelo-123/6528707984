@@ -208,7 +208,8 @@ const Ticket = () => {
                     </div>
 
                 </Section>
-                <Text style={{ fontSize: '0.7rem' }}>If you&apos;re interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
+                <Text style={{ fontSize: '0.7rem',  }}>If you&apos;re interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
+            <br/><br/>
             </List>
 
             {isModalOpen && (

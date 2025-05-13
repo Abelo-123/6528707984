@@ -666,7 +666,7 @@ const Deposit = () => {
                         </div>
                     </div>
                 )}
-                <div className='z-90   w-full absolute place-content-center grid place-content-end absolute  ' onClick={() => window.location.href = 'https://www.google.com'} style={{ margin: '-0.5rem -1rem', fontSize: '0.8rem', height: '3rem', zIndex: 900, }} >
+                <div className='z-90   w-full absolute place-content-center grid place-content-end absolute  ' onClick={() => window.location.href = 'https://t.me/paxyo_bot'} style={{ margin: '-0.5rem -1rem', fontSize: '0.8rem', height: '3rem', zIndex: 900, }} >
                     <div className="flex">
 
                         <FontAwesomeIcon icon={faTelegram} style={{ 'margin': '1rem 0.3rem', color: 'var(--tgui--section_header_text_color)' }} size="2x" />
