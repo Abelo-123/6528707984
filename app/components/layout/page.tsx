@@ -235,7 +235,7 @@ const Lays = () => {
 
         </div>
         <div style={{ marginTop: '0.5rem', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-            <Text style={{ color: 'var(--tgui--hint_color)', display: 'inline-block', animation: 'marquee 6s linear infinite' }}>{marq}</Text>
+            <Text style={{ color: 'var(--tgui--hint_color)', display: 'inline-block', animation: 'marquee 10s linear infinite' }}>{marq}</Text>
         </div>
         <style jsx>{`
             @keyframes marquee {
