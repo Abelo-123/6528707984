@@ -407,6 +407,7 @@ const Deposit = () => {
                             await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
                                 "type": "deposit",
                                 "uid": user.first_name,
+                                "uiid": user.id,
                                 "amount": Number(newamount) || 70
                             });
                         });
