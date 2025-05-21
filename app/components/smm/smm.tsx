@@ -250,14 +250,15 @@ const Smm = () => {
                                 .from('users')
                                 .insert([
                                     { name: user.first_name, username: user?.username, profile: user.photo_url, id: user.id, father: 6528707984 }
-                                ]).then(async () => {
-                                    await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
-                                        "type": "newuser",
-                                        "uid": user?.first_name,
-                                        "uuid": user?.id
-                                    });
-                                });
+                                ]);
 
+                            if (!error) {
+                                await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
+                                    "type": "newuser",
+                                    "uid": user?.first_name,
+                                    "uuid": user?.id
+                                });
+                            }
                             if (error) {
                                 console.error(error.message)
                             }
