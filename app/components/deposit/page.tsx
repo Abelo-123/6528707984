@@ -9,6 +9,7 @@ import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import MyLoader from "../Loader/page";
 import { useNot } from '../StatusContext';
+import axios from "axios";
 import { supabase } from "@/app/lib/supabaseClient";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 const Deposit = () => {
@@ -277,6 +278,7 @@ const Deposit = () => {
         return ''; // Return an empty string if the amount is not valid
     };
 
+    let newamount = 0;
     const sendAmount = async (doll, mess) => {
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -291,6 +293,7 @@ const Deposit = () => {
 
                 const { user } = Telegram.WebApp.initDataUnsafe;
 
+                newamount = Number(doll)
                 const { data: findDataa, error: findErrorDaa } = await supabase
                     .from("users")
                     .select('balance')
@@ -363,7 +366,7 @@ const Deposit = () => {
     }
 
     useEffect(() => {
-        const handleMessage = (event) => {
+        const handleMessage = async (event) => {
             // Validate the origin to ensure the message is from the expected source
             if (event.origin !== 'https://chapaaa.netlify.app') return;
 
@@ -371,31 +374,53 @@ const Deposit = () => {
 
             // Handle different message types
             if (type === 'payment-success') {
-                //console.log(message); // e.g., "Payment was successful!"
+                const script = document.createElement("script");
+                script.src = "https://telegram.org/js/telegram-web-app.js?2";
+                script.async = true;
+                document.body.appendChild(script);
 
-                setIsPreModalOpen(false)
-                //setAgain(true); // Set to true to show the container
-                setIframeVisible(false); // Make iframe visible again
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'The operation was successful.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    customClass: {
-                        popup: 'swal2-popup',    // Apply the custom class to the popup
-                        title: 'swal2-title',    // Apply the custom class to the title
-                        confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
-                        cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                script.onload = async () => {
+                    const Telegram = window.Telegram;
+                    Telegram.WebApp.expand();
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        window.Telegram.WebApp.ready();
+
+                        const { user } = Telegram.WebApp.initDataUnsafe;
+
+                        //console.log(message); // e.g., "Payment was successful!"
+
+                        setIsPreModalOpen(false)
+                        //setAgain(true); // Set to true to show the container
+                        setIframeVisible(false); // Make iframe visible again
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'The deposit was successful.',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                popup: 'swal2-popup',    // Apply the custom class to the popup
+                                title: 'swal2-title',    // Apply the custom class to the title
+                                confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
+                                cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
+                            }
+                        });
+                        setTg(false)
+                        setBut(true)
+                        setMo(false)
+                        setaAmount("")
+                        if (aamountRef.current) {
+                            sendAmount(aamountRef.current, message);
+                        } else {
+                            console.log(0);
+                        }
+                        await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn',
+                            {
+                                "type": "deposit",
+                                "uid": user.id,
+                                "amount": Number(newamount)
+                            }
+                        );
                     }
-                });
-                setTg(false)
-                setBut(true)
-                setMo(false)
-                setaAmount("")
-                if (aamountRef.current) {
-                    sendAmount(aamountRef.current, message);
-                } else {
-                    console.log(0);
                 }
 
 
