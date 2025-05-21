@@ -109,8 +109,7 @@ const Ticket = () => {
                     }).then(async () => {
                         await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
                             "type": "ticket",
-                            "uid": user?.first_name,
-                            "tid": orderId
+                            "uid": user?.first_name
                         });
                     })
 
