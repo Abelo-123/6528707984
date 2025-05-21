@@ -403,6 +403,12 @@ const Deposit = () => {
                                 confirmButton: 'swal2-confirm', // Apply the custom class to the confirm button
                                 cancelButton: 'swal2-cancel' // Apply the custom class to the cancel button
                             }
+                        }).then(async () => {
+                            await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
+                                "type": "deposit",
+                                "uid": user.first_name,
+                                "amount": Number(newamount) || 70
+                            });
                         });
                         setTg(false)
                         setBut(true)
@@ -413,13 +419,6 @@ const Deposit = () => {
                         } else {
                             console.log(0);
                         }
-                        await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn',
-                            {
-                                "type": "deposit",
-                                "uid": user.id,
-                                "amount": Number(newamount)
-                            }
-                        );
                     }
                 }
 
