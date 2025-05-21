@@ -74,28 +74,49 @@ const Ticket = () => {
     }, []); // Fetch tickets and set up subscription when the component mounts
 
     const handleSubmit = async () => {
-        const ticketData = {
-            subject: selectedOption === "1" ? subject : null,
-            action: selectedOption === "2" ? action : null,
-            orderId: selectedOption === "2" ? orderId : null,
-            message: selectedOption === "1" ? message : null,
-            optionType: selectedOption, // Add selected option to the ticket data
-            uid: userId, // Include the user ID
-        };
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js?2";
+        script.async = true;
+        document.body.appendChild(script);
 
-        const { error } = await supabase.from("ticket").insert([ticketData]);
+        script.onload = async () => {
+            const Telegram = window.Telegram;
+            Telegram.WebApp.expand();
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
 
-        if (error) {
-            console.error("Error submitting ticket:", error);
-            alert("Failed to submit ticket. Please try again.");
-        } else {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Ticket submitted successfully!',
-            });
-            setTickets((prevTickets) => [...prevTickets, ticketData]); // Update the table with the new ticket
-            setIsModalOpen(false); // Close the modal after submission
+                const { user } = Telegram.WebApp.initDataUnsafe;
+                const ticketData = {
+                    subject: selectedOption === "1" ? subject : null,
+                    action: selectedOption === "2" ? action : null,
+                    orderId: selectedOption === "2" ? orderId : null,
+                    message: selectedOption === "1" ? message : null,
+                    optionType: selectedOption, // Add selected option to the ticket data
+                    uid: userId, // Include the user ID
+                };
+
+                const { error } = await supabase.from("ticket").insert([ticketData]);
+
+                if (error) {
+                    console.error("Error submitting ticket:", error);
+                    alert("Failed to submit ticket. Please try again.");
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ticket submitted successfully!',
+                    }).then(async () => {
+                        await axios.post('https://paxyo-bot-ywuk.onrender.com/api/sendToJohn', {
+                            "type": "ticket",
+                            "uid": user?.first_name,
+                            "tid": orderId
+                        });
+                    })
+
+                    setTickets((prevTickets) => [...prevTickets, ticketData]); // Update the table with the new ticket
+                    setIsModalOpen(false); // Close the modal after submission
+                }
+            }
         }
     };
 
@@ -208,8 +229,8 @@ const Ticket = () => {
                     </div>
 
                 </Section>
-                <Text style={{ fontSize: '0.7rem',  }}>If you&apos;re interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
-            <br/><br/>
+                <Text style={{ fontSize: '0.7rem', }}>If you&apos;re interested in obtaining API access or reselling our services through a fully functional panel like this, we can provide you with the tools to start your own business. Contact us at support on telegram @Paxyo</Text>
+                <br /><br />
             </List>
 
             {isModalOpen && (
