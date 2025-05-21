@@ -1089,13 +1089,13 @@ const Smm = () => {
         <>
             <List>
                 {/* {authmessage}<br /> */}
-                {/* {<button onClick={() => {
+                {<button onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                     {comment}
-                </button>}<br /> */}
+                </button>}<br />
                 {/* <button className="p-2 bg-red-100" onClick={() => setpromoModal(true)}>
                 
                 promo</button> */}
